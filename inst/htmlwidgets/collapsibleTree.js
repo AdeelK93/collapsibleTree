@@ -37,7 +37,7 @@ HTMLWidgets.widget({
       links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
-      nodes.forEach(function(d){ d.y = d.depth * 180});
+      nodes.forEach(function(d){ d.y = d.depth * options.linkLength});
 
       // ****************** Nodes section ***************************
 
@@ -205,10 +205,10 @@ HTMLWidgets.widget({
 
       },
 
-      // Make the sigma object available as a property on the widget
+      // Make the svg object available as a property on the widget
       // instance we're returning from factory(). This is generally a
       // good idea for extensibility--it helps users of this widget
-      // interact directly with sigma, if needed.
+      // interact directly with the svg, if needed.
       svg: svg
     };
   }

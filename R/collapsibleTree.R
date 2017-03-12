@@ -12,10 +12,15 @@
 #' along with all of its parents.
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
+#' @param linkLength length of the horizontal links that connect nodes in pixels
 #' @param fontSize font size of the label text in pixels
 #'
 #' @examples
-#' collapsibleTree(warpbreaks,c("wool","tension","breaks"))
+#' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
+#'
+#' # Data from US Forest Service DataMart
+#' species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
+#' collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100)
 #'
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
@@ -27,7 +32,10 @@
 #' @export
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
                   inputId = NULL, width = NULL, height = NULL,
-                  fontSize = 10) {
+                  linkLength = 180, fontSize = 10) {
+
+  # preserve this name before evaluating df
+  root <- root
 
   # reject data frames with missing values
   if(!is.data.frame(df)) stop("df must be a data frame")
@@ -58,6 +66,7 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   options <- list(
     hierarchy = hierarchy,
     input = inputId,
+    linkLength = linkLength,
     fontSize = fontSize
   )
 
