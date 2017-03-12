@@ -6,7 +6,7 @@
 #' @param df a data frame from which to construct a nested list
 #' @param hierarchy a vector of column names that define the order
 #' and hierarchy of the tree network
-#' @param root label of the root node
+#' @param root label for the root node
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
@@ -22,9 +22,13 @@
 #' @import htmlwidgets
 #' @importFrom data.tree ToListExplicit
 #' @importFrom data.tree as.Node
+#' @importFrom stats complete.cases
 #' @export
-collapsibleTree <- function(df, hierarchy, root = "Root", inputId = NULL,
-                  width = NULL, height = NULL) {
+collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
+                  inputId = NULL, width = NULL, height = NULL) {
+
+  # reject data frames with missing values
+  if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 
   # the hierarchy that will be used to create the tree
   df$pathString <- paste(

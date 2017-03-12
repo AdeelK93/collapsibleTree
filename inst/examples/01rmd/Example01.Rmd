@@ -1,0 +1,36 @@
+---
+title: 'Collapsible Tree Example 1: R Markdown'
+author: "Adeel Khan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(collapsibleTree)
+df <- read.csv("GeographyTable.csv")
+```
+
+## Data frames, not lists
+
+When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks. 
+
+collapsibleTree uses [data.tree](https://cran.r-project.org/web/packages/data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
+
+Here is an example geography dataset from [data.world](https://data.world/glx/geography-table):
+
+```{r summary}
+summary(df)
+```
+
+## Rendering the plot
+
+With your data frame in hand, and a vector of columns to graph, creating an interactive collapsible tree diagram can be done like so:
+
+```{r plot}
+collapsibleTree(
+  df,
+  hierarchy = c("continent", "type", "country"),
+  root = "Geography",
+  width = 800
+)
+```

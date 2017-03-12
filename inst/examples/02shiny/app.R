@@ -5,7 +5,7 @@ library(collapsibleTree)
 ui <- fluidPage(
 
    # Application title
-   titlePanel("Shiny Collapsible Tree Example 1"),
+   titlePanel("Collapsible Tree Example 2: Shiny Interaction"),
 
    # Sidebar with a slider input for number of bins
    sidebarLayout(

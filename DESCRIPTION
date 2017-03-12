@@ -11,7 +11,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     htmlwidgets,
-    data.tree
+    data.tree,
+    stats
 Enhances: knitr, shiny
 LazyData: true
 RoxygenNote: 6.0.1
