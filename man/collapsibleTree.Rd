@@ -9,7 +9,8 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTree(df, hierarchy, root = "Root", width = NULL, height = NULL)
+collapsibleTree(df, hierarchy, root = "Root", inputId = NULL,
+  width = NULL, height = NULL)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -18,6 +19,10 @@ collapsibleTree(df, hierarchy, root = "Root", width = NULL, height = NULL)
 and hierarchy of the tree network}
 
 \item{root}{label of the root node}
+
+\item{inputId}{the input slot that will be used to access the selected node (for Shiny).
+Will return a named list of the most recently clicked node,
+along with all of its parents.}
 
 \item{width}{width in pixels (optional, defaults to automatic sizing)}
 

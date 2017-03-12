@@ -27,7 +27,7 @@ HTMLWidgets.widget({
     // declares a tree layout and assigns the size
     var treemap = d3.tree().size([height, width]);
 
-    function update(source) {
+    function update(source, settings) {
 
       // Assigns the x and y position for the nodes
       var treeData = treemap(root);
@@ -164,8 +164,18 @@ HTMLWidgets.widget({
           d.children = d._children;
           d._children = null;
         }
-        console.log(d);
-        update(d);
+        update(d, settings || null);
+        // Update Shiny inputs, if applicable
+        if (settings.input!==null) {
+          var nest = {},
+          obj = d;
+          // Navigate down the list and recursively find parental nodes
+          for (var n = d.depth; n > 0; n--) {
+            nest[settings.hierarchy[n-1]] = obj.data.name
+            obj = obj.parent
+          }
+          Shiny.onInputChange(settings.input, nest)
+        }
       }
     }
 
@@ -178,8 +188,7 @@ HTMLWidgets.widget({
 
         // Collapse after the second level
         root.children.forEach(collapse);
-
-        update(root);
+        update(root, x.settings);
 
         // Collapse the node and all it's children
         function collapse(d) {

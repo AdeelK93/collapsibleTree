@@ -7,6 +7,9 @@
 #' @param hierarchy a vector of column names that define the order
 #' and hierarchy of the tree network
 #' @param root label of the root node
+#' @param inputId the input slot that will be used to access the selected node (for Shiny).
+#' Will return a named list of the most recently clicked node,
+#' along with all of its parents.
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
 #'
@@ -20,7 +23,7 @@
 #' @importFrom data.tree ToListExplicit
 #' @importFrom data.tree as.Node
 #' @export
-collapsibleTree <- function(df, hierarchy, root = "Root",
+collapsibleTree <- function(df, hierarchy, root = "Root", inputId = NULL,
                   width = NULL, height = NULL) {
 
   # the hierarchy that will be used to create the tree
@@ -36,7 +39,8 @@ collapsibleTree <- function(df, hierarchy, root = "Root",
 
   # create a list that contains the settings
   settings <- list(
-
+    hierarchy = hierarchy,
+    input = inputId
   )
 
   # pass the data and settings using 'x'
