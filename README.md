@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 collapsibleTree is an R htmlwidget that allows you to create interactive collapsible Reingold–Tilford tree diagram using D3.js. Shiny interaction coming soon!
 
-![Collapsible Tree](tree.png "Collapsible Tree")
+![Collapsible Tree](tree.PNG "Collapsible Tree")
 
 ### Installation
 
