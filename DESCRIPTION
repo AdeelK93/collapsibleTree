@@ -1,11 +1,10 @@
 Package: collapsibleTree
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Create Interactive Collapsible Tree Diagrams
 Version: 0.1.0
 Author: Adeel Khan
 Maintainer: Adeel Khan <AdeelK@gwu.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Interactive Reingold–Tilford tree diagram created using D3.js, where every node can be expanded and collapsed by clicking on it.
 License: GPL (>= 3)
 Encoding: UTF-8
 Depends:
@@ -15,3 +14,4 @@ Imports:
     data.tree
 Enhances: knitr, shiny
 LazyData: true
+RoxygenNote: 6.0.1
