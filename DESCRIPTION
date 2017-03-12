@@ -1,0 +1,17 @@
+Package: collapsibleTree
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Adeel Khan
+Maintainer: Adeel Khan <AdeelK@gwu.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL (>= 3)
+Encoding: UTF-8
+Depends:
+    R (>= 3.0.0)
+Imports:
+    htmlwidgets,
+    data.tree
+Enhances: knitr, shiny
+LazyData: true
