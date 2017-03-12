@@ -4,7 +4,7 @@
 #' where every node can be expanded and collapsed by clicking on it.
 #'
 #' @param df a data frame from which to construct a nested list
-#' @param hierarchy a vector of column names that define the order
+#' @param hierarchy a character vector of column names that define the order
 #' and hierarchy of the tree network
 #' @param root label for the root node
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
@@ -12,6 +12,7 @@
 #' along with all of its parents.
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
+#' @param fontSize font size of the label text in pixels
 #'
 #' @examples
 #' collapsibleTree(warpbreaks,c("wool","tension","breaks"))
@@ -25,10 +26,19 @@
 #' @importFrom stats complete.cases
 #' @export
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
-                  inputId = NULL, width = NULL, height = NULL) {
+                  inputId = NULL, width = NULL, height = NULL,
+                  fontSize = 10) {
 
   # reject data frames with missing values
+  if(!is.data.frame(df)) stop("df must be a data frame")
+  if(!is.character(hierarchy)) stop("hierarchy must be a character vector")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
+
+  # escape slashes by replacing them with (hopefully) obscure string
+  df[,hierarchy] <- apply(
+    df[,hierarchy], 2, gsub,
+    pattern = "/", replacement = "escapedSlash"
+  )
 
   # the hierarchy that will be used to create the tree
   df$pathString <- paste(
@@ -41,16 +51,20 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
     data.tree::ToListExplicit(data.tree::as.Node(df),unname=T)
   )
 
-  # create a list that contains the settings
-  settings <- list(
+  # unescape the slashes after converting to JSON
+  json <- gsub("escapedSlash","/",json)
+
+  # create a list that contains the options
+  options <- list(
     hierarchy = hierarchy,
-    input = inputId
+    input = inputId,
+    fontSize = fontSize
   )
 
-  # pass the data and settings using 'x'
+  # pass the data and options using 'x'
   x <- list(
     data = json,
-    settings = settings
+    options = options
   )
 
   # create the widget

@@ -10,12 +10,12 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, width = NULL, height = NULL)
+  inputId = NULL, width = NULL, height = NULL, fontSize = 10)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
 
-\item{hierarchy}{a vector of column names that define the order
+\item{hierarchy}{a character vector of column names that define the order
 and hierarchy of the tree network}
 
 \item{root}{label for the root node}
@@ -27,6 +27,8 @@ along with all of its parents.}
 \item{width}{width in pixels (optional, defaults to automatic sizing)}
 
 \item{height}{height in pixels (optional, defaults to automatic sizing)}
+
+\item{fontSize}{font size of the label text in pixels}
 }
 \description{
 Interactive Reingold–Tilford tree diagram created using D3.js,
