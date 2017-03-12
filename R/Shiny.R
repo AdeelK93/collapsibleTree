@@ -12,6 +12,9 @@
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
 #'
+#' @examples
+#' shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+#'
 #' @name collapsibleTree-shiny
 #'
 #' @export

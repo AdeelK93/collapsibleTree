@@ -24,3 +24,9 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 ```
 
 ![Collapsible Tree](README-example-1.PNG "Collapsible Tree")
+
+An interactive Shiny version is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
+
+``` r
+shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+```

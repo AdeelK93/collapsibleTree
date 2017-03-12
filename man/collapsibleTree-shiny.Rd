@@ -28,3 +28,7 @@ is useful if you want to save an expression in a variable.}
 Output and render functions for using collapsibleTree within Shiny
 applications and interactive Rmd documents.
 }
+\examples{
+shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+
+}
