@@ -28,5 +28,10 @@ collapsibleTree <- function(df, hierarchy, root = "Root",
   )
 
   # create the widget
-  htmlwidgets::createWidget("collapsibleTree", x, width = width, height = height)
+  htmlwidgets::createWidget(
+    "collapsibleTree", x, width = width, height = height,
+    htmlwidgets::sizingPolicy(
+      viewer.padding = 0
+    )
+  )
 }
