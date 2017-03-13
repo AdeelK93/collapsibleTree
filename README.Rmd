@@ -50,9 +50,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 
 ```{r}
 library(collapsibleTree)
-library(testthat)
-
 date()
 
-test_dir("tests/")
+testthat::test_dir("tests/testthat")
 ```

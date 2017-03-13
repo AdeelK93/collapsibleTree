@@ -35,14 +35,12 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 
 ``` r
 library(collapsibleTree)
-library(testthat)
-
 date()
-#> [1] "Sun Mar 12 22:04:28 2017"
+#> [1] "Sun Mar 12 22:12:19 2017"
 
-test_dir("tests/")
-#> testthat results ===========================================================
-#> OK: 0 SKIPPED: 0 FAILED: 0
+testthat::test_dir("tests/testthat")
+#> Basic functionality: 
+#> Error handling: 
 #> 
 #> DONE ======================================================================
 ```
