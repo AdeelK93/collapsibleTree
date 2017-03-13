@@ -37,9 +37,11 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   # preserve this name before evaluating df
   root <- root
 
-  # reject data frames with missing values
+  # reject bad inputs
   if(!is.data.frame(df)) stop("df must be a data frame")
   if(!is.character(hierarchy)) stop("hierarchy must be a character vector")
+  if(length(hierarchy)<=1) stop("hierarchy vector must be greater than length 1")
+  if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 
   # escape slashes by replacing them with (hopefully) obscure string
