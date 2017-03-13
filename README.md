@@ -17,13 +17,15 @@ When working with data in R, it makes sense (at least to me) to represent everyt
 
 collapsibleTree uses [data.tree](https://cran.r-project.org/web/packages/data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
 
+[Click here](https://adeelk93.github.io/collapsibleTree/) to see an interactive version of the chart below.
+
 ``` r
 library(collapsibleTree)
 
 collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 ```
 
-![Collapsible Tree](README-example-1.PNG "Collapsible Tree")
+[![Collapsible Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
@@ -36,7 +38,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sun Mar 12 22:12:19 2017"
+#> [1] "Mon Mar 13 00:38:49 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
