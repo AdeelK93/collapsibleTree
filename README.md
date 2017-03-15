@@ -50,7 +50,7 @@ collapsibleTree(
 )
 ```
 
-[![Collapsible Tree Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree Colored](README-example-2.png)](https://adeelk93.github.io/collapsibleTree/)
 
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
@@ -63,7 +63,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Wed Mar 15 14:05:16 2017"
+#> [1] "Wed Mar 15 14:15:50 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
