@@ -58,7 +58,10 @@ HTMLWidgets.widget({
       .attr('class', 'node')
       .attr('r', 1e-6)
       .style('fill', function(d) {
-        return d._children ? 'lightsteelblue' : '#fff';
+        return d.data.fill || (d._children ? options.fill : '#fff');
+      })
+      .style('stroke-width', function(d) {
+        return d._children ? 3 : 1.5;
       });
 
       // Add labels for the nodes
@@ -87,7 +90,10 @@ HTMLWidgets.widget({
       nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style('fill', function(d) {
-        return d._children ? 'lightsteelblue' : '#fff';
+        return d.data.fill || (d._children ? options.fill : '#fff');
+      })
+      .style('stroke-width', function(d) {
+        return d._children ? 3 : 1.5;
       })
       .attr('cursor', 'pointer');
 

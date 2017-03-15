@@ -10,8 +10,8 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, width = NULL, height = NULL, linkLength = 180,
-  fontSize = 10)
+  inputId = NULL, width = NULL, height = NULL, fill = "lightsteelblue",
+  linkLength = 180, fontSize = 10)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -29,6 +29,11 @@ along with all of its parents.}
 
 \item{height}{height in pixels (optional, defaults to automatic sizing)}
 
+\item{fill}{either a single color or a vector of colors the same length
+as the number of nodes. Vector should be ordered by level, such that the root
+color is described first, then all the children's colors, and then all the
+grandchildren's colors.}
+
 \item{linkLength}{length of the horizontal links that connect nodes in pixels}
 
 \item{fontSize}{font size of the label text in pixels}
@@ -42,6 +47,9 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 # Data from US Forest Service DataMart
 species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
-collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100)
+collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
+
+# Visualizing the order in which the node colors are filled
+collapsibleTree(warpbreaks, c("wool", "tension"), fill = RColorBrewer::brewer.pal(9, "RdBu"))
 
 }
