@@ -46,10 +46,14 @@ collapsibleTree(
   root = "Geography",
   width = 800,
   fill = c(
-    "white", # The root
-    rep("firebrick", length(unique(df$continent))), # Unique continents
-    rep("steelblue", length(unique(paste(df$continent, df$type)))), # Unique types per continent
-    rep("green", length(unique(df$country))) # Unique countries
+    # The root
+    "white",
+    # Unique continents
+    rep("firebrick", length(unique(df$continent))),
+    # Unique types per continent
+    rep("steelblue", length(unique(paste(df$continent, df$type)))),
+    # Unique countries
+    rep("green", length(unique(df$country)))
   )
 )
 ```

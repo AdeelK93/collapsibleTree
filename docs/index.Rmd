@@ -41,3 +41,26 @@ collapsibleTree(
   width = 800
 )
 ```
+
+## Adding Colors
+
+You can add colors to each node in the diagram manually by declaring a `fill` value. Fill is declared as a hierarchy, applied down the tree. In order to get your vectors to the right length for complex trees (this one has 385 nodes), you could use a pattern like this:
+
+```{r plotcolored}
+collapsibleTree(
+  df,
+  hierarchy = c("continent", "type", "country"),
+  root = "Geography",
+  width = 800,
+  fill = c(
+    # The root
+    "white",
+    # Unique continents
+    rep("firebrick", length(unique(df$continent))),
+    # Unique types per continent
+    rep("steelblue", length(unique(paste(df$continent, df$type)))),
+    # Unique countries
+    rep("green", length(unique(df$country)))
+  )
+)
+```

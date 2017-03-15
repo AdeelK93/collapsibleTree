@@ -27,7 +27,7 @@ HTMLWidgets.widget({
     // declares a tree layout and assigns the size
     var treemap = d3.tree().size([height, width]);
 
-    function update(source, options) {
+    function update(root, source, options) {
 
       // Assigns the x and y position for the nodes
       var treeData = treemap(root);
@@ -61,7 +61,7 @@ HTMLWidgets.widget({
         return d.data.fill || (d._children ? options.fill : '#fff');
       })
       .style('stroke-width', function(d) {
-        return d._children ? 3 : 1.5;
+        return d._children ? 3 : 1;
       });
 
       // Add labels for the nodes
@@ -93,7 +93,7 @@ HTMLWidgets.widget({
         return d.data.fill || (d._children ? options.fill : '#fff');
       })
       .style('stroke-width', function(d) {
-        return d._children ? 3 : 1.5;
+        return d._children ? 3 : 1;
       })
       .attr('cursor', 'pointer');
 
@@ -171,7 +171,7 @@ HTMLWidgets.widget({
           d.children = d._children;
           d._children = null;
         }
-        update(d, options || null);
+        update(root, d, options || null);
         // Update Shiny inputs, if applicable
         if (options.input!==null) {
           var nest = {},
@@ -195,7 +195,7 @@ HTMLWidgets.widget({
 
         // Collapse after the second level
         root.children.forEach(collapse);
-        update(root, x.options);
+        update(root, root, x.options);
 
         // Collapse the node and all it's children
         function collapse(d) {

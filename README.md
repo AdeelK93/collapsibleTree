@@ -1,5 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-### Overview
+Overview
+--------
 
 collapsibleTree is an R htmlwidget that allows you to create interactive collapsible Reingold–Tilford tree diagram using D3.js. Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
@@ -27,6 +28,30 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 [![Collapsible Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
+The color of each node can be customized to draw attention to the levels of hierarchy.
+
+``` r
+# Data from US Forest Service DataMart
+species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
+
+collapsibleTree(
+  species,
+  hierarchy = c("REGION", "CLASS", "NAME"), 
+  fill = c(
+    # The root
+    "seashell",
+    # Unique regions
+    rep("brown", length(unique(species$REGION))),
+    # Unique classes per region
+    rep("khaki", length(unique(paste(species$REGION, species$CLASS)))),
+    # Unique names per region
+    rep("forestgreen", length(unique(paste(species$NAME, species$REGION))))
+  )
+)
+```
+
+[![Collapsible Tree Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
+
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
 ``` r
@@ -38,7 +63,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Wed Mar 15 11:23:15 2017"
+#> [1] "Wed Mar 15 14:05:16 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
