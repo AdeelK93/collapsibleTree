@@ -13,9 +13,12 @@
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
 #' @param fill either a single color or a vector of colors the same length
-#' as the number of nodes. Vector should be ordered by level, such that the root
-#' color is described first, then all the children's colors, and then all the
-#' grandchildren's colors.
+#' as the number of nodes. By default, vector should be ordered by level,
+#' such that the root color is described first, then all the children's colors,
+#' and then all the grandchildren's colors.
+#' @param fillByLevel which order to assign fill values to nodes.
+#' \code{TRUE}: Filling by level; will assign fill values to nodes vertically.
+#' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
 #' @param linkLength length of the horizontal links that connect nodes in pixels
 #' @param fontSize font size of the label text in pixels
 #'
@@ -27,7 +30,17 @@
 #' collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
 #'
 #' # Visualizing the order in which the node colors are filled
-#' collapsibleTree(warpbreaks, c("wool", "tension"), fill = RColorBrewer::brewer.pal(9, "RdBu"))
+#' library(RColorBrewer)
+#' collapsibleTree(
+#'   warpbreaks, c("wool", "tension"),
+#'   fill = brewer.pal(9, "RdBu"),
+#'   fillByLevel = TRUE
+#' )
+#' collapsibleTree(
+#'   warpbreaks, c("wool", "tension"),
+#'   fill = brewer.pal(9, "RdBu"),
+#'   fillByLevel = FALSE
+#' )
 #'
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
@@ -39,7 +52,8 @@
 #' @export
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
                   inputId = NULL, width = NULL, height = NULL,
-                  fill = "lightsteelblue", linkLength = 180, fontSize = 10) {
+                  fill = "lightsteelblue", fillByLevel = TRUE,
+                  linkLength = 180, fontSize = 10) {
 
   # preserve this name before evaluating df
   root <- root
@@ -67,14 +81,15 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
     sep="//"
   )
 
+  # convert the data frame into a data.tree node
   node <- data.tree::as.Node(df, pathDelimiter = "//")
 
-  # fill in the node colors, traversing by level down the tree
+  # fill in the node colors, traversing down the tree
   if(length(fill)>1) {
     if(length(fill) != node$totalCount) {
       stop(paste("Expected fill vector of length", node$totalCount, "but got", length(fill)))
     }
-    node$Set(fill = fill, traversal = "level")
+    node$Set(fill = fill, traversal = ifelse(fillByLevel, "level", "pre-order"))
   } else {
     options$fill <- fill
   }

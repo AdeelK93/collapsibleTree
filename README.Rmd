@@ -42,7 +42,7 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 [![Collapsible Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-The color of each node can be customized to draw attention to the levels of hierarchy.
+The color of each node can be customized to draw attention to the levels of hierarchy. Thanks to Ryan Derickson for the implementation idea! Colors can be constants or generated from a gradient function.
 
 ```{r eval=FALSE}
 # Data from US Forest Service DataMart

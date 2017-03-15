@@ -28,7 +28,7 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 [![Collapsible Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-The color of each node can be customized to draw attention to the levels of hierarchy.
+The color of each node can be customized to draw attention to the levels of hierarchy. Thanks to Ryan Derickson for the implementation idea! Colors can be constants or generated from a gradient function.
 
 ``` r
 # Data from US Forest Service DataMart
@@ -63,7 +63,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Wed Mar 15 14:15:50 2017"
+#> [1] "Wed Mar 15 15:18:38 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 

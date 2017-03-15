@@ -57,3 +57,26 @@ collapsibleTree(
   )
 )
 ```
+
+## Using Gradients
+
+Throw in some gradients if you'd like! Each node can have its own distinct color. The fill order is depends on the order of the data frame.
+
+```{r plotgradient}
+collapsibleTree(
+  df,
+  hierarchy = c("continent", "type", "country"),
+  root = "Geography",
+  width = 800,
+  fill = c(
+    # The root
+    "white",
+    # Unique continents
+    RColorBrewer::brewer.pal(length(unique(df$continent)), "Reds"),
+    # Unique types per continent
+    colorspace::sequential_hcl(length(unique(paste(df$continent, df$type)))),
+    # Unique countries
+    colorspace::rainbow_hcl(length(unique(df$country)))
+  )
+)
+```
