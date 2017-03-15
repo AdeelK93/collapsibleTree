@@ -1,7 +1,7 @@
 Package: collapsibleTree
 Type: Package
-Title: Create Interactive Collapsible Tree Diagrams
-Version: 0.1.0
+Title: Interactive Collapsible Tree Diagrams
+Version: 0.1.1
 Author: Adeel Khan
 Maintainer: Adeel Khan <AdeelK@gwu.edu>
 Description: Interactive Reingold–Tilford tree diagram created using D3.js, where every node can be expanded and collapsed by clicking on it.
