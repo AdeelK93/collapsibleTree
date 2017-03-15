@@ -64,7 +64,7 @@ collapsibleTree(
 )
 ```
 
-[![Collapsible Tree Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree Colored](README-example-2.png)](https://adeelk93.github.io/collapsibleTree/)
 
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
