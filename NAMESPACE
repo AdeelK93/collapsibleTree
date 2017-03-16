@@ -2,8 +2,13 @@
 
 export(collapsibleTree)
 export(collapsibleTreeOutput)
+export(collapsibleTreeSummary)
 export(renderCollapsibleTree)
 import(htmlwidgets)
+importFrom(data.tree,Aggregate)
+importFrom(data.tree,Do)
+importFrom(data.tree,Sort)
 importFrom(data.tree,ToListExplicit)
+importFrom(data.tree,Traverse)
 importFrom(data.tree,as.Node)
 importFrom(stats,complete.cases)

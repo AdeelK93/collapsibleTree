@@ -17,6 +17,12 @@ collapsibleTree is an R htmlwidget that allows you to create interactive collaps
   
 If you're using Shiny, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny example for more info.
 
+## Installation
+
+```{r eval=FALSE}
+devtools::install_github("AdeelK93/collapsibleTree")
+```
+
 ## Data frames, not lists
 
 When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks. 
@@ -90,11 +96,29 @@ countryColors <- df %>%
   mutate(colors=colorspace::rainbow_hcl(length(country))[seq_along(country)])
 
 df %>%
-  arrange(continent ,type, country) %>%
+  arrange(continent, type, country) %>%
 collapsibleTree(
   hierarchy = c("continent", "type", "country"),
   root = "Geography",
   width = 800,
   fill = c("white", continentColors, typeColors$colors, countryColors$colors)
 )
+```
+
+## Basing Gradients on a Numeric Column
+
+Using `dplyr` and `colorspace` again, we can create a new column in the source data frame for the total number of countries on each continent, and map that column to the fill gradient of the nodes. `collapsibleTreeSummary` serves as a convenience function around `collapsibleTree`. 
+
+Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries.
+
+```{r plotsummary, warning=FALSE}
+df %>%
+  group_by(continent, type) %>%
+  summarise(numberOfCountries = n()) %>%
+  collapsibleTreeSummary(
+    hierarchy = c("continent", "type"),
+    root = "Geography",
+    width = 800,
+    attribute = "numberOfCountries"
+  )
 ```

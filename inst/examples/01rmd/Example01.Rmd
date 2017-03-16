@@ -83,11 +83,29 @@ countryColors <- df %>%
   mutate(colors=colorspace::rainbow_hcl(length(country))[seq_along(country)])
 
 df %>%
-  arrange(continent ,type, country) %>%
+  arrange(continent, type, country) %>%
 collapsibleTree(
   hierarchy = c("continent", "type", "country"),
   root = "Geography",
   width = 800,
   fill = c("white", continentColors, typeColors$colors, countryColors$colors)
 )
+```
+
+## Basing Gradients on a Numeric Column
+
+Using `dplyr` and `colorspace` again, we can create a new column in the source data frame for the total number of countries on each continent, and map that column to the fill gradient of the nodes. `collapsibleTreeSummary` serves as a convenience function around `collapsibleTree`. 
+
+Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries.
+
+```{r plotsummary, warning=FALSE}
+df %>%
+  group_by(continent, type) %>%
+  summarise(numberOfCountries = n()) %>%
+  collapsibleTreeSummary(
+    hierarchy = c("continent", "type"),
+    root = "Geography",
+    width = 800,
+    attribute = "numberOfCountries"
+  )
 ```
