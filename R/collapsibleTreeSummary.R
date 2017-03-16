@@ -30,6 +30,17 @@
 #' @param ... other arguments passed on to \code{fillFun}, such declaring a
 #' palette for \link[RColorBrewer]{brewer.pal}
 #'
+#' @examples
+#' # Color in by number of children
+#' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
+#'
+#' # Color in by the value of breaks and use the terrain_hcl gradient
+#' collapsibleTreeSummary(
+#'   c("wool", "tension", "breaks"),
+#'   attribute = "breaks",
+#'   fillFun = terrain_hcl,
+#'   maxPercent = 50
+#' )
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'
@@ -55,8 +66,9 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   if(!is.data.frame(df)) stop("df must be a data frame")
   if(!is.character(hierarchy)) stop("hierarchy must be a character vector")
   if(!is.function(fillFun)) stop("fill must be a function")
-  if(length(hierarchy)<=1) stop("hierarchy vector must be greater than length 1")
+  if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
   if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
+  if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 
   # create a list that contains the options
@@ -78,7 +90,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   node <- data.tree::as.Node(df, pathDelimiter = "//")
 
   # traverse down the tree and compute the weights of each node
-  t <- data.tree::Traverse(node, traversal = "pre-order")
+  t <- data.tree::Traverse(node, "pre-order")
   data.tree::Do(t, function(x) {
     x$Weight <- data.tree::Aggregate(x, attribute, sum)
   })

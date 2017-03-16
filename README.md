@@ -76,11 +76,12 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Thu Mar 16 15:23:29 2017"
+#> [1] "Thu Mar 16 16:28:39 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
 #> Error handling: 
+#> Basic functionality - collapsibleTreeSummary: 
 #> 
 #> DONE ======================================================================
 ```

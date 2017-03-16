@@ -57,3 +57,15 @@ This function serves as a convenience wrapper to add color gradients to nodes
 either by counting that node's children (default) or specifying another numeric
 column in the input data frame.
 }
+\examples{
+# Color in by number of children
+collapsibleTree(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
+
+# Color in by the value of breaks and use the terrain_hcl gradient
+collapsibleTreeSummary(
+  c("wool", "tension", "breaks"),
+  attribute = "breaks",
+  fillFun = terrain_hcl,
+  maxPercent = 50
+)
+}

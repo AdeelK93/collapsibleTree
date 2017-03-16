@@ -65,5 +65,4 @@ collapsibleTree(
   fill = brewer.pal(9, "RdBu"),
   fillByLevel = FALSE
 )
-
 }

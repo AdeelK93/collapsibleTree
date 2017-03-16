@@ -41,7 +41,6 @@
 #'   fill = brewer.pal(9, "RdBu"),
 #'   fillByLevel = FALSE
 #' )
-#'
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'
@@ -62,7 +61,7 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   if(!is.data.frame(df)) stop("df must be a data frame")
   if(!is.character(hierarchy)) stop("hierarchy must be a character vector")
   if(!is.character(fill)) stop("fill must be a character vector")
-  if(length(hierarchy)<=1) stop("hierarchy vector must be greater than length 1")
+  if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
   if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 

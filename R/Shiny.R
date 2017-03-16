@@ -13,8 +13,10 @@
 #'   is useful if you want to save an expression in a variable.
 #'
 #' @examples
+#' # Shiny Interaction
 #' shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
-#'
+#' # Interactive Gradient Mapping
+#' shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
 #' @name collapsibleTree-shiny
 #'
 #' @export
