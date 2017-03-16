@@ -17,4 +17,4 @@ Imports:
 Enhances: knitr, shiny
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests: RColorBrewer, testthat

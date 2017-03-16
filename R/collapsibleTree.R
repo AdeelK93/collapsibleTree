@@ -30,17 +30,18 @@
 #' collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
 #'
 #' # Visualizing the order in which the node colors are filled
-#' library(RColorBrewer)
-#' collapsibleTree(
-#'   warpbreaks, c("wool", "tension"),
-#'   fill = brewer.pal(9, "RdBu"),
-#'   fillByLevel = TRUE
-#' )
-#' collapsibleTree(
-#'   warpbreaks, c("wool", "tension"),
-#'   fill = brewer.pal(9, "RdBu"),
-#'   fillByLevel = FALSE
-#' )
+#' if (requireNamespace("RColorBrewer")) {
+#'   collapsibleTree(
+#'     warpbreaks, c("wool", "tension"),
+#'     fill = RColorBrewer::brewer.pal(9, "RdBu"),
+#'     fillByLevel = TRUE
+#'   )
+#'   collapsibleTree(
+#'     warpbreaks, c("wool", "tension"),
+#'     fill = RColorBrewer::brewer.pal(9, "RdBu"),
+#'     fillByLevel = FALSE
+#'   )
+#'}
 #'
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
@@ -107,8 +108,6 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   # create the widget
   htmlwidgets::createWidget(
     "collapsibleTree", x, width = width, height = height,
-    htmlwidgets::sizingPolicy(
-      viewer.padding = 0
-    )
+    htmlwidgets::sizingPolicy(viewer.padding = 0)
   )
 }

@@ -54,16 +54,17 @@ species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP
 collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
 
 # Visualizing the order in which the node colors are filled
-library(RColorBrewer)
-collapsibleTree(
-  warpbreaks, c("wool", "tension"),
-  fill = brewer.pal(9, "RdBu"),
-  fillByLevel = TRUE
-)
-collapsibleTree(
-  warpbreaks, c("wool", "tension"),
-  fill = brewer.pal(9, "RdBu"),
-  fillByLevel = FALSE
-)
+if (requireNamespace("RColorBrewer")) {
+  collapsibleTree(
+    warpbreaks, c("wool", "tension"),
+    fill = RColorBrewer::brewer.pal(9, "RdBu"),
+    fillByLevel = TRUE
+  )
+  collapsibleTree(
+    warpbreaks, c("wool", "tension"),
+    fill = RColorBrewer::brewer.pal(9, "RdBu"),
+    fillByLevel = FALSE
+  )
+}
 
 }
