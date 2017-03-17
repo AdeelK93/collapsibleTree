@@ -21,6 +21,11 @@ HTMLWidgets.widget({
     .attr('transform', 'translate('
     + margin.left + ',' + margin.top + ')');
 
+    // Define the div for the tooltip
+    var tooltip = d3.select(el).append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
+
     var i = 0,
     duration = 750;
 
@@ -37,7 +42,7 @@ HTMLWidgets.widget({
       links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
-      nodes.forEach(function(d){ d.y = d.depth * options.linkLength});
+      nodes.forEach(function(d) {d.y = d.depth * options.linkLength});
 
       // ****************** Nodes section ***************************
 
@@ -51,7 +56,9 @@ HTMLWidgets.widget({
       .attr('transform', function(d) {
         return 'translate(' + source.y0 + ',' + source.x0 + ')';
       })
-      .on('click', click);
+      .on('click', click)
+      .on('mouseover', mouseover)
+      .on('mouseout', mouseout);
 
       // Add Circle for the nodes
       nodeEnter.append('circle')
@@ -154,10 +161,10 @@ HTMLWidgets.widget({
       // Creates a curved (diagonal) path from parent to the child nodes
       function diagonal(s, d) {
 
-        path = "M " + s.y + " " + s.x +
-        " C " + (s.y + d.y) / 2 + " " +
-        s.x + ", " + (s.y + d.y) / 2 + " " + d.x + ", " +
-        d.y + " " + d.x;
+        path = 'M ' + s.y + ' ' + s.x + ' C ' +
+        (s.y + d.y) / 2 + ' ' + s.x + ', ' +
+        (s.y + d.y) / 2 + ' ' + d.x + ', ' +
+        d.y + ' ' + d.x;
 
         return path
       }
@@ -172,10 +179,14 @@ HTMLWidgets.widget({
           d._children = null;
         }
         update(root, d, options || null);
+        // Hide the tooltip after clicking
+        tooltip.transition()
+        .duration(100)
+        .style('opacity', 0)
         // Update Shiny inputs, if applicable
         if (options.input!==null) {
           var nest = {},
-          obj = d;
+          obj = d; // is this necessary?
           // Navigate down the list and recursively find parental nodes
           for (var n = d.depth; n > 0; n--) {
             nest[options.hierarchy[n-1]] = obj.data.name
@@ -183,6 +194,30 @@ HTMLWidgets.widget({
           }
           Shiny.onInputChange(options.input, nest)
         }
+      }
+
+      // Show tooltip on mouseover
+      function mouseover(d) {
+        if (!options.tooltip) {return}
+        tooltip.transition()
+        .duration(200)
+        .style('opacity', .9);
+
+        tooltip.html(
+          d.data.name + '<br>' +
+          options.attribute + ': ' + d.data.WeightOfNode
+        )
+        // Make the tooltip font size just a little bit bigger
+        .style('font-size', (options.fontSize + 1) + 'px')
+        .style('left', d3.event.pageX + 'px')
+        .style('top', (d3.event.pageY - 28) + 'px');
+      }
+      // Hide tooltip on mouseout
+      function mouseout(d) {
+        if (!options.tooltip) {return}
+        tooltip.transition()
+        .duration(500)
+        .style('opacity', 0);
       }
     }
 
@@ -208,7 +243,13 @@ HTMLWidgets.widget({
       },
 
       resize: function(width, height) {
+        // Resize the canvas
+        d3.select(el).select('svg')
+        .attr('width', width)
+        .attr('height', height);
 
+        // Update the treemap to fit the new canvas size
+        treemap = d3.tree().size([height, width]);
       },
 
       // Make the svg object available as a property on the widget

@@ -1,8 +1,10 @@
 library(shiny)
 library(collapsibleTree)
-library(colorspace)
+require(colorspace)
 # Dataset is from https://community.tableau.com/docs/DOC-1236
-sales <- read.csv("Superstore_Sales.csv")
+sales <- read.csv("Superstore_Sales.csv", check.names = FALSE)
+# For the sake of speed, let's only plot sales in Ontario
+sales <- sales[sales$Region=="Ontario",]
 
 # Define UI for application that draws a collapsible tree
 ui <- fluidPage(
@@ -16,18 +18,18 @@ ui <- fluidPage(
          selectInput(
            "hierarchy", "Tree hierarchy",
            choices = c(
-             "Region", "Product.Category", "Product.Sub.Category",
-             "Customer.Segment", "Order.Priority", "Product.Container"
+             "Product Category", "Product Sub-Category",
+             "Customer Segment", "Order Priority", "Product Container"
            ),
-           selected = c("Customer.Segment","Product.Category", "Product.Sub.Category"),
+           selected = c("Customer Segment","Product Category", "Product Sub-Category"),
            multiple = TRUE
          ),
          selectInput(
            "fill", "Node color",
-           choices = c("Order.Quantity", "Sales", "Profit"),
+           choices = c("Order Quantity", "Sales", "Unit Price"),
            selected = "Sales"
          ),
-         tags$p("Sample dataset is from Tableau. Note that it is a somewhat larger dataset and may take a few seconds to generate the plot.")
+         tags$a(href = "https://community.tableau.com/docs/DOC-1236", "Sample dataset from Tableau")
       ),
 
       # Show a tree diagram with the selected root node
@@ -39,7 +41,6 @@ ui <- fluidPage(
 
 # Define server logic required to draw a collapsible tree diagram
 server <- function(input, output) {
-
    output$plot <- renderCollapsibleTree({
      collapsibleTreeSummary(sales, input$hierarchy, input$fill, attribute = input$fill)
    })

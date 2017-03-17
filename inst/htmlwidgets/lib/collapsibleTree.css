@@ -16,3 +16,16 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 3px;
+    font: 10px sans-serif;
+    background: #fff;
+    border: 2px;
+    border-radius: 8px;
+    border-color: #000;
+    border-style: solid;
+    pointer-events: none;
+}
