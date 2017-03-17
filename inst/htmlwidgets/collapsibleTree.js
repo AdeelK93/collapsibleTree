@@ -37,7 +37,7 @@ HTMLWidgets.widget({
       links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
-      nodes.forEach(function(d){ d.y = d.depth * options.linkLength});
+      nodes.forEach(function(d) {d.y = d.depth * options.linkLength});
 
       // ****************** Nodes section ***************************
 
@@ -154,10 +154,10 @@ HTMLWidgets.widget({
       // Creates a curved (diagonal) path from parent to the child nodes
       function diagonal(s, d) {
 
-        path = "M " + s.y + " " + s.x +
-        " C " + (s.y + d.y) / 2 + " " +
-        s.x + ", " + (s.y + d.y) / 2 + " " + d.x + ", " +
-        d.y + " " + d.x;
+        path = 'M ' + s.y + ' ' + s.x + ' C ' +
+        (s.y + d.y) / 2 + ' ' + s.x + ', ' +
+        (s.y + d.y) / 2 + ' ' + d.x + ', ' +
+        d.y + ' ' + d.x;
 
         return path
       }
@@ -208,7 +208,13 @@ HTMLWidgets.widget({
       },
 
       resize: function(width, height) {
+        // Resize the canvas
+        d3.select(el).select('svg')
+        .attr('width', width)
+        .attr('height', height);
 
+        // Update the treemap to fit the new canvas size
+        treemap = d3.tree().size([height, width]);
       },
 
       // Make the svg object available as a property on the widget

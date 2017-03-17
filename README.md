@@ -4,7 +4,7 @@ Overview
 
 collapsibleTree is an R htmlwidget that allows you to create interactive collapsible Reingold–Tilford tree diagram using D3.js. Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
-If you're using Shiny, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny example for more info.
+If you're using Shiny, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny interaction example for more info.
 
 ### Installation
 
@@ -80,7 +80,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Thu Mar 16 23:08:16 2017"
+#> [1] "Fri Mar 17 00:09:20 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
