@@ -59,7 +59,7 @@ column in the input data frame.
 }
 \examples{
 # Color in by number of children
-collapsibleTree(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
+collapsibleTreeSummary(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
 
 # Color in by the value of breaks and use the terrain_hcl gradient
 collapsibleTreeSummary(

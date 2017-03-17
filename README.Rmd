@@ -82,7 +82,11 @@ collapsibleTreeSummary(
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
 ```{r eval=FALSE}
+# Basic Shiny Interaction
 shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+
+# Interactive Gradient Mapping
+shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
 ```
 
 ### Test Results

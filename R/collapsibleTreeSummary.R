@@ -32,7 +32,7 @@
 #'
 #' @examples
 #' # Color in by number of children
-#' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
+#' collapsibleTreeSummary(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 50)
 #'
 #' # Color in by the value of breaks and use the terrain_hcl gradient
 #' collapsibleTreeSummary(
@@ -104,11 +104,14 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   # vector of colors to choose from, up to the maxPercent
   fill <- rev(fillFun(maxPercent, ...))
   node$Do(function(self) {
-    self$fill <- fill[self$WeightOfParent+1]
-    # color in high values
-    if(!length(self$fill)) self$fill <- fill[maxPercent]
     # color in the root
-    if(is.na(self$fill)) self$fill <- fill[maxPercent]
+    if(!length(self$WeightOfParent)) self$fill <- fill[maxPercent]
+    # color in high values
+    else if(self$WeightOfParent >= maxPercent) self$fill <- fill[maxPercent]
+    # negative percents are just going to be treated like 0 for now
+    else if(self$WeightOfParent < 0) self$fill <- fill[1]
+    # all other cases
+    else self$fill <- fill[self$WeightOfParent+1]
   })
 
   json <- htmlwidgets:::toJSON(

@@ -68,7 +68,11 @@ collapsibleTreeSummary(
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
 
 ``` r
+# Basic Shiny Interaction
 shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+
+# Interactive Gradient Mapping
+shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
 ```
 
 ### Test Results
@@ -76,7 +80,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Thu Mar 16 16:28:39 2017"
+#> [1] "Thu Mar 16 23:08:16 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 
