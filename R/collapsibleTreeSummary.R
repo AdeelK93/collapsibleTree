@@ -114,8 +114,9 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
     else self$fill <- fill[self$WeightOfParent+1]
   })
 
+  # keep only the fill attribute in the final JSON
   json <- htmlwidgets:::toJSON(
-    data.tree::ToListExplicit(node, unname = TRUE)
+    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = "fill")
   )
 
   # pass the data and options using 'x'
