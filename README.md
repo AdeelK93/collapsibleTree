@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-collapsibleTree 0.1.2
+collapsibleTree 0.1.3
 ---------------------
 
 ### Overview
@@ -54,7 +54,7 @@ collapsibleTree(
 
 [![Collapsible Tree Colored](README-example-2.png)](https://adeelk93.github.io/collapsibleTree/)
 
-Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes.
+Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes. Node weighting can also be mapped to a tooltip.
 
 ``` r
 collapsibleTreeSummary(
@@ -82,7 +82,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Fri Mar 17 10:55:43 2017"
+#> [1] "Fri Mar 17 18:07:46 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 

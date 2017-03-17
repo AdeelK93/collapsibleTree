@@ -101,11 +101,11 @@ Looking at this chart, you can tell that Africa has roughly the same number of c
 ```{r plotsummary, warning=FALSE}
 df %>%
   group_by(continent, type) %>%
-  summarise(numberOfCountries = n()) %>%
+  summarise(`Number of Countries` = n()) %>%
   collapsibleTreeSummary(
     hierarchy = c("continent", "type"),
     root = "Geography",
     width = 800,
-    attribute = "numberOfCountries"
+    attribute = "Number of Countries"
   )
 ```

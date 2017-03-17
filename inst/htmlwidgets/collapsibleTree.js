@@ -209,15 +209,16 @@ HTMLWidgets.widget({
         )
         // Make the tooltip font size just a little bit bigger
         .style('font-size', (options.fontSize + 1) + 'px')
-        .style('left', d3.event.pageX + 'px')
-        .style('top', (d3.event.pageY - 28) + 'px');
+        .style('left', (d3.event.layerX) + 'px')
+        .style('top', (d3.event.layerY - 30) + 'px');
       }
       // Hide tooltip on mouseout
       function mouseout(d) {
-        if (!options.tooltip) {return}
-        tooltip.transition()
-        .duration(500)
-        .style('opacity', 0);
+        if (options.tooltip) {
+          tooltip.transition()
+          .duration(500)
+          .style('opacity', 0);
+        }
       }
     }
 
@@ -251,11 +252,8 @@ HTMLWidgets.widget({
         // Update the treemap to fit the new canvas size
         treemap = d3.tree().size([height, width]);
       },
-
       // Make the svg object available as a property on the widget
-      // instance we're returning from factory(). This is generally a
-      // good idea for extensibility--it helps users of this widget
-      // interact directly with the svg, if needed.
+      // instance we're returning from factory().
       svg: svg
     };
   }
