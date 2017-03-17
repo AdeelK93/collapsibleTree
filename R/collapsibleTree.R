@@ -12,6 +12,9 @@
 #' along with all of its parents.
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
+#' @param attribute numeric column not listed in hierarchy that will be used
+#' for tooltips, if applicable. Defaults to 'leafCount',
+#' which is the cumulative count of a node's children
 #' @param fill either a single color or a vector of colors the same length
 #' as the number of nodes. By default, vector should be ordered by level,
 #' such that the root color is described first, then all the children's colors,
@@ -21,6 +24,7 @@
 #' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
 #' @param linkLength length of the horizontal links that connect nodes in pixels
 #' @param fontSize font size of the label text in pixels
+#' @param tooltip tooltip shows the node's label and attribute value.
 #'
 #' @examples
 #' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
@@ -47,12 +51,16 @@
 #' @import htmlwidgets
 #' @importFrom data.tree ToListExplicit
 #' @importFrom data.tree as.Node
+#' @importFrom data.tree Traverse
+#' @importFrom data.tree Do
+#' @importFrom data.tree Aggregate
 #' @importFrom stats complete.cases
 #' @export
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
                   inputId = NULL, width = NULL, height = NULL,
-                  fill = "lightsteelblue", fillByLevel = TRUE,
-                  linkLength = 180, fontSize = 10) {
+                  attribute = "leafCount", fill = "lightsteelblue",
+                  fillByLevel = TRUE, linkLength = 180,
+                  fontSize = 10, tooltip = FALSE) {
 
   # preserve this name before evaluating df
   root <- root
@@ -63,14 +71,17 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   if(!is.character(fill)) stop("fill must be a character vector")
   if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
   if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
+  if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 
   # create a list that contains the options
   options <- list(
     hierarchy = hierarchy,
     input = inputId,
+    attribute = attribute,
     linkLength = linkLength,
-    fontSize = fontSize
+    fontSize = fontSize,
+    tooltip = tooltip
   )
 
   # the hierarchy that will be used to create the tree
@@ -93,9 +104,19 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
     options$fill <- fill
   }
 
+  # only necessary to perform these calculations if there is a tooltip
+  if(tooltip) {
+    # traverse down the tree and compute the weights of each node for the tooltip
+    t <- data.tree::Traverse(node, "pre-order")
+    data.tree::Do(t, function(x) {
+      x$WeightOfNode <- data.tree::Aggregate(x, attribute, sum)
+    })
+    jsonFields <- c("fill", "WeightOfNode")
+  } else jsonFields <- "fill"
+
   # keep only the fill attribute in the final JSON
   json <- htmlwidgets:::toJSON(
-    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = "fill")
+    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
   )
 
   # pass the data and options using 'x'

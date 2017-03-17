@@ -10,8 +10,9 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, width = NULL, height = NULL, fill = "lightsteelblue",
-  fillByLevel = TRUE, linkLength = 180, fontSize = 10)
+  inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
+  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = 180,
+  fontSize = 10, tooltip = FALSE)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -29,6 +30,10 @@ along with all of its parents.}
 
 \item{height}{height in pixels (optional, defaults to automatic sizing)}
 
+\item{attribute}{numeric column not listed in hierarchy that will be used
+for tooltips, if applicable. Defaults to 'leafCount',
+which is the cumulative count of a node's children}
+
 \item{fill}{either a single color or a vector of colors the same length
 as the number of nodes. By default, vector should be ordered by level,
 such that the root color is described first, then all the children's colors,
@@ -41,6 +46,8 @@ and then all the grandchildren's colors.}
 \item{linkLength}{length of the horizontal links that connect nodes in pixels}
 
 \item{fontSize}{font size of the label text in pixels}
+
+\item{tooltip}{tooltip shows the node's label and attribute value.}
 }
 \description{
 Interactive Reingold–Tilford tree diagram created using D3.js,

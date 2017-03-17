@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Overview
+## collapsibleTree `r packageVersion("collapsibleTree")`
+
+### Overview
 
 collapsibleTree is an R htmlwidget that allows you to create interactive collapsible Reingold–Tilford tree diagram using D3.js. Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
   
@@ -66,7 +68,7 @@ collapsibleTree(
 
 [![Collapsible Tree Colored](README-example-2.png)](https://adeelk93.github.io/collapsibleTree/)
 
-Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes.
+Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes. Node weighting can also be mapped to a tooltip.
 
 ```{r eval=FALSE}
 collapsibleTreeSummary(

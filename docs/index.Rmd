@@ -109,16 +109,16 @@ collapsibleTree(
 
 Using `dplyr` and `colorspace` again, we can create a new column in the source data frame for the total number of countries on each continent, and map that column to the fill gradient of the nodes. `collapsibleTreeSummary` serves as a convenience function around `collapsibleTree`. 
 
-Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries.
+Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries. Hovering over the node can confirm this fact.
 
 ```{r plotsummary, warning=FALSE}
 df %>%
   group_by(continent, type) %>%
-  summarise(numberOfCountries = n()) %>%
+  summarise(`Number of Countries` = n()) %>%
   collapsibleTreeSummary(
     hierarchy = c("continent", "type"),
     root = "Geography",
     width = 800,
-    attribute = "numberOfCountries"
+    attribute = "Number of Countries"
   )
 ```

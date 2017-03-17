@@ -27,6 +27,7 @@
 #' children.
 #' @param linkLength length of the horizontal links that connect nodes in pixels
 #' @param fontSize font size of the label text in pixels
+#' @param tooltip tooltip shows the node's label and attribute value.
 #' @param ... other arguments passed on to \code{fillFun}, such declaring a
 #' palette for \link[RColorBrewer]{brewer.pal}
 #'
@@ -55,9 +56,9 @@
 #' @export
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
                                     inputId = NULL, width = NULL, height = NULL,
-                                    attribute = "leafCount",
-                                    fillFun = colorspace::heat_hcl, maxPercent = 25,
-                                    linkLength = 180, fontSize = 10, ...) {
+                                    attribute = "leafCount", fillFun = colorspace::heat_hcl,
+                                    maxPercent = 25, linkLength = 180,
+                                    fontSize = 10, tooltip = TRUE, ...) {
 
   # preserve this name before evaluating df
   root <- root
@@ -75,8 +76,10 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   options <- list(
     hierarchy = hierarchy,
     input = inputId,
+    attribute = attribute,
     linkLength = linkLength,
-    fontSize = fontSize
+    fontSize = fontSize,
+    tooltip = tooltip
   )
 
   # the hierarchy that will be used to create the tree
@@ -92,14 +95,14 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   # traverse down the tree and compute the weights of each node
   t <- data.tree::Traverse(node, "pre-order")
   data.tree::Do(t, function(x) {
-    x$Weight <- data.tree::Aggregate(x, attribute, sum)
+    x$WeightOfNode <- data.tree::Aggregate(x, attribute, sum)
   })
   data.tree::Do(t, function(x) {
-    x$WeightOfParent <- round(100*(x$Weight / x$parent$Weight))
+    x$WeightOfParent <- round(100*(x$WeightOfNode / x$parent$WeightOfNode))
   })
 
   # Sort the tree by weight
-  data.tree::Sort(node, "Weight", recursive = TRUE, decreasing = TRUE)
+  data.tree::Sort(node, "WeightOfNode", recursive = TRUE, decreasing = TRUE)
 
   # vector of colors to choose from, up to the maxPercent
   fill <- rev(fillFun(maxPercent, ...))
@@ -114,9 +117,11 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
     else self$fill <- fill[self$WeightOfParent+1]
   })
 
-  # keep only the fill attribute in the final JSON
+  # keep only the JSON fields that are necessary
+  if(tooltip) jsonFields <- c("fill", "WeightOfNode")
+  else jsonFields <- "fill"
   json <- htmlwidgets:::toJSON(
-    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = "fill")
+    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
   )
 
   # pass the data and options using 'x'

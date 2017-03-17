@@ -12,7 +12,7 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
   fillFun = colorspace::heat_hcl, maxPercent = 25, linkLength = 180,
-  fontSize = 10, ...)
+  fontSize = 10, tooltip = TRUE, ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -46,6 +46,8 @@ children.}
 \item{linkLength}{length of the horizontal links that connect nodes in pixels}
 
 \item{fontSize}{font size of the label text in pixels}
+
+\item{tooltip}{tooltip shows the node's label and attribute value.}
 
 \item{...}{other arguments passed on to \code{fillFun}, such declaring a
 palette for \link[RColorBrewer]{brewer.pal}}

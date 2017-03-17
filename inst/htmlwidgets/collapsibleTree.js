@@ -21,6 +21,11 @@ HTMLWidgets.widget({
     .attr('transform', 'translate('
     + margin.left + ',' + margin.top + ')');
 
+    // Define the div for the tooltip
+    var tooltip = d3.select(el).append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
+
     var i = 0,
     duration = 750;
 
@@ -51,7 +56,9 @@ HTMLWidgets.widget({
       .attr('transform', function(d) {
         return 'translate(' + source.y0 + ',' + source.x0 + ')';
       })
-      .on('click', click);
+      .on('click', click)
+      .on('mouseover', mouseover)
+      .on('mouseout', mouseout);
 
       // Add Circle for the nodes
       nodeEnter.append('circle')
@@ -172,16 +179,45 @@ HTMLWidgets.widget({
           d._children = null;
         }
         update(root, d, options || null);
+        // Hide the tooltip after clicking
+        tooltip.transition()
+        .duration(100)
+        .style('opacity', 0)
         // Update Shiny inputs, if applicable
         if (options.input!==null) {
           var nest = {},
-          obj = d;
+          obj = d; // is this necessary?
           // Navigate down the list and recursively find parental nodes
           for (var n = d.depth; n > 0; n--) {
             nest[options.hierarchy[n-1]] = obj.data.name
             obj = obj.parent
           }
           Shiny.onInputChange(options.input, nest)
+        }
+      }
+
+      // Show tooltip on mouseover
+      function mouseover(d) {
+        if (!options.tooltip) {return}
+        tooltip.transition()
+        .duration(200)
+        .style('opacity', .9);
+
+        tooltip.html(
+          d.data.name + '<br>' +
+          options.attribute + ': ' + d.data.WeightOfNode
+        )
+        // Make the tooltip font size just a little bit bigger
+        .style('font-size', (options.fontSize + 1) + 'px')
+        .style('left', (d3.event.layerX) + 'px')
+        .style('top', (d3.event.layerY - 30) + 'px');
+      }
+      // Hide tooltip on mouseout
+      function mouseout(d) {
+        if (options.tooltip) {
+          tooltip.transition()
+          .duration(500)
+          .style('opacity', 0);
         }
       }
     }
@@ -216,11 +252,8 @@ HTMLWidgets.widget({
         // Update the treemap to fit the new canvas size
         treemap = d3.tree().size([height, width]);
       },
-
       // Make the svg object available as a property on the widget
-      // instance we're returning from factory(). This is generally a
-      // good idea for extensibility--it helps users of this widget
-      // interact directly with the svg, if needed.
+      // instance we're returning from factory().
       svg: svg
     };
   }
