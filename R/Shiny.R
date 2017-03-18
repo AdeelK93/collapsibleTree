@@ -16,10 +16,10 @@
 #' if(interactive()) {
 #'
 #'   # Shiny Interaction
-#'   shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+#'   shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 #'
 #'   # Interactive Gradient Mapping
-#'   shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
+#'   shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 #'
 #' }
 #' @name collapsibleTree-shiny

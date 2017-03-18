@@ -4,13 +4,14 @@ collapsibleTree 0.1.3
 
 ### Overview
 
-collapsibleTree is an R htmlwidget that allows you to create interactive collapsible Reingold–Tilford tree diagram using D3.js. Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
+collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that allows you to create interactive collapsible Reingold–Tilford tree diagrams using D3.js, adapted from Mike Bostock's [example](https://bl.ocks.org/mbostock/4339083). Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
-If you're using Shiny, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny interaction example for more info.
+If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny example for more info.
 
 ### Installation
 
 ``` r
+# install.packages("devtools")
 devtools::install_github("AdeelK93/collapsibleTree")
 ```
 
@@ -20,7 +21,7 @@ When working with data in R, it makes sense (at least to me) to represent everyt
 
 collapsibleTree uses [data.tree](https://cran.r-project.org/web/packages/data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
 
-[Click here](https://adeelk93.github.io/collapsibleTree/) to see an interactive version of the chart below.
+[Click here](https://adeelk93.github.io/collapsibleTree/) to see some interactive charts.
 
 ``` r
 library(collapsibleTree)
@@ -71,10 +72,10 @@ An interactive Shiny demo is also included. For example, you could use the colla
 
 ``` r
 # Basic Shiny Interaction
-shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 
 # Interactive Gradient Mapping
-shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
+shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ```
 
 ### Test Results
@@ -82,7 +83,7 @@ shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny")
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Fri Mar 17 18:07:46 2017"
+#> [1] "Sat Mar 18 15:17:03 2017"
 
 testthat::test_dir("tests/testthat")
 #> Basic functionality: 

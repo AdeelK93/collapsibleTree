@@ -2,9 +2,9 @@ library(shiny)
 library(collapsibleTree)
 require(colorspace)
 # Dataset is from https://community.tableau.com/docs/DOC-1236
-sales <- read.csv("Superstore_Sales.csv", check.names = FALSE)
+load(system.file("extdata/Superstore_Sales.rda", package = "collapsibleTree"))
 # For the sake of speed, let's only plot sales in Ontario
-sales <- sales[sales$Region=="Ontario",]
+Superstore_Sales <- Superstore_Sales[Superstore_Sales$Region=="Ontario",]
 
 # Define UI for application that draws a collapsible tree
 ui <- fluidPage(
@@ -42,7 +42,12 @@ ui <- fluidPage(
 # Define server logic required to draw a collapsible tree diagram
 server <- function(input, output) {
    output$plot <- renderCollapsibleTree({
-     collapsibleTreeSummary(sales, input$hierarchy, input$fill, attribute = input$fill)
+     collapsibleTreeSummary(
+       Superstore_Sales,
+       hierarchy = input$hierarchy,
+       root = input$fill,
+       attribute = input$fill
+     )
    })
 }
 

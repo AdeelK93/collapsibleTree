@@ -7,7 +7,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(collapsibleTree)
-df <- read.csv("GeographyTable.csv")
+load(system.file("extdata/Geography.rda", package = "collapsibleTree"))
 ```
 
 ## Data frames, not lists
@@ -19,7 +19,7 @@ collapsibleTree uses [data.tree](https://cran.r-project.org/web/packages/data.tr
 Here is an example geography dataset from [data.world](https://data.world/glx/geography-table):
 
 ```{r summary}
-summary(df)
+summary(Geography)
 ```
 
 ## Rendering the plot
@@ -28,9 +28,8 @@ With your data frame in hand, and a vector of columns to graph, creating an inte
 
 ```{r plot}
 collapsibleTree(
-  df,
+  Geography,
   hierarchy = c("continent", "type", "country"),
-  root = "Geography",
   width = 800
 )
 ```
@@ -41,19 +40,18 @@ You can add colors to each node in the diagram manually by declaring a `fill` va
 
 ```{r plotcolored}
 collapsibleTree(
-  df,
+  Geography,
   hierarchy = c("continent", "type", "country"),
-  root = "Geography",
   width = 800,
   fill = c(
     # The root
     "white",
     # Unique continents
-    rep("firebrick", length(unique(df$continent))),
+    rep("firebrick", length(unique(Geography$continent))),
     # Unique types per continent
-    rep("steelblue", length(unique(paste(df$continent, df$type)))),
+    rep("steelblue", length(unique(paste(Geography$continent, Geography$type)))),
     # Unique countries
-    rep("green", length(unique(df$country)))
+    rep("green", length(unique(Geography$country)))
   )
 )
 ```
@@ -68,21 +66,21 @@ The fill order is depends on the order of the data frame. This time we'll sort a
 library(dplyr, warn.conflicts = FALSE)
 
 # Continents are a simple gradient
-continentColors <- RColorBrewer::brewer.pal(length(unique(df$continent)), "Reds")
+continentColors <- RColorBrewer::brewer.pal(length(unique(Geography$continent)), "Reds")
 # Types will be a gradient that resets between continents
-typeColors <- df %>%
+typeColors <- Geography %>%
   arrange(continent, type) %>% 
   group_by(continent) %>%
   distinct(type) %>%
-  mutate(colors=colorspace::sequential_hcl(length(type))[seq_along(type)])
+  mutate(colors = colorspace::sequential_hcl(length(type))[seq_along(type)])
 # Countries will also be a gradient that resets between continents, but not types
-countryColors <- df %>%
+countryColors <- Geography %>%
   arrange(continent, type) %>% 
   group_by(continent) %>%
   distinct(country) %>%
-  mutate(colors=colorspace::rainbow_hcl(length(country))[seq_along(country)])
+  mutate(colors = colorspace::rainbow_hcl(length(country))[seq_along(country)])
 
-df %>%
+Geography %>%
   arrange(continent, type, country) %>%
 collapsibleTree(
   hierarchy = c("continent", "type", "country"),
@@ -99,7 +97,7 @@ Using `dplyr` and `colorspace` again, we can create a new column in the source d
 Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries. Hovering over the node can confirm this fact.
 
 ```{r plotsummary, warning=FALSE}
-df %>%
+Geography %>%
   group_by(continent, type) %>%
   summarise(`Number of Countries` = n()) %>%
   collapsibleTreeSummary(
