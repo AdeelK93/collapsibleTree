@@ -1,0 +1,55 @@
+SPGRPCD,NAME,REGION,CLASS,CREATED_BY,CREATED_DATE,CREATED_IN_INSTANCE,MODIFIED_BY,MODIFIED_DATE,MODIFIED_IN_INSTANCE
+1,Longleaf and slash pines,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+2,Loblolly and shortleaf pines,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+3,Other yellow pines,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+4,Eastern white and red pines,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+5,Jack pine,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+6,Spruce and balsam fir,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+7,Eastern hemlock,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+8,Cypress,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+9,Other eastern softwoods,Eastern,Softwood,NA,2005-02-24,333,NA,,NA
+10,Douglas-fir,Western,Softwood,NA,2005-02-24,333,NA,,NA
+11,Ponderosa and Jeffrey pines,Western,Softwood,NA,2005-02-24,333,NA,,NA
+12,True fir,Western,Softwood,NA,2005-02-24,333,NA,,NA
+13,Western hemlock,Western,Softwood,NA,2005-02-24,333,NA,,NA
+14,Sugar pine,Western,Softwood,NA,2005-02-24,333,NA,,NA
+15,Western white pine,Western,Softwood,NA,2005-02-24,333,NA,,NA
+16,Redwood,Western,Softwood,NA,2005-02-24,333,NA,,NA
+17,Sitka spruce,Western,Softwood,NA,2005-02-24,333,NA,,NA
+18,Engelmann and other spruces,Western,Softwood,NA,2005-02-24,333,NA,,NA
+19,Western larch,Western,Softwood,NA,2005-02-24,333,NA,,NA
+20,Incense-cedar,Western,Softwood,NA,2005-02-24,333,NA,,NA
+21,Lodgepole pine,Western,Softwood,NA,2005-02-24,333,NA,,NA
+22,Western redcedar,Western,Softwood,NA,2005-02-24,333,NA,,NA
+23,Woodland softwoods,All,Softwood,NA,2005-02-24,333,NA,2011-08-24,10945
+24,Other western softwoods,Western,Softwood,NA,2005-02-24,333,NA,,NA
+25,Select white oaks,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+26,Select red oaks,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+27,Other white oaks,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+28,Other red oaks,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+29,Hickory,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+30,Yellow birch,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+31,Hard maple,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+32,Soft maple,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+33,Beech,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+34,Sweetgum,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+35,Tupelo and blackgum,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+36,Ash,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+37,Cottonwood and aspen,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+38,Basswood,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+39,Yellow-poplar,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+40,Black walnut,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+41,Other eastern soft hardwoods,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+42,Other eastern hard hardwoods,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+43,Eastern noncommercial hardwoods,Eastern,Hardwood,NA,2005-02-24,333,NA,,NA
+44,Cottonwood and aspen,Western,Hardwood,NA,2005-02-24,333,NA,,NA
+45,Red alder,Western,Hardwood,NA,2005-02-24,333,NA,,NA
+46,Oak,Western,Hardwood,NA,2005-02-24,333,NA,,NA
+47,Other western hardwoods,Western,Hardwood,NA,2005-02-24,333,NA,,NA
+48,Woodland hardwoods,All,Hardwood,NA,2005-02-24,333,NA,2011-08-24,10945
+51,Tropical and subtropical pines,Tropical,Softwood,NA,2010-09-17,10854,NA,2010-09-17,10854
+52,Other tropical and subtropical softwoods,Tropical,Softwood,NA,2010-09-17,10854,NA,2010-09-17,10854
+53,Tropical and subtropical palms,Tropical,Hardwood,NA,2010-09-17,10854,NA,2010-09-17,10854
+54,Tropical and subtropical hardwoods,Tropical,Hardwood,NA,2010-09-17,10854,NA,2010-09-17,10854
+55,Urban-specific hardwoods,All,Hardwood,NA,2014-05-01,440,NA,,NA
+56,Urban-specific softwoods,All,Softwood,NA,2014-05-01,440,NA,,NA

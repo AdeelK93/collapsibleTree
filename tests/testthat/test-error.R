@@ -1,14 +1,27 @@
 library(collapsibleTree)
 context("Error handling")
 
-# not a data frame
-expect_error(collapsibleTree(sunspots,c("Year","Solar.R")))
+test_that("df is a data frame", {
+  expect_error(collapsibleTree(sunspots,c("Year","Solar.R")))
+  expect_error(collapsibleTreeSummary(sunspots,c("Year","Solar.R")))
+})
 
-# incorrect column names
-expect_error(collapsibleTree(warpbreaks, c("wool", "tensions")))
+test_that("column names are in data frame", {
+  expect_error(collapsibleTree(warpbreaks, c("wool", "tensions")))
+  expect_error(collapsibleTreeSummary(warpbreaks, c("wool", "tensions")))
+})
 
-# column names is too short of a vector (might be fixed in the future)
-expect_error(collapsibleTree(warpbreaks, c("wool")))
+test_that("attribute name is in data frame", {
+  expect_error(collapsibleTree(warpbreaks, c("wool", "tensions"), attribute = "break"))
+  expect_error(collapsibleTreeSummary(warpbreaks, c("wool", "tensions"), attribute = "break"))
+})
 
-# missing values can't be graphed
-expect_error(collapsibleTree(airquality,c("Month","Day","Solar.R")))
+test_that("column names are not too short (might be fixed in the future)", {
+  expect_error(collapsibleTree(warpbreaks, c("wool")))
+  expect_error(collapsibleTreeSummary(warpbreaks, c("wool")))
+})
+
+test_that("there are no missing values", {
+  expect_error(collapsibleTree(airquality,c("Month","Day","Solar.R")))
+  expect_error(collapsibleTreeSummary(airquality,c("Month","Day","Solar.R")))
+})

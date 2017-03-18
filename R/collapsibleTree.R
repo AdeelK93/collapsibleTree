@@ -30,7 +30,7 @@
 #' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 #'
 #' # Data from US Forest Service DataMart
-#' species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
+#' species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
 #' collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
 #'
 #' # Visualizing the order in which the node colors are filled
