@@ -65,9 +65,10 @@ collapsibleTreeSummary(warpbreaks, c("wool", "tension", "breaks"), maxPercent = 
 
 # Color in by the value of breaks and use the terrain_hcl gradient
 collapsibleTreeSummary(
+  warpbreaks,
   c("wool", "tension", "breaks"),
   attribute = "breaks",
-  fillFun = terrain_hcl,
+  fillFun = colorspace::terrain_hcl,
   maxPercent = 50
 )
 }

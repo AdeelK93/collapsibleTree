@@ -37,9 +37,10 @@
 #'
 #' # Color in by the value of breaks and use the terrain_hcl gradient
 #' collapsibleTreeSummary(
+#'   warpbreaks,
 #'   c("wool", "tension", "breaks"),
 #'   attribute = "breaks",
-#'   fillFun = terrain_hcl,
+#'   fillFun = colorspace::terrain_hcl,
 #'   maxPercent = 50
 #' )
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.

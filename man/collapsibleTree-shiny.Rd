@@ -29,8 +29,13 @@ Output and render functions for using collapsibleTree within Shiny
 applications and interactive Rmd documents.
 }
 \examples{
-# Shiny Interaction
-shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
-# Interactive Gradient Mapping
-shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
+if(interactive()) {
+
+  # Shiny Interaction
+  shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/02shiny"))
+
+  # Interactive Gradient Mapping
+  shiny::runApp(paste0(system.file(package="collapsibleTree"),"/examples/03shiny"))
+
+}
 }
