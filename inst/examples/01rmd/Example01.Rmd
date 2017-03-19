@@ -82,12 +82,12 @@ countryColors <- Geography %>%
 
 Geography %>%
   arrange(continent, type, country) %>%
-collapsibleTree(
-  hierarchy = c("continent", "type", "country"),
-  root = "Geography",
-  width = 800,
-  fill = c("white", continentColors, typeColors$colors, countryColors$colors)
-)
+  collapsibleTree(
+    hierarchy = c("continent", "type", "country"),
+    root = "Geography",
+    width = 800,
+    fill = c("white", continentColors, typeColors$colors, countryColors$colors)
+  )
 ```
 
 ## Basing Gradients on a Numeric Column

@@ -87,10 +87,11 @@ shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sun Mar 19 18:08:24 2017"
+#> [1] "Sun Mar 19 18:37:10 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........
+#> Margin sizing: ................
 #> Root labelling: ..........
 #> 
 #> DONE ======================================================================
