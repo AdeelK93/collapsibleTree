@@ -15,6 +15,8 @@ If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recen
 devtools::install_github("AdeelK93/collapsibleTree")
 ```
 
+[Changelog can be found here](https://github.com/AdeelK93/collapsibleTree/releases).
+
 ### Usage
 
 When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks.
@@ -85,7 +87,7 @@ shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sat Mar 18 23:45:52 2017"
+#> [1] "Sun Mar 19 15:01:30 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........

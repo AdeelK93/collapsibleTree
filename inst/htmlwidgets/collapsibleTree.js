@@ -7,7 +7,8 @@ HTMLWidgets.widget({
 
     var i = 0,
     duration = 750,
-    instance = {};
+    root = {},
+    options = {};
 
     // create our tree object and bind it to the element
     // Set the dimensions and margins of the diagram
@@ -18,7 +19,7 @@ HTMLWidgets.widget({
     // append the svg object to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    instance.svg = d3.select(el).append('svg')
+    var svg = d3.select(el).append('svg')
     .attr('width', width + margin.right + margin.left)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -36,19 +37,19 @@ HTMLWidgets.widget({
     function update(source) {
 
       // Assigns the x and y position for the nodes
-      var treeData = treemap(instance.root);
+      var treeData = treemap(root);
 
       // Compute the new tree layout.
       var nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
-      nodes.forEach(function(d) {d.y = d.depth * instance.options.linkLength});
+      nodes.forEach(function(d) {d.y = d.depth * options.linkLength});
 
       // ****************** Nodes section ***************************
 
       // Update the nodes...
-      var node = instance.svg.selectAll('g.node')
+      var node = svg.selectAll('g.node')
       .data(nodes, function(d) {return d.id || (d.id = ++i); });
 
       // Enter any new modes at the parent's previous position.
@@ -60,7 +61,7 @@ HTMLWidgets.widget({
       .on('click', click);
 
       // Add tooltips, if specified in options
-      if (instance.options.tooltip) {
+      if (options.tooltip) {
         nodeEnter = nodeEnter
         .on('mouseover', mouseover)
         .on('mouseout', mouseout);
@@ -71,7 +72,7 @@ HTMLWidgets.widget({
       .attr('class', 'node')
       .attr('r', 1e-6)
       .style('fill', function(d) {
-        return d.data.fill || (d._children ? instance.options.fill : '#fff');
+        return d.data.fill || (d._children ? options.fill : '#fff');
       })
       .style('stroke-width', function(d) {
         return d._children ? 3 : 1;
@@ -86,7 +87,7 @@ HTMLWidgets.widget({
       .attr('text-anchor', function(d) {
         return d.children || d._children ? 'end' : 'start';
       })
-      .style('font-size', instance.options.fontSize + 'px')
+      .style('font-size', options.fontSize + 'px')
       .text(function(d) { return d.data.name; });
 
       // UPDATE
@@ -103,7 +104,7 @@ HTMLWidgets.widget({
       nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style('fill', function(d) {
-        return d.data.fill || (d._children ? instance.options.fill : '#fff');
+        return d.data.fill || (d._children ? options.fill : '#fff');
       })
       .style('stroke-width', function(d) {
         return d._children ? 3 : 1;
@@ -130,7 +131,7 @@ HTMLWidgets.widget({
       // ****************** links section ***************************
 
       // Update the links...
-      var link = instance.svg.selectAll('path.link')
+      var link = svg.selectAll('path.link')
       .data(links, function(d) { return d.id; });
 
       // Enter any new links at the parent's previous position.
@@ -190,15 +191,15 @@ HTMLWidgets.widget({
         .duration(100)
         .style('opacity', 0)
         // Update Shiny inputs, if applicable
-        if (instance.options.input) {
+        if (options.input) {
           var nest = {},
           obj = d;
           // Navigate up the list and recursively find parental nodes
           for (var n = d.depth; n > 0; n--) {
-            nest[instance.options.hierarchy[n-1]] = obj.data.name
+            nest[options.hierarchy[n-1]] = obj.data.name
             obj = obj.parent
           }
-          Shiny.onInputChange(instance.options.input, nest)
+          Shiny.onInputChange(options.input, nest)
         }
       }
 
@@ -210,10 +211,10 @@ HTMLWidgets.widget({
 
         tooltip.html(
           d.data.name + '<br>' +
-          instance.options.attribute + ': ' + d.data.WeightOfNode
+          options.attribute + ': ' + d.data.WeightOfNode
         )
         // Make the tooltip font size just a little bit bigger
-        .style('font-size', (instance.options.fontSize + 1) + 'px')
+        .style('font-size', (options.fontSize + 1) + 'px')
         .style('left', (d3.event.layerX) + 'px')
         .style('top', (d3.event.layerY - 30) + 'px');
       }
@@ -228,15 +229,15 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
         // Assigns parent, children, height, depth
-        instance.root = d3.hierarchy(x.data, function(d) { return d.children; });
-        instance.root.x0 = height / 2;
-        instance.root.y0 = 0;
+        root = d3.hierarchy(x.data, function(d) { return d.children; });
+        root.x0 = height / 2;
+        root.y0 = 0;
         // Attach options as a property of the instance
-        instance.options = x.options;
+        options = x.options;
 
         // Collapse after the second level
-        instance.root.children.forEach(collapse);
-        update(instance.root);
+        root.children.forEach(collapse);
+        update(root);
 
         // Collapse the node and all it's children
         function collapse(d) {
@@ -257,8 +258,10 @@ HTMLWidgets.widget({
         // Update the treemap to fit the new canvas size
         treemap = d3.tree().size([height, width]);
       },
-      // Make the instance object available as a property of the widget
-      instance: instance
+      // Make the instance properties available as a property of the widget
+      svg: svg,
+      root: root,
+      options: options
     };
   }
 });
