@@ -8,31 +8,21 @@ HTMLWidgets.widget({
     var i = 0,
     duration = 750,
     root = {},
-    options = {};
+    options = {},
+    treemap;
 
     // create our tree object and bind it to the element
-    // Set the dimensions and margins of the diagram
-    var margin = {top: 20, right: 150, bottom: 20, left: 90},
-    width = width - margin.left - margin.right,
-    height = height - margin.top - margin.bottom;
-
-    // append the svg object to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
     var svg = d3.select(el).append('svg')
-    .attr('width', width + margin.right + margin.left)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', 'translate('
-    + margin.left + ',' + margin.top + ')');
+    .attr('width', width)
+    .attr('height', height)
+    .append('g');
 
     // Define the div for the tooltip
     var tooltip = d3.select(el).append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
-
-    // declares a tree layout and assigns the size
-    var treemap = d3.tree().size([height, width]);
 
     function update(source) {
 
@@ -232,11 +222,23 @@ HTMLWidgets.widget({
         root = d3.hierarchy(x.data, function(d) { return d.children; });
         root.x0 = height / 2;
         root.y0 = 0;
+
         // Attach options as a property of the instance
         options = x.options;
+
+        // Update the canvas with the new dimensions
+        svg = svg.attr('transform', 'translate('
+        + options.margin.left + ',' + options.margin.top + ')')
+
+        // width and height, corrected for margins
+        var heightMargin = height - options.margin.top - options.margin.bottom,
+        widthMargin = width - options.margin.left - options.margin.right;
+        // declares a tree layout and assigns the size
+        treemap = d3.tree().size([heightMargin, widthMargin]);
+
+        // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
-          // Calculate a reasonable link length, if not otherwise specified
-          options.linkLength = width / options.hierarchy.length
+          options.linkLength = widthMargin / options.hierarchy.length
         }
 
         // Collapse after the second level
@@ -260,9 +262,9 @@ HTMLWidgets.widget({
         .attr('height', height);
 
         // Update the treemap to fit the new canvas size
-        width = width - margin.left - margin.right,
-        height = height - margin.top - margin.bottom;
-        treemap = d3.tree().size([height, width]);
+        var heightMargin = height - options.margin.top - options.margin.bottom,
+        widthMargin = width - options.margin.left - options.margin.right;
+        treemap = d3.tree().size([heightMargin, widthMargin]);
         update(root)
       },
       // Make the instance properties available as a property of the widget

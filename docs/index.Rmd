@@ -109,6 +109,8 @@ Using `dplyr` and `colorspace` again, we can create a new column in the source d
 
 Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries. Hovering over the node can confirm this fact.
 
+Also note that the nodes are a little bit further apart on this example, due to individual countries not being represented. Link length and chart margins are automatically calculated based on the number of nodes and the length of the labels.
+
 ```{r plotsummary, warning=FALSE}
 Geography %>%
   group_by(continent, type) %>%

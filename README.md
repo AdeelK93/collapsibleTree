@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-collapsibleTree 0.1.3
+collapsibleTree 0.1.4
 ---------------------
 
 ### Overview
@@ -87,7 +87,7 @@ shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sun Mar 19 15:01:30 2017"
+#> [1] "Sun Mar 19 18:08:24 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........

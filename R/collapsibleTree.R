@@ -75,6 +75,11 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
   if(sum(complete.cases(df[hierarchy])) != nrow(df)) stop("NAs in data frame")
 
+  # calculate the right and left margins in pixels
+  leftMargin <- nchar(root)
+  rightLabelVector <- as.character(unlist(df[,hierarchy[length(hierarchy)]]))
+  rightMargin <- max(sapply(rightLabelVector, nchar))
+
   # create a list that contains the options
   options <- list(
     hierarchy = hierarchy,
@@ -82,7 +87,13 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
     attribute = attribute,
     linkLength = linkLength,
     fontSize = fontSize,
-    tooltip = tooltip
+    tooltip = tooltip,
+    margin = list(
+      top = 20,
+      bottom = 20,
+      left = (leftMargin * fontSize/2) + 25,
+      right = (rightMargin * fontSize/2) + 25
+    )
   )
 
   # the hierarchy that will be used to create the tree
@@ -116,13 +127,11 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
   } else jsonFields <- "fill"
 
   # keep only the fill attribute in the final JSON
-  json <- htmlwidgets:::toJSON(
-    data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
-  )
+  data <- data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
 
   # pass the data and options using 'x'
   x <- list(
-    data = json,
+    data = data,
     options = options
   )
 
