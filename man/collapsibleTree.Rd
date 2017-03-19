@@ -11,7 +11,7 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = 180,
+  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
   fontSize = 10, tooltip = FALSE)
 }
 \arguments{
@@ -43,7 +43,8 @@ and then all the grandchildren's colors.}
 \code{TRUE}: Filling by level; will assign fill values to nodes vertically.
 \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.}
 
-\item{linkLength}{length of the horizontal links that connect nodes in pixels}
+\item{linkLength}{length of the horizontal links that connect nodes in pixels.
+(optional, defaults to automatic sizing)}
 
 \item{fontSize}{font size of the label text in pixels}
 
@@ -58,7 +59,7 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 # Data from US Forest Service DataMart
 species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
-collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
+collapsibleTree(species, c("REGION", "CLASS", "NAME"), fill = "green")
 
 # Visualizing the order in which the node colors are filled
 library(RColorBrewer)

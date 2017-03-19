@@ -11,7 +11,7 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fillFun = colorspace::heat_hcl, maxPercent = 25, linkLength = 180,
+  fillFun = colorspace::heat_hcl, maxPercent = 25, linkLength = NULL,
   fontSize = 10, tooltip = TRUE, ...)
 }
 \arguments{
@@ -43,7 +43,8 @@ sake of coloring in the nodes (but not the ordering of nodes). Setting this valu
 too high will make it difficult to tell the difference between nodes with many
 children.}
 
-\item{linkLength}{length of the horizontal links that connect nodes in pixels}
+\item{linkLength}{length of the horizontal links that connect nodes in pixels.
+(optional, defaults to automatic sizing)}
 
 \item{fontSize}{font size of the label text in pixels}
 

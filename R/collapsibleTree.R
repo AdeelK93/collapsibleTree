@@ -22,7 +22,8 @@
 #' @param fillByLevel which order to assign fill values to nodes.
 #' \code{TRUE}: Filling by level; will assign fill values to nodes vertically.
 #' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
-#' @param linkLength length of the horizontal links that connect nodes in pixels
+#' @param linkLength length of the horizontal links that connect nodes in pixels.
+#' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
 #'
@@ -31,7 +32,7 @@
 #'
 #' # Data from US Forest Service DataMart
 #' species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
-#' collapsibleTree(species, c("REGION", "CLASS", "NAME"), linkLength = 100, fill = "green")
+#' collapsibleTree(species, c("REGION", "CLASS", "NAME"), fill = "green")
 #'
 #' # Visualizing the order in which the node colors are filled
 #' library(RColorBrewer)
@@ -59,7 +60,7 @@
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
                   inputId = NULL, width = NULL, height = NULL,
                   attribute = "leafCount", fill = "lightsteelblue",
-                  fillByLevel = TRUE, linkLength = 180,
+                  fillByLevel = TRUE, linkLength = NULL,
                   fontSize = 10, tooltip = FALSE) {
 
   # preserve this name before evaluating df

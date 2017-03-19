@@ -25,7 +25,8 @@
 #' sake of coloring in the nodes (but not the ordering of nodes). Setting this value
 #' too high will make it difficult to tell the difference between nodes with many
 #' children.
-#' @param linkLength length of the horizontal links that connect nodes in pixels
+#' @param linkLength length of the horizontal links that connect nodes in pixels.
+#' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
 #' @param ... other arguments passed on to \code{fillFun}, such declaring a
@@ -58,7 +59,7 @@
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
                                     inputId = NULL, width = NULL, height = NULL,
                                     attribute = "leafCount", fillFun = colorspace::heat_hcl,
-                                    maxPercent = 25, linkLength = 180,
+                                    maxPercent = 25, linkLength = NULL,
                                     fontSize = 10, tooltip = TRUE, ...) {
 
   # preserve this name before evaluating df
