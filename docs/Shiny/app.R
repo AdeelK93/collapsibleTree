@@ -10,7 +10,7 @@ Superstore_Sales <- Superstore_Sales[Superstore_Sales$Region=="Ontario",]
 ui <- fluidPage(
 
    # Application title
-   titlePanel("Collapsible Tree Example 3: Gradient Mapping"),
+   titlePanel("Collapsible Tree Example: Gradient Mapping"),
 
    # Sidebar with a select input for the root node
    sidebarLayout(
@@ -29,6 +29,9 @@ ui <- fluidPage(
            choices = c("Order Quantity", "Sales", "Unit Price"),
            selected = "Sales"
          ),
+         tags$p("The node you most recently clicked:"),
+         verbatimTextOutput("str"),
+         tags$br(),
          tags$a(href = "https://community.tableau.com/docs/DOC-1236", "Sample dataset from Tableau")
       ),
 
@@ -45,10 +48,13 @@ server <- function(input, output) {
      collapsibleTreeSummary(
        Superstore_Sales,
        hierarchy = input$hierarchy,
+       inputId = "node",
        root = input$fill,
        attribute = input$fill
      )
    })
+
+   output$str <- renderPrint(str(input$node))
 }
 
 # Run the application

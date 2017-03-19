@@ -12,7 +12,7 @@ ui <- fluidPage(
       sidebarPanel(
          selectInput("root", "Root node", c("wool", "tension")),
          tags$p("The node you most recently clicked:"),
-         textOutput("str")
+         verbatimTextOutput("str")
       ),
 
       # Show a tree diagram with the selected root node

@@ -6,7 +6,7 @@ collapsibleTree 0.1.3
 
 collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that allows you to create interactive collapsible Reingold–Tilford tree diagrams using D3.js, adapted from Mike Bostock's [example](https://bl.ocks.org/mbostock/4339083). Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
-If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the Shiny example for more info.
+If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the [Shiny example](https://adeelk93.shinyapps.io/collapsibletree/) for more info.
 
 ### Installation
 
@@ -68,7 +68,9 @@ collapsibleTreeSummary(
 
 [![Collapsible Tree Gradient](README-example-3.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer.
+### Shiny Interaction
+
+An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer. You can find a live demo [here](https://adeelk93.shinyapps.io/collapsibletree/), or run the included examples locally.
 
 ``` r
 # Basic Shiny Interaction
@@ -83,7 +85,7 @@ shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sat Mar 18 18:24:08 2017"
+#> [1] "Sat Mar 18 23:45:52 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........
