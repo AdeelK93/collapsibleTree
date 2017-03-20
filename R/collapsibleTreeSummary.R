@@ -78,7 +78,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
 
   # calculate the right and left margins in pixels
   leftMargin <- nchar(root)
-  rightLabelVector <- as.character(unlist(df[,hierarchy[length(hierarchy)]]))
+  rightLabelVector <- as.character(df[[hierarchy[length(hierarchy)]]])
   rightMargin <- max(sapply(rightLabelVector, nchar))
 
   # create a list that contains the options
