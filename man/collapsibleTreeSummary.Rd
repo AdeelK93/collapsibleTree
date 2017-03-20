@@ -11,8 +11,8 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fillFun = colorspace::heat_hcl, maxPercent = 25, linkLength = NULL,
-  fontSize = 10, tooltip = TRUE, ...)
+  fillFun = colorspace::heat_hcl, aggFun = sum, maxPercent = 25,
+  linkLength = NULL, fontSize = 10, tooltip = TRUE, ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -36,6 +36,9 @@ which colors nodes by the cumulative count of its children}
 
 \item{fillFun}{function that takes its first argument and returns a vector
 of colors of that length. \link[colorspace]{rainbow_hcl} is a good example.}
+
+\item{aggFun}{aggregation function applied to the attribute column to determine
+values of parent nodes. Defaults to `sum`, but `mean` also makes sense.}
 
 \item{maxPercent}{highest weighting percent to use in color scale mapping.
 All numbers above this value will be treated as the same maximum value for the

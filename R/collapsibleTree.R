@@ -15,6 +15,8 @@
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' for tooltips, if applicable. Defaults to 'leafCount',
 #' which is the cumulative count of a node's children
+#' @param aggFun aggregation function applied to the attribute column to determine
+#' values of parent nodes. Defaults to `sum`, but `mean` also makes sense.
 #' @param fill either a single color or a vector of colors the same length
 #' as the number of nodes. By default, vector should be ordered by level,
 #' such that the root color is described first, then all the children's colors,
@@ -59,9 +61,9 @@
 #' @export
 collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
                   inputId = NULL, width = NULL, height = NULL,
-                  attribute = "leafCount", fill = "lightsteelblue",
-                  fillByLevel = TRUE, linkLength = NULL,
-                  fontSize = 10, tooltip = FALSE) {
+                  attribute = "leafCount", aggFun = sum,
+                  fill = "lightsteelblue", fillByLevel = TRUE,
+                  linkLength = NULL, fontSize = 10, tooltip = FALSE) {
 
   # preserve this name before evaluating df
   root <- root
@@ -121,7 +123,11 @@ collapsibleTree <- function(df, hierarchy, root = deparse(substitute(df)),
     # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
     data.tree::Do(t, function(x) {
-      x$WeightOfNode <- data.tree::Aggregate(x, attribute, sum)
+      x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
+      # make the tooltips look nice
+      x$WeightOfNode <- prettyNum(
+        x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
+      )
     })
     jsonFields <- c("fill", "WeightOfNode")
   } else jsonFields <- "fill"

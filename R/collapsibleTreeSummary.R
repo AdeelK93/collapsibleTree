@@ -20,6 +20,8 @@
 #' which colors nodes by the cumulative count of its children
 #' @param fillFun function that takes its first argument and returns a vector
 #' of colors of that length. \link[colorspace]{rainbow_hcl} is a good example.
+#' @param aggFun aggregation function applied to the attribute column to determine
+#' values of parent nodes. Defaults to `sum`, but `mean` also makes sense.
 #' @param maxPercent highest weighting percent to use in color scale mapping.
 #' All numbers above this value will be treated as the same maximum value for the
 #' sake of coloring in the nodes (but not the ordering of nodes). Setting this value
@@ -59,7 +61,7 @@
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
                                     inputId = NULL, width = NULL, height = NULL,
                                     attribute = "leafCount", fillFun = colorspace::heat_hcl,
-                                    maxPercent = 25, linkLength = NULL,
+                                    aggFun = sum, maxPercent = 25, linkLength = NULL,
                                     fontSize = 10, tooltip = TRUE, ...) {
 
   # preserve this name before evaluating df
@@ -108,7 +110,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   # traverse down the tree and compute the weights of each node
   t <- data.tree::Traverse(node, "pre-order")
   data.tree::Do(t, function(x) {
-    x$WeightOfNode <- data.tree::Aggregate(x, attribute, sum)
+    x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
   })
   data.tree::Do(t, function(x) {
     x$WeightOfParent <- round(100*(x$WeightOfNode / x$parent$WeightOfNode))
@@ -131,7 +133,15 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   })
 
   # keep only the JSON fields that are necessary
-  if(tooltip) jsonFields <- c("fill", "WeightOfNode")
+  if(tooltip) {
+    jsonFields <- c("fill", "WeightOfNode")
+    data.tree::Do(t, function(x) {
+      # make the tooltips look nice, only necessary if there is a tooltip
+      x$WeightOfNode <- prettyNum(
+        x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
+      )
+    })
+  }
   else jsonFields <- "fill"
   data <- data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
 

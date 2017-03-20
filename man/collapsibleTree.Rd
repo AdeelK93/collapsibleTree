@@ -11,8 +11,8 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
-  fontSize = 10, tooltip = FALSE)
+  aggFun = sum, fill = "lightsteelblue", fillByLevel = TRUE,
+  linkLength = NULL, fontSize = 10, tooltip = FALSE)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -33,6 +33,9 @@ along with all of its parents.}
 \item{attribute}{numeric column not listed in hierarchy that will be used
 for tooltips, if applicable. Defaults to 'leafCount',
 which is the cumulative count of a node's children}
+
+\item{aggFun}{aggregation function applied to the attribute column to determine
+values of parent nodes. Defaults to `sum`, but `mean` also makes sense.}
 
 \item{fill}{either a single color or a vector of colors the same length
 as the number of nodes. By default, vector should be ordered by level,
