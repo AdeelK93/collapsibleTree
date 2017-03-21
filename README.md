@@ -19,9 +19,9 @@ devtools::install_github("AdeelK93/collapsibleTree")
 
 ### Usage
 
-When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks.
+When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks.
 
-collapsibleTree uses [data.tree](https://cran.r-project.org/web/packages/data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
+collapsibleTree uses [data.tree](https://cran.r-project.org/package=data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
 
 [Click here](https://adeelk93.github.io/collapsibleTree/) to see some interactive charts.
 
@@ -87,7 +87,7 @@ shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Mon Mar 20 18:28:31 2017"
+#> [1] "Mon Mar 20 19:04:57 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........
