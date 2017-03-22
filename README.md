@@ -1,23 +1,32 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 collapsibleTree 0.1.4
----------------------
+=====================
 
-### Overview
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
+
+Overview
+--------
 
 collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that allows you to create interactive collapsible Reingold-Tilford tree diagrams using D3.js, adapted from Mike Bostock's [example](https://bl.ocks.org/mbostock/4339083). Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
 If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the [Shiny example](https://adeelk93.shinyapps.io/collapsibletree/) for more info.
 
-### Installation
+Installation
+------------
 
 ``` r
+# Install package from CRAN:
+install.packages("collapsibleTree")
+
+# Alternately, install the latest development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("AdeelK93/collapsibleTree")
 ```
 
 [Changelog can be found here](https://github.com/AdeelK93/collapsibleTree/releases).
 
-### Usage
+Usage
+-----
 
 When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks.
 
@@ -70,7 +79,8 @@ collapsibleTreeSummary(
 
 [![Collapsible Tree Gradient](README-example-3.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-### Shiny Interaction
+Shiny Interaction
+-----------------
 
 An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer. You can find a live demo [here](https://adeelk93.shinyapps.io/collapsibletree/), or run the included examples locally.
 
@@ -82,12 +92,13 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ```
 
-### Test Results
+Test Results
+------------
 
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Mon Mar 20 19:04:57 2017"
+#> [1] "Wed Mar 22 09:15:01 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........
