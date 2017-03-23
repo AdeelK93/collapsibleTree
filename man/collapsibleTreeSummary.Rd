@@ -54,7 +54,7 @@ children.}
 palette for \link[RColorBrewer]{brewer.pal}}
 }
 \description{
-Interactive Reingold–Tilford tree diagram created using D3.js,
+Interactive Reingold-Tilford tree diagram created using D3.js,
 where every node can be expanded and collapsed by clicking on it.
 This function serves as a convenience wrapper to add color gradients to nodes
 either by counting that node's children (default) or specifying another numeric

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # collapsibleTree `r packageVersion("collapsibleTree")`
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/data.tree)](https://cran.r-project.org/package=data.tree/)
 
 ## Overview
 

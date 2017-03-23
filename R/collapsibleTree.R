@@ -1,6 +1,6 @@
 #' Create Interactive Collapsible Tree Diagrams
 #'
-#' Interactive Reingold–Tilford tree diagram created using D3.js,
+#' Interactive Reingold-Tilford tree diagram created using D3.js,
 #' where every node can be expanded and collapsed by clicking on it.
 #'
 #' @param df a data frame from which to construct a nested list

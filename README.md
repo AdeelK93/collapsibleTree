@@ -2,7 +2,7 @@
 collapsibleTree 0.1.4
 =====================
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/data.tree)](https://cran.r-project.org/package=data.tree/)
 
 Overview
 --------
@@ -98,7 +98,7 @@ Test Results
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Wed Mar 22 09:15:01 2017"
+#> [1] "Thu Mar 23 11:52:15 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........

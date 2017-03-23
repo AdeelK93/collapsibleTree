@@ -54,7 +54,7 @@ and then all the grandchildren's colors.}
 \item{tooltip}{tooltip shows the node's label and attribute value.}
 }
 \description{
-Interactive Reingold–Tilford tree diagram created using D3.js,
+Interactive Reingold-Tilford tree diagram created using D3.js,
 where every node can be expanded and collapsed by clicking on it.
 }
 \examples{
