@@ -2,10 +2,7 @@
 collapsibleTree 0.1.4
 =====================
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree/)
-
-Overview
---------
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
 
 collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that allows you to create interactive collapsible Reingold-Tilford tree diagrams using D3.js, adapted from Mike Bostock's [example](https://bl.ocks.org/mbostock/4339083). Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
 
@@ -92,13 +89,18 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ```
 
+Issues and Suggestions
+----------------------
+
+Feel free to submit an issue if you run into any bugs or have any feature suggestions! Would love to hear your comments.
+
 Test Results
 ------------
 
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Thu Mar 23 11:55:01 2017"
+#> [1] "Fri Mar 24 16:20:56 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ..........
