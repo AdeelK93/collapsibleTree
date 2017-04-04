@@ -20,6 +20,11 @@ If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recen
 ## Installation
 
 ```{r eval=FALSE}
+# Install package from CRAN:
+install.packages("collapsibleTree")
+
+# Alternately, install the latest development version from GitHub:
+# install.packages("devtools")
 devtools::install_github("AdeelK93/collapsibleTree")
 ```
 
