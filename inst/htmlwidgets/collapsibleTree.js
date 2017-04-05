@@ -238,7 +238,11 @@ HTMLWidgets.widget({
 
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
+          options.linkResponsive = true
           options.linkLength = widthMargin / options.hierarchy.length
+          if (options.linkLength < 10) {
+            options.linkLength = 10 // Offscreen or too short
+          }
         }
 
         // Collapse after the second level
@@ -261,9 +265,18 @@ HTMLWidgets.widget({
         .attr('width', width)
         .attr('height', height);
 
-        // Update the treemap to fit the new canvas size
+        // width and height, corrected for margins
         var heightMargin = height - options.margin.top - options.margin.bottom,
         widthMargin = width - options.margin.left - options.margin.right;
+
+        // Calculate a reasonable link length, if not originally specified
+        if (options.linkResponsive) {
+          options.linkLength = widthMargin / options.hierarchy.length
+          if (options.linkLength < 10) {
+            options.linkLength = 10 // Offscreen or too short
+          }
+        }
+        // Update the treemap to fit the new canvas size
         treemap = d3.tree().size([heightMargin, widthMargin]);
         update(root)
       },
