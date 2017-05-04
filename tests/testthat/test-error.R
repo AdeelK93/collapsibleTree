@@ -20,8 +20,3 @@ test_that("column names are not too short (might be fixed in the future)", {
   expect_error(collapsibleTree(warpbreaks, c("wool")))
   expect_error(collapsibleTreeSummary(warpbreaks, c("wool")))
 })
-
-test_that("there are no missing values", {
-  expect_error(collapsibleTree(airquality,c("Month","Day","Solar.R")))
-  expect_error(collapsibleTreeSummary(airquality,c("Month","Day","Solar.R")))
-})
