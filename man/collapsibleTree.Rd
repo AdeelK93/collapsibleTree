@@ -9,14 +9,12 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
+collapsibleTree(..., hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
   aggFun = sum, fill = "lightsteelblue", fillByLevel = TRUE,
   linkLength = NULL, fontSize = 10, tooltip = FALSE)
 }
 \arguments{
-\item{df}{a data frame from which to construct a nested list}
-
 \item{hierarchy}{a character vector of column names that define the order
 and hierarchy of the tree network}
 
@@ -52,6 +50,9 @@ and then all the grandchildren's colors.}
 \item{fontSize}{font size of the label text in pixels}
 
 \item{tooltip}{tooltip shows the node's label and attribute value.}
+
+\item{\code{...}}{a \code{data.frame} from which to construct a nested list or
+a preconstructed \code{data.tree}}
 }
 \description{
 Interactive Reingold-Tilford tree diagram created using D3.js,
