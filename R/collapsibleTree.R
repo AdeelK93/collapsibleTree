@@ -48,6 +48,13 @@
 #'   fill = brewer.pal(9, "RdBu"),
 #'   fillByLevel = FALSE
 #' )
+#'
+#' # Tooltip can be mapped to an attribute, or default to leafCount
+#' collapsibleTree(
+#'   warpbreaks, c("wool", "tension", "breaks"),
+#'   tooltip = TRUE,
+#'   attribute = "breaks"
+#' )
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'

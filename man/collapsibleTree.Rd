@@ -76,4 +76,11 @@ collapsibleTree(
   fill = brewer.pal(9, "RdBu"),
   fillByLevel = FALSE
 )
+
+# Tooltip can be mapped to an attribute, or default to leafCount
+collapsibleTree(
+  warpbreaks, c("wool", "tension", "breaks"),
+  tooltip = TRUE,
+  attribute = "breaks"
+)
 }

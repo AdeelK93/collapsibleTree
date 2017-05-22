@@ -109,3 +109,15 @@ Geography %>%
     attribute = "Number of Countries"
   )
 ```
+
+## Varying Tree Depths using NAs
+
+Sometimes you need to represent trees with varying levels of depth. In the below example, every continent besides Antartica has a subregion. Antartica has an `NA` for its subregion, so no leafs will be drawn.
+
+```{r NAs}
+collapsibleTree(
+  Geography,
+  hierarchy = c("continent", "sub_region"),
+  width = 800
+)
+```
