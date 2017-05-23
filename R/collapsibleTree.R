@@ -6,7 +6,9 @@
 #' @param \code{...} a \code{data.frame} from which to construct a nested list or
 #'  a preconstructed \code{data.tree}
 #' @param hierarchy a character vector of column names that define the order
-#' and hierarchy of the tree network
+#' and hierarchy of the tree network. Applicable only for \code{data.frame} input.
+#' @param hierarchy_attribute name of the \code{data.tree} attribute that contains
+#' hierarchy information of the tree network. Applicable only for \code{data.tree} input.
 #' @param root label for the root node
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
@@ -29,13 +31,13 @@
 #' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
-#'
+#' @family coallpsible tree functions
 #' @examples
 #' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 #'
 #' # Data from US Forest Service DataMart
 #' species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
-#' collapsibleTree(species, c("REGION", "CLASS", "NAME"), fill = "green")
+#' collapsibleTree(df = species, c("REGION", "CLASS", "NAME"), fill = "green")
 #'
 #' # Visualizing the order in which the node colors are filled
 #' library(RColorBrewer)
@@ -49,6 +51,12 @@
 #'   fill = brewer.pal(9, "RdBu"),
 #'   fillByLevel = FALSE
 #' )
+#'
+#' ## collapsibleTree.Node example
+#' species$pathString = paste(deparse(substitute(species)),
+#'   apply(species[,hierarchy], 1, paste, collapse = "//"), sep = "//")
+#' df <- data.tree::as.Node(species, pathDelimiter = "//")
+#' collapsibleTree(df, hierarchy_attribute = "level")
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'
@@ -71,6 +79,7 @@ collapsibleTree <- function(..., hierarchy, root = deparse(substitute(df)),
 #' Create Interactive Collapsible Tree Diagrams from a \code{data.frame}
 #'
 #' @param df a data frame from which to construct a nested list
+#' @family coallpsible tree functions
 #' @export
 collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(df)),
                                        inputId = NULL, width = NULL, height = NULL,
@@ -174,6 +183,7 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
 #' Create Interactive Collapsible Tree Diagrams from a \code{data.tree}
 #'
 #' @param df a data tree from which to a collapsible tree diagram
+#' @family coallpsible tree functions
 #' @export
 collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
                                       root = df$name, inputId = NULL, width = NULL, height = NULL,
@@ -189,24 +199,11 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
 
   # reject bad inputs
   if(!is(df) %in% "Node") stop("df must be a data tree object")
-  # check not required for data.tree object input
-  # if(!is.character(hierarchy)) stop("hierarchy must be a character vector")
   if(!is.character(fill)) stop("fill must be a character vector")
   if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
-  # check not required for data.tree object input
-  # if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
-  # check not required for data.tree object input
-  # if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
   if(attribute != "leafCount") {
     if(any(is.na(ToDataFrameTree(attribute, "leafCount")[attribute]))) stop("attribute must not have NAs")
   }
-
-  # check not required for data.tree object input
-  # if df has NAs, coerce them into character columns and replace them with ""
-  # if(sum(complete.cases(df[hierarchy])) != nrow(df)) {
-  #   df[hierarchy] <- lapply(df[hierarchy], as.character)
-  #   df[is.na(df)] <- ""
-  # }
 
   # calculate the right and left margins in pixels
   leftMargin <- nchar(root)

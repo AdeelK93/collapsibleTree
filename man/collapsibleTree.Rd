@@ -16,7 +16,7 @@ collapsibleTree(..., hierarchy, root = deparse(substitute(df)),
 }
 \arguments{
 \item{hierarchy}{a character vector of column names that define the order
-and hierarchy of the tree network}
+and hierarchy of the tree network. Applicable only for \code{data.frame} input.}
 
 \item{root}{label for the root node}
 
@@ -53,6 +53,9 @@ and then all the grandchildren's colors.}
 
 \item{\code{...}}{a \code{data.frame} from which to construct a nested list or
 a preconstructed \code{data.tree}}
+
+\item{hierarchy_attribute}{name of the \code{data.tree} attribute that contains
+hierarchy information of the tree network. Applicable only for \code{data.tree} input.}
 }
 \description{
 Interactive Reingold-Tilford tree diagram created using D3.js,
@@ -63,7 +66,7 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 # Data from US Forest Service DataMart
 species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
-collapsibleTree(species, c("REGION", "CLASS", "NAME"), fill = "green")
+collapsibleTree(df = species, c("REGION", "CLASS", "NAME"), fill = "green")
 
 # Visualizing the order in which the node colors are filled
 library(RColorBrewer)
@@ -77,4 +80,14 @@ collapsibleTree(
   fill = brewer.pal(9, "RdBu"),
   fillByLevel = FALSE
 )
+
+## collapsibleTree.Node example
+species$pathString = paste(deparse(substitute(species)),
+  apply(species[,hierarchy], 1, paste, collapse = "//"), sep = "//")
+df <- data.tree::as.Node(species, pathDelimiter = "//")
+collapsibleTree(df, hierarchy_attribute = "level")
+}
+\seealso{
+Other coallpsible tree functions: \code{\link{collapsibleTree.Node}},
+  \code{\link{collapsibleTree.data.frame}}
 }

@@ -16,3 +16,7 @@
 \description{
 Create Interactive Collapsible Tree Diagrams from a \code{data.frame}
 }
+\seealso{
+Other coallpsible tree functions: \code{\link{collapsibleTree.Node}},
+  \code{\link{collapsibleTree}}
+}
