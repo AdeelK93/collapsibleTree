@@ -81,7 +81,14 @@ collapsibleTree(
   fillByLevel = FALSE
 )
 
-## collapsibleTree.Node example
+# Tooltip can be mapped to an attribute, or default to leafCount
+collapsibleTree(
+  warpbreaks, c("wool", "tension", "breaks"),
+  tooltip = TRUE,
+  attribute = "breaks"
+)
+
+ ## collapsibleTree.Node example
 species$pathString = paste(deparse(substitute(species)),
   apply(species[,hierarchy], 1, paste, collapse = "//"), sep = "//")
 df <- data.tree::as.Node(species, pathDelimiter = "//")
