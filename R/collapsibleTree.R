@@ -31,7 +31,7 @@
 #' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
-#' @family coallpsible tree functions
+#' @family collpsibleTree functions
 #' @examples
 #' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 #'
@@ -86,7 +86,7 @@ collapsibleTree <- function(..., hierarchy, root = deparse(substitute(df)),
 #' Create Interactive Collapsible Tree Diagrams from a \code{data.frame}
 #'
 #' @param df a data frame from which to construct a nested list
-#' @family coallpsible tree functions
+#' @family collapsibleTree functions
 #' @export
 collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(df)),
                                        inputId = NULL, width = NULL, height = NULL,
@@ -190,7 +190,7 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
 #' Create Interactive Collapsible Tree Diagrams from a \code{data.tree}
 #'
 #' @param df a data tree from which to a collapsible tree diagram
-#' @family coallpsible tree functions
+#' @family collapsibleTree functions
 #' @export
 collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
                                       root = df$name, inputId = NULL, width = NULL, height = NULL,
