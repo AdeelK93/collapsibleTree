@@ -8,10 +8,48 @@
   root = deparse(substitute(df)), inputId = NULL, width = NULL,
   height = NULL, attribute = "leafCount", aggFun = sum,
   fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
-  fontSize = 10, tooltip = FALSE)
+  fontSize = 10, tooltip = FALSE, ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
+
+\item{hierarchy}{a character vector of column names that define the order
+and hierarchy of the tree network. Applicable only for \code{data.frame} input.}
+
+\item{root}{label for the root node}
+
+\item{inputId}{the input slot that will be used to access the selected node (for Shiny).
+Will return a named list of the most recently clicked node,
+along with all of its parents.}
+
+\item{width}{width in pixels (optional, defaults to automatic sizing)}
+
+\item{height}{height in pixels (optional, defaults to automatic sizing)}
+
+\item{attribute}{numeric column not listed in hierarchy that will be used
+for tooltips, if applicable. Defaults to 'leafCount',
+which is the cumulative count of a node's children}
+
+\item{aggFun}{aggregation function applied to the attribute column to determine
+values of parent nodes. Defaults to `sum`, but `mean` also makes sense.}
+
+\item{fill}{either a single color or a vector of colors the same length
+as the number of nodes. By default, vector should be ordered by level,
+such that the root color is described first, then all the children's colors,
+and then all the grandchildren's colors.}
+
+\item{fillByLevel}{which order to assign fill values to nodes.
+\code{TRUE}: Filling by level; will assign fill values to nodes vertically.
+\code{FALSE}: Filling by order; will assign fill values to nodes horizontally.}
+
+\item{linkLength}{length of the horizontal links that connect nodes in pixels.
+(optional, defaults to automatic sizing)}
+
+\item{fontSize}{font size of the label text in pixels}
+
+\item{tooltip}{tooltip shows the node's label and attribute value.}
+
+\item{...}{unused; included to match with the generic function}
 }
 \description{
 Create Interactive Collapsible Tree Diagrams from a \code{data.frame}

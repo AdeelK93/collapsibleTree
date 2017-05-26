@@ -17,7 +17,8 @@ Depends:
 Imports:
     htmlwidgets,
     data.tree,
-    stats
+    stats,
+    methods
 Enhances: knitr, shiny
 LazyData: true
 RoxygenNote: 6.0.1
