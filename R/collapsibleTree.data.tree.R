@@ -1,5 +1,8 @@
 #' Create Interactive Collapsible Tree Diagrams from a \code{data.tree}
 #'
+#' Interactive Reingold-Tilford tree diagram created using D3.js,
+#' where every node can be expanded and collapsed by clicking on it.
+#'
 #' @param df a data tree from which to a collapsible tree diagram
 #' @param hierarchy_attribute name of the \code{data.tree} attribute that contains
 #' hierarchy information of the tree network. Applicable only for \code{data.tree} input.

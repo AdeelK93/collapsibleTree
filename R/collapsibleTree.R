@@ -7,7 +7,6 @@
 #'  a preconstructed \code{data.tree}
 #' @param ... other arguments to pass onto S3 methods that implement
 #' this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}
-#' @family collapsibleTree functions
 #' @examples
 #' collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 #'
@@ -50,13 +49,10 @@
 #'
 #' @import htmlwidgets
 #' @importFrom methods is
-#' @importFrom data.tree ToDataFrameTree
-#' @importFrom data.tree ToListExplicit
-#' @importFrom data.tree as.Node
-#' @importFrom data.tree Traverse
-#' @importFrom data.tree Do
-#' @importFrom data.tree Aggregate
+#' @importFrom data.tree ToDataFrameTree ToListExplicit as.Node
+#' @importFrom data.tree Traverse Do Aggregate
 #' @importFrom stats complete.cases
+#' @family collapsibleTree functions
 #' @export
 collapsibleTree <- function(df, ...){
   UseMethod("collapsibleTree")

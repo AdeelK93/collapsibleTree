@@ -3,6 +3,10 @@ Type: Package
 Title: Interactive Collapsible Tree Diagrams using 'D3.js'
 Version: 0.1.4
 Author: Adeel Khan [aut, cre], Michael Bostock [ctb, cph] (D3.js library)
+Authors@R: c(
+    person("Adeel", "Khan", email = "AdeelK@gwu.edu", role = c("aut", "cre")),
+    person("Mike", "Bostock", role = c("ctb", "cph"), comment = "D3.js library, http://d3js.org")
+  )
 Maintainer: Adeel Khan <AdeelK@gwu.edu>
 Description:
     Interactive Reingold-Tilford tree diagrams created using 'D3.js', where every node can be expanded and collapsed by clicking on it.
