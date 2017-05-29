@@ -9,49 +9,14 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTree(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  aggFun = sum, fill = "lightsteelblue", fillByLevel = TRUE,
-  linkLength = NULL, fontSize = 10, tooltip = FALSE)
+collapsibleTree(df, ...)
 }
 \arguments{
-\item{df}{a data frame from which to construct a nested list}
+\item{df}{a \code{data.frame} from which to construct a nested list or
+a preconstructed \code{data.tree}}
 
-\item{hierarchy}{a character vector of column names that define the order
-and hierarchy of the tree network}
-
-\item{root}{label for the root node}
-
-\item{inputId}{the input slot that will be used to access the selected node (for Shiny).
-Will return a named list of the most recently clicked node,
-along with all of its parents.}
-
-\item{width}{width in pixels (optional, defaults to automatic sizing)}
-
-\item{height}{height in pixels (optional, defaults to automatic sizing)}
-
-\item{attribute}{numeric column not listed in hierarchy that will be used
-for tooltips, if applicable. Defaults to 'leafCount',
-which is the cumulative count of a node's children}
-
-\item{aggFun}{aggregation function applied to the attribute column to determine
-values of parent nodes. Defaults to `sum`, but `mean` also makes sense.}
-
-\item{fill}{either a single color or a vector of colors the same length
-as the number of nodes. By default, vector should be ordered by level,
-such that the root color is described first, then all the children's colors,
-and then all the grandchildren's colors.}
-
-\item{fillByLevel}{which order to assign fill values to nodes.
-\code{TRUE}: Filling by level; will assign fill values to nodes vertically.
-\code{FALSE}: Filling by order; will assign fill values to nodes horizontally.}
-
-\item{linkLength}{length of the horizontal links that connect nodes in pixels.
-(optional, defaults to automatic sizing)}
-
-\item{fontSize}{font size of the label text in pixels}
-
-\item{tooltip}{tooltip shows the node's label and attribute value.}
+\item{...}{other arguments to pass onto S3 methods that implement
+this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}}
 }
 \description{
 Interactive Reingold-Tilford tree diagram created using D3.js,
@@ -62,7 +27,7 @@ collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 
 # Data from US Forest Service DataMart
 species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
-collapsibleTree(species, c("REGION", "CLASS", "NAME"), fill = "green")
+collapsibleTree(df = species, c("REGION", "CLASS", "NAME"), fill = "green")
 
 # Visualizing the order in which the node colors are filled
 library(RColorBrewer)
@@ -83,4 +48,16 @@ collapsibleTree(
   tooltip = TRUE,
   attribute = "breaks"
 )
+
+ ## collapsibleTree.Node example
+species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
+hierarchy <- c("REGION", "CLASS", "NAME")
+species$pathString <- paste(deparse(substitute(species)),
+  apply(species[,hierarchy], 1, paste, collapse = "//"), sep = "//")
+df <- data.tree::as.Node(species, pathDelimiter = "//")
+collapsibleTree(df, hierarchy_attribute = "level")
+}
+\seealso{
+Other coallpsible tree functions: \code{\link{collapsibleTree.Node}},
+  \code{\link{collapsibleTree.data.frame}}
 }
