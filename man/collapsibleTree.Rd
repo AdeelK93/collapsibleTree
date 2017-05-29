@@ -49,15 +49,18 @@ collapsibleTree(
   attribute = "breaks"
 )
 
- ## collapsibleTree.Node example
+## collapsibleTree.Node example
 species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))
 hierarchy <- c("REGION", "CLASS", "NAME")
-species$pathString <- paste(deparse(substitute(species)),
-  apply(species[,hierarchy], 1, paste, collapse = "//"), sep = "//")
+species$pathString <- paste(
+  "species",
+  apply(species[,hierarchy], 1, paste, collapse = "//"),
+  sep = "//"
+)
 df <- data.tree::as.Node(species, pathDelimiter = "//")
 collapsibleTree(df, hierarchy_attribute = "level")
 }
 \seealso{
-Other coallpsible tree functions: \code{\link{collapsibleTree.Node}},
+Other collapsibleTree functions: \code{\link{collapsibleTree.Node}},
   \code{\link{collapsibleTree.data.frame}}
 }
