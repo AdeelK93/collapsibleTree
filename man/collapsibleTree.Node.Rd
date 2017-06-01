@@ -4,7 +4,7 @@
 \alias{collapsibleTree.Node}
 \title{Create Interactive Collapsible Tree Diagrams from a \code{data.tree}}
 \usage{
-\method{collapsibleTree}{Node}(df, hierarchy_attribute = "Group",
+\method{collapsibleTree}{Node}(df, hierarchy_attribute = "level",
   root = df$name, inputId = NULL, width = NULL, height = NULL,
   attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
   fillByLevel = TRUE, linkLength = NULL, fontSize = 10, tooltip = FALSE,
