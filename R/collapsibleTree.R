@@ -43,7 +43,20 @@
 #'   sep = "//"
 #' )
 #' df <- data.tree::as.Node(species, pathDelimiter = "//")
-#' collapsibleTree(df, hierarchy_attribute = "level")
+#' collapsibleTree(df)
+#'
+#' # Using a flat relationship-style data frame with tooltips
+#' Relationships <- data.frame(
+#'   Parent=c(".",".","A", "A", "A", "B", "B", "C", "E", "E", "F", "K", "K", "M", "M"),
+#'   Child=c("A","K","B", "C", "D", "E", "F", "G", "H", "I", "J", "L", "M", "N", "O"),
+#'   Value=1:15
+#' )
+#' tree <- data.tree::FromDataFrameNetwork(Relationships, "Value")
+#' # Define root node value as 0
+#' tree$Value <- 0
+#' # Create tree diagram with the aggregation function of identity
+#' collapsibleTree(tree, tooltip=TRUE, attribute="Value", aggFun=identity)
+#'
 #' @source Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'
