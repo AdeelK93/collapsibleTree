@@ -31,7 +31,7 @@
 #' @param ... unused; included to match with the generic function
 #' @family collapsibleTree functions
 #' @export
-collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
+collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
                                  root = df$name, inputId = NULL, width = NULL, height = NULL,
                                  attribute = "leafCount", aggFun = sum,
                                  fill = "lightsteelblue", fillByLevel = TRUE,
@@ -47,9 +47,6 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
   if(!is(df) %in% "Node") stop("df must be a data tree object")
   if(!is.character(fill)) stop("fill must be a character vector")
   if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
-  if(attribute != "leafCount") {
-    if(any(is.na(ToDataFrameTree(attribute, "leafCount")[attribute]))) stop("attribute must not have NAs")
-  }
 
   # calculate the right and left margins in pixels
   leftMargin <- nchar(root)
@@ -96,15 +93,22 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "Group",
 
   # only necessary to perform these calculations if there is a tooltip
   if(tooltip) {
-    # traverse down the tree and compute the weights of each node for the tooltip
-    t <- data.tree::Traverse(df, "pre-order")
-    data.tree::Do(t, function(x) {
-      x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
-      # make the tooltips look nice
-      x$WeightOfNode <- prettyNum(
-        x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
-      )
-    })
+    t <- data.tree::Traverse(df, hierarchy_attribute)
+    if(substitute(identity)=="identity") {
+      # for identity, leave the tooltips as is
+      data.tree::Do(t, function(x) {
+        x$WeightOfNode <- x[[attribute]]
+      })
+    } else {
+      # traverse down the tree and compute the weights of each node for the tooltip
+      data.tree::Do(t, function(x) {
+        x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
+        # make the tooltips look nice
+        x$WeightOfNode <- prettyNum(
+          x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
+        )
+      })
+    }
     jsonFields <- c("fill", "WeightOfNode")
   } else jsonFields <- "fill"
 
