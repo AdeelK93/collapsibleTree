@@ -1,7 +1,7 @@
 Package: collapsibleTree
 Type: Package
 Title: Interactive Collapsible Tree Diagrams using 'D3.js'
-Version: 0.1.4
+Version: 0.1.5
 Author: Adeel Khan [aut, cre], Michael Bostock [ctb, cph] (D3.js library)
 Authors@R: c(
     person("Adeel", "Khan", email = "AdeelK@gwu.edu", role = c("aut", "cre")),
