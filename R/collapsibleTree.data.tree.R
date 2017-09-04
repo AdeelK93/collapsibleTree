@@ -28,6 +28,7 @@
 #' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
+#' @param collapsed the tree's children will start collapsed by default
 #' @param ... unused; included to match with the generic function
 #' @family collapsibleTree functions
 #' @export
@@ -35,7 +36,8 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
                                  root = df$name, inputId = NULL, width = NULL, height = NULL,
                                  attribute = "leafCount", aggFun = sum,
                                  fill = "lightsteelblue", fillByLevel = TRUE,
-                                 linkLength = NULL, fontSize = 10, tooltip = FALSE, ...) {
+                                 linkLength = NULL, fontSize = 10, tooltip = FALSE,
+                                 collapsed = TRUE, ...) {
 
   # preserve this name before evaluating df
   root <- root
@@ -62,6 +64,7 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
     linkLength = linkLength,
     fontSize = fontSize,
     tooltip = tooltip,
+    collapsed = collapsed,
     margin = list(
       top = 20,
       bottom = 20,

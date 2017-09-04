@@ -245,8 +245,8 @@ HTMLWidgets.widget({
           }
         }
 
-        // Collapse after the second level
-        root.children.forEach(collapse);
+        // Optionally collapse after the second level
+        if (options.collapsed) root.children.forEach(collapse);
         update(root);
 
         // Collapse the node and all it's children

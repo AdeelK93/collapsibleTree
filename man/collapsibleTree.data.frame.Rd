@@ -8,7 +8,7 @@
   root = deparse(substitute(df)), inputId = NULL, width = NULL,
   height = NULL, attribute = "leafCount", aggFun = sum,
   fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, ...)
+  fontSize = 10, tooltip = FALSE, collapsed = TRUE, ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -48,6 +48,8 @@ and then all the grandchildren's colors.}
 \item{fontSize}{font size of the label text in pixels}
 
 \item{tooltip}{tooltip shows the node's label and attribute value.}
+
+\item{collapsed}{the tree's children will start collapsed by default}
 
 \item{...}{unused; included to match with the generic function}
 }
