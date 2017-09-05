@@ -61,7 +61,7 @@ collapsibleTree(
 )
 ```
 
-[![Collapsible Tree Colored](README-example-2.png)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
 Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes. Node weighting can also be mapped to a tooltip.
 
@@ -75,6 +75,21 @@ collapsibleTreeSummary(
 ```
 
 [![Collapsible Tree Gradient](README-example-3.PNG)](https://adeelk93.github.io/collapsibleTree/)
+
+Likewise, node size can also be mapped to a column in the data frame to help visualize relative weightings of nodes.
+
+``` r
+collapsibleTreeSummary(
+  warpbreaks,
+  c("wool", "tension", "breaks"),
+  attribute = "breaks",
+  maxPercent = 50,
+  nodeSize = "breaks",
+  collapsed = FALSE
+)
+```
+
+[![Collapsible Tree Gradient](README-example-4.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
 Shiny Interaction
 -----------------
@@ -100,7 +115,7 @@ Test Results
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Mon Sep  4 19:59:09 2017"
+#> [1] "Mon Sep  4 22:21:43 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ........
