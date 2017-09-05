@@ -16,7 +16,7 @@
 #' for tooltips, if applicable. Defaults to 'leafCount',
 #' which is the cumulative count of a node's children
 #' @param aggFun aggregation function applied to the attribute column to determine
-#' values of parent nodes. Defaults to `sum`, but `mean` also makes sense.
+#' values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.
 #' @param fill either a single color or a vector of colors the same length
 #' as the number of nodes. By default, vector should be ordered by level,
 #' such that the root color is described first, then all the children's colors,
@@ -28,6 +28,9 @@
 #' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
+#' @param nodeSize numeric column that will be used to determine relative node size.
+#' Default is to have a constant node size throughout. 'leafCount' can also
+#' be used here (cumulative count of a node's children).
 #' @param collapsed the tree's children will start collapsed by default
 #' @param ... unused; included to match with the generic function
 #' @family collapsibleTree functions
@@ -37,7 +40,7 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
                                  attribute = "leafCount", aggFun = sum,
                                  fill = "lightsteelblue", fillByLevel = TRUE,
                                  linkLength = NULL, fontSize = 10, tooltip = FALSE,
-                                 collapsed = TRUE, ...) {
+                                 nodeSize = NULL, collapsed = TRUE, ...) {
 
   # preserve this name before evaluating df
   root <- root
@@ -80,8 +83,6 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
   #   apply(df[,hierarchy], 1, paste, collapse = "//"),
   #   sep="//"
   # )
-
-  # convert the data frame into a data.tree node
   # node <- data.tree::as.Node(df, pathDelimiter = "//")
 
   # fill in the node colors, traversing down the tree
@@ -114,6 +115,20 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
     }
     jsonFields <- c("fill", "WeightOfNode")
   } else jsonFields <- "fill"
+
+  # only necessary to perform these calculations if there is a nodeSize specified
+  if(!is.null(nodeSize)) {
+    # Scale factor to keep the median leaf size around 10
+    scaleFactor <- 10/data.tree::Aggregate(df, nodeSize, stats::median)
+    t <- data.tree::Traverse(df, hierarchy_attribute)
+    # traverse down the tree and compute the size of each node
+    data.tree::Do(t, function(x) {
+      x$SizeOfNode <- data.tree::Aggregate(x, nodeSize, aggFun)
+      # scale node growth to area rather than radius and round
+      x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
+    })
+    jsonFields <- c(jsonFields, "SizeOfNode")
+  }
 
   # keep only the fill attribute in the final JSON
   data <- data.tree::ToListExplicit(df, unname = TRUE, keepOnly = jsonFields)

@@ -8,7 +8,8 @@
   root = deparse(substitute(df)), inputId = NULL, width = NULL,
   height = NULL, attribute = "leafCount", aggFun = sum,
   fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, collapsed = TRUE, ...)
+  fontSize = 10, tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
+  ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -31,7 +32,7 @@ for tooltips, if applicable. Defaults to 'leafCount',
 which is the cumulative count of a node's children}
 
 \item{aggFun}{aggregation function applied to the attribute column to determine
-values of parent nodes. Defaults to `sum`, but `mean` also makes sense.}
+values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.}
 
 \item{fill}{either a single color or a vector of colors the same length
 as the number of nodes. By default, vector should be ordered by level,
@@ -48,6 +49,10 @@ and then all the grandchildren's colors.}
 \item{fontSize}{font size of the label text in pixels}
 
 \item{tooltip}{tooltip shows the node's label and attribute value.}
+
+\item{nodeSize}{numeric column that will be used to determine relative node size.
+Default is to have a constant node size throughout. 'leafCount' can also
+be used here (cumulative count of a node's children).}
 
 \item{collapsed}{the tree's children will start collapsed by default}
 

@@ -64,7 +64,7 @@
 #' @importFrom methods is
 #' @importFrom data.tree ToDataFrameTree ToListExplicit as.Node
 #' @importFrom data.tree Traverse Do Aggregate
-#' @importFrom stats complete.cases
+#' @importFrom stats complete.cases median
 #' @family collapsibleTree functions
 #' @export
 collapsibleTree <- function(df, ...){
