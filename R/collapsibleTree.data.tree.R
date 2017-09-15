@@ -32,6 +32,7 @@
 #' Default is to have a constant node size throughout. 'leafCount' can also
 #' be used here (cumulative count of a node's children).
 #' @param collapsed the tree's children will start collapsed by default
+#' @param zoomable pan and zoom by dragging and scrolling
 #' @param ... unused; included to match with the generic function
 #' @family collapsibleTree functions
 #' @export
@@ -40,7 +41,8 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
                                  attribute = "leafCount", aggFun = sum,
                                  fill = "lightsteelblue", fillByLevel = TRUE,
                                  linkLength = NULL, fontSize = 10, tooltip = FALSE,
-                                 nodeSize = NULL, collapsed = TRUE, ...) {
+                                 nodeSize = NULL, collapsed = TRUE, zoomable = TRUE,
+                                 ...) {
 
   # preserve this name before evaluating df
   root <- root
@@ -68,6 +70,7 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
     fontSize = fontSize,
     tooltip = tooltip,
     collapsed = collapsed,
+    zoomable = zoomable,
     margin = list(
       top = 20,
       bottom = 20,

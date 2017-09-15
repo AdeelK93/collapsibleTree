@@ -11,12 +11,20 @@ HTMLWidgets.widget({
     options = {},
     treemap;
 
+    // Optionally enable zooming, and limit to 1/5x or 5x of the original viewport
+    var zoom = d3.zoom()
+    .scaleExtent([1/5, 5])
+    .on("zoom", function () {
+      if (options.zoomable) svg.attr("transform", d3.event.transform)
+    })
+
     // create our tree object and bind it to the element
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
     var svg = d3.select(el).append('svg')
     .attr('width', width)
     .attr('height', height)
+    .call(zoom)
     .append('g');
 
     // Define the div for the tooltip

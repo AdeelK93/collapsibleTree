@@ -33,6 +33,7 @@
 #' Default is to have a constant node size throughout. 'leafCount' can also
 #' be used here (cumulative count of a node's children).
 #' @param collapsed the tree's children will start collapsed by default
+#' @param zoomable pan and zoom by dragging and scrolling
 #' @param ... other arguments passed on to \code{fillFun}, such declaring a
 #' palette for \link[RColorBrewer]{brewer.pal}
 #'
@@ -65,7 +66,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
                                     attribute = "leafCount", fillFun = colorspace::heat_hcl,
                                     maxPercent = 25, linkLength = NULL,
                                     fontSize = 10, tooltip = TRUE, nodeSize = NULL,
-                                    collapsed = TRUE, ...) {
+                                    collapsed = TRUE, zoomable = TRUE, ...) {
 
   # preserve this name before evaluating df
   root <- root
@@ -102,6 +103,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
     fontSize = fontSize,
     tooltip = tooltip,
     collapsed = collapsed,
+    zoomable = zoomable,
     margin = list(
       top = 20,
       bottom = 20,

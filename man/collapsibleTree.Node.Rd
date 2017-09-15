@@ -8,7 +8,7 @@
   root = df$name, inputId = NULL, width = NULL, height = NULL,
   attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
   fillByLevel = TRUE, linkLength = NULL, fontSize = 10, tooltip = FALSE,
-  nodeSize = NULL, collapsed = TRUE, ...)
+  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, ...)
 }
 \arguments{
 \item{df}{a data tree from which to a collapsible tree diagram}
@@ -54,6 +54,8 @@ Default is to have a constant node size throughout. 'leafCount' can also
 be used here (cumulative count of a node's children).}
 
 \item{collapsed}{the tree's children will start collapsed by default}
+
+\item{zoomable}{pan and zoom by dragging and scrolling}
 
 \item{...}{unused; included to match with the generic function}
 }
