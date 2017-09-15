@@ -115,7 +115,7 @@ Test Results
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Mon Sep  4 22:21:43 2017"
+#> [1] "Thu Sep 14 23:45:29 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: ........

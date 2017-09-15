@@ -4,7 +4,38 @@
 #' where every node can be expanded and collapsed by clicking on it.
 #'
 #' @param df a \code{data.frame} from which to construct a nested list or
-#'  a preconstructed \code{data.tree}
+#' a preconstructed \code{data.tree}
+#' @param hierarchy a character vector of column names that define the order
+#' and hierarchy of the tree network. Applicable only for \code{data.frame} input.
+#' @param hierarchy_attribute name of the \code{data.tree} attribute that contains
+#' hierarchy information of the tree network. Applicable only for \code{data.tree} input.
+#' @param root label for the root node
+#' @param inputId the input slot that will be used to access the selected node (for Shiny).
+#' Will return a named list of the most recently clicked node,
+#' along with all of its parents.
+#' @param width width in pixels (optional, defaults to automatic sizing)
+#' @param height height in pixels (optional, defaults to automatic sizing)
+#' @param attribute numeric column not listed in hierarchy that will be used
+#' for tooltips, if applicable. Defaults to 'leafCount',
+#' which is the cumulative count of a node's children
+#' @param aggFun aggregation function applied to the attribute column to determine
+#' values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.
+#' @param fill either a single color or a vector of colors the same length
+#' as the number of nodes. By default, vector should be ordered by level,
+#' such that the root color is described first, then all the children's colors,
+#' and then all the grandchildren's colors.
+#' @param fillByLevel which order to assign fill values to nodes.
+#' \code{TRUE}: Filling by level; will assign fill values to nodes vertically.
+#' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
+#' @param linkLength length of the horizontal links that connect nodes in pixels.
+#' (optional, defaults to automatic sizing)
+#' @param fontSize font size of the label text in pixels
+#' @param tooltip tooltip shows the node's label and attribute value.
+#' @param nodeSize numeric column that will be used to determine relative node size.
+#' Default is to have a constant node size throughout. 'leafCount' can also
+#' be used here (cumulative count of a node's children).
+#' @param collapsed the tree's children will start collapsed by default
+#' @param zoomable pan and zoom by dragging and scrolling
 #' @param ... other arguments to pass onto S3 methods that implement
 #' this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}
 #' @examples
@@ -32,6 +63,12 @@
 #'   warpbreaks, c("wool", "tension", "breaks"),
 #'   tooltip = TRUE,
 #'   attribute = "breaks"
+#' )
+#'
+#' # Node size can be mapped to any numeric column, or to leafCount
+#' collapsibleTree(
+#'   warpbreaks, c("wool", "tension", "breaks"),
+#'   nodeSize = "breaks"
 #' )
 #'
 #' ## collapsibleTree.Node example
@@ -65,7 +102,7 @@
 #' @importFrom data.tree ToDataFrameTree ToListExplicit as.Node
 #' @importFrom data.tree Traverse Do Aggregate
 #' @importFrom stats complete.cases median
-#' @family collapsibleTree functions
+#' @rdname collapsibleTree
 #' @export
 collapsibleTree <- function(df, ...){
   UseMethod("collapsibleTree")
