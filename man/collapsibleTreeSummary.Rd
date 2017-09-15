@@ -11,9 +11,10 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
   inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fillFun = colorspace::heat_hcl, maxPercent = 25, linkLength = NULL,
-  fontSize = 10, tooltip = TRUE, nodeSize = NULL, collapsed = TRUE,
-  zoomable = TRUE, ...)
+  fillFun = colorspace::heat_hcl, maxPercent = 25,
+  percentOfParent = FALSE, linkLength = NULL, fontSize = 10,
+  tooltip = TRUE, nodeSize = NULL, collapsed = TRUE, zoomable = TRUE,
+  ...)
 }
 \arguments{
 \item{df}{a data frame from which to construct a nested list}
@@ -43,6 +44,9 @@ All numbers above this value will be treated as the same maximum value for the
 sake of coloring in the nodes (but not the ordering of nodes). Setting this value
 too high will make it difficult to tell the difference between nodes with many
 children.}
+
+\item{percentOfParent}{toggle attribute tooltip to be percent of parent
+rather than the actual value of attribute}
 
 \item{linkLength}{length of the horizontal links that connect nodes in pixels.
 (optional, defaults to automatic sizing)}

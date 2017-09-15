@@ -29,6 +29,9 @@ ui <- fluidPage(
            choices = c("Order Quantity", "Sales", "Unit Price"),
            selected = "Sales"
          ),
+         tags$p("The node you most recently clicked:"),
+         verbatimTextOutput("str"),
+         tags$br(),
          tags$a(href = "https://community.tableau.com/docs/DOC-1236", "Sample dataset from Tableau")
       ),
 
@@ -41,14 +44,17 @@ ui <- fluidPage(
 
 # Define server logic required to draw a collapsible tree diagram
 server <- function(input, output) {
-   output$plot <- renderCollapsibleTree({
-     collapsibleTreeSummary(
-       Superstore_Sales,
-       hierarchy = input$hierarchy,
-       root = input$fill,
-       attribute = input$fill
-     )
-   })
+  output$plot <- renderCollapsibleTree({
+    collapsibleTreeSummary(
+      Superstore_Sales,
+      hierarchy = input$hierarchy,
+      inputId = "node",
+      root = input$fill,
+      attribute = input$fill
+    )
+  })
+
+  output$str <- renderPrint(str(input$node))
 }
 
 # Run the application
