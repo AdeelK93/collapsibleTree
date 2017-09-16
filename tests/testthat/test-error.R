@@ -4,6 +4,7 @@ context("Error handling")
 test_that("df is a data frame", {
   expect_error(collapsibleTree(sunspots,c("Year","Solar.R")))
   expect_error(collapsibleTreeSummary(sunspots,c("Year","Solar.R")))
+  expect_error(collapsibleTreeNetwork(sunspots,c("Year","Solar.R")))
 })
 
 test_that("column names are in data frame", {
