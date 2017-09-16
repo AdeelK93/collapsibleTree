@@ -10,14 +10,13 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, width = NULL, height = NULL, attribute = "leafCount",
-  fillFun = colorspace::heat_hcl, maxPercent = 25,
-  percentOfParent = FALSE, linkLength = NULL, fontSize = 10,
-  tooltip = TRUE, nodeSize = NULL, collapsed = TRUE, zoomable = TRUE,
-  ...)
+  inputId = NULL, attribute = "leafCount", fillFun = colorspace::heat_hcl,
+  maxPercent = 25, percentOfParent = FALSE, linkLength = NULL,
+  fontSize = 10, tooltip = TRUE, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL, ...)
 }
 \arguments{
-\item{df}{a data frame from which to construct a nested list}
+\item{df}{a data frame (where every row is a leaf) from which to construct a nested list}
 
 \item{hierarchy}{a character vector of column names that define the order
 and hierarchy of the tree network}
@@ -27,10 +26,6 @@ and hierarchy of the tree network}
 \item{inputId}{the input slot that will be used to access the selected node (for Shiny).
 Will return a named list of the most recently clicked node,
 along with all of its parents.}
-
-\item{width}{width in pixels (optional, defaults to automatic sizing)}
-
-\item{height}{height in pixels (optional, defaults to automatic sizing)}
 
 \item{attribute}{numeric column not listed in hierarchy that will be used
 as weighting to define the color gradient across nodes. Defaults to 'leafCount',
@@ -57,11 +52,16 @@ rather than the actual value of attribute}
 
 \item{nodeSize}{numeric column that will be used to determine relative node size.
 Default is to have a constant node size throughout. 'leafCount' can also
-be used here (cumulative count of a node's children).}
+be used here (cumulative count of a node's children), or 'count'
+(count of node's immediate children).}
 
 \item{collapsed}{the tree's children will start collapsed by default}
 
 \item{zoomable}{pan and zoom by dragging and scrolling}
+
+\item{width}{width in pixels (optional, defaults to automatic sizing)}
+
+\item{height}{height in pixels (optional, defaults to automatic sizing)}
 
 \item{...}{other arguments passed on to \code{fillFun}, such declaring a
 palette for \link[RColorBrewer]{brewer.pal}}

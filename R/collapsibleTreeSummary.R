@@ -6,15 +6,13 @@
 #' either by counting that node's children (default) or specifying another numeric
 #' column in the input data frame.
 #'
-#' @param df a data frame from which to construct a nested list
+#' @param df a data frame (where every row is a leaf) from which to construct a nested list
 #' @param hierarchy a character vector of column names that define the order
 #' and hierarchy of the tree network
 #' @param root label for the root node
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
-#' @param width width in pixels (optional, defaults to automatic sizing)
-#' @param height height in pixels (optional, defaults to automatic sizing)
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' as weighting to define the color gradient across nodes. Defaults to 'leafCount',
 #' which colors nodes by the cumulative count of its children
@@ -33,9 +31,12 @@
 #' @param tooltip tooltip shows the node's label and attribute value.
 #' @param nodeSize numeric column that will be used to determine relative node size.
 #' Default is to have a constant node size throughout. 'leafCount' can also
-#' be used here (cumulative count of a node's children).
+#' be used here (cumulative count of a node's children), or 'count'
+#' (count of node's immediate children).
 #' @param collapsed the tree's children will start collapsed by default
 #' @param zoomable pan and zoom by dragging and scrolling
+#' @param width width in pixels (optional, defaults to automatic sizing)
+#' @param height height in pixels (optional, defaults to automatic sizing)
 #' @param ... other arguments passed on to \code{fillFun}, such declaring a
 #' palette for \link[RColorBrewer]{brewer.pal}
 #'
@@ -64,14 +65,18 @@
 #' @importFrom stats complete.cases
 #' @export
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
-                                    inputId = NULL, width = NULL, height = NULL,
-                                    attribute = "leafCount", fillFun = colorspace::heat_hcl,
-                                    maxPercent = 25, percentOfParent = FALSE, linkLength = NULL,
+                                    inputId = NULL, attribute = "leafCount",
+                                    fillFun = colorspace::heat_hcl, maxPercent = 25,
+                                    percentOfParent = FALSE, linkLength = NULL,
                                     fontSize = 10, tooltip = TRUE, nodeSize = NULL,
-                                    collapsed = TRUE, zoomable = TRUE, ...) {
+                                    collapsed = TRUE, zoomable = TRUE, width = NULL,
+                                    height = NULL, ...) {
 
   # preserve this name before evaluating df
   root <- root
+
+  # acceptable inherent node attributes
+  nodeAttr <- c("leafCount", "count")
 
   # reject bad inputs
   if(!is.data.frame(df)) stop("df must be a data frame")
@@ -79,9 +84,9 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   if(!is.function(fillFun)) stop("fill must be a function")
   if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
   if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
-  if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
-  if(!is.null(nodeSize)) if(!(nodeSize %in% c(colnames(df), "leafCount"))) stop("nodeSize column name is incorrect")
-  if(attribute != "leafCount") {
+  if(!(attribute %in% c(colnames(df), nodeAttr))) stop("attribute column name is incorrect")
+  if(!is.null(nodeSize)) if(!(nodeSize %in% c(colnames(df), nodeAttr))) stop("nodeSize column name is incorrect")
+  if(!(attribute %in% nodeAttr)) {
     if(any(is.na(df[attribute]))) stop("attribute must not have NAs")
   }
 

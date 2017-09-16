@@ -15,21 +15,20 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 collapsibleTree(df, ...)
 
 \method{collapsibleTree}{data.frame}(df, hierarchy,
-  root = deparse(substitute(df)), inputId = NULL, width = NULL,
-  height = NULL, attribute = "leafCount", aggFun = sum,
-  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
-  zoomable = TRUE, ...)
+  root = deparse(substitute(df)), inputId = NULL, attribute = "leafCount",
+  aggFun = sum, fill = "lightsteelblue", fillByLevel = TRUE,
+  linkLength = NULL, fontSize = 10, tooltip = FALSE, nodeSize = NULL,
+  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL, ...)
 
 \method{collapsibleTree}{Node}(df, hierarchy_attribute = "level",
-  root = df$name, inputId = NULL, width = NULL, height = NULL,
-  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
-  fillByLevel = TRUE, linkLength = NULL, fontSize = 10, tooltip = FALSE,
-  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, ...)
+  root = df$name, inputId = NULL, attribute = "leafCount", aggFun = sum,
+  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
+  fontSize = 10, tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL, ...)
 }
 \arguments{
-\item{df}{a \code{data.frame} from which to construct a nested list or
-a preconstructed \code{data.tree}}
+\item{df}{a \code{data.frame} from which to construct a nested list
+(where every row is a leaf) or a preconstructed \code{data.tree}}
 
 \item{...}{other arguments to pass onto S3 methods that implement
 this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}}
@@ -42,10 +41,6 @@ and hierarchy of the tree network. Applicable only for \code{data.frame} input.}
 \item{inputId}{the input slot that will be used to access the selected node (for Shiny).
 Will return a named list of the most recently clicked node,
 along with all of its parents.}
-
-\item{width}{width in pixels (optional, defaults to automatic sizing)}
-
-\item{height}{height in pixels (optional, defaults to automatic sizing)}
 
 \item{attribute}{numeric column not listed in hierarchy that will be used
 for tooltips, if applicable. Defaults to 'leafCount',
@@ -72,11 +67,16 @@ and then all the grandchildren's colors.}
 
 \item{nodeSize}{numeric column that will be used to determine relative node size.
 Default is to have a constant node size throughout. 'leafCount' can also
-be used here (cumulative count of a node's children).}
+be used here (cumulative count of a node's children), or 'count'
+(count of node's immediate children).}
 
 \item{collapsed}{the tree's children will start collapsed by default}
 
 \item{zoomable}{pan and zoom by dragging and scrolling}
+
+\item{width}{width in pixels (optional, defaults to automatic sizing)}
+
+\item{height}{height in pixels (optional, defaults to automatic sizing)}
 
 \item{hierarchy_attribute}{name of the \code{data.tree} attribute that contains
 hierarchy information of the tree network. Applicable only for \code{data.tree} input.}

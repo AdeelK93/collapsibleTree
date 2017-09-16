@@ -2,15 +2,18 @@
 #' @method collapsibleTree data.frame
 #' @export
 collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(df)),
-                                       inputId = NULL, width = NULL, height = NULL,
-                                       attribute = "leafCount", aggFun = sum,
-                                       fill = "lightsteelblue", fillByLevel = TRUE,
-                                       linkLength = NULL, fontSize = 10, tooltip = FALSE,
-                                       nodeSize = NULL, collapsed = TRUE, zoomable = TRUE,
+                                       inputId = NULL, attribute = "leafCount",
+                                       aggFun = sum, fill = "lightsteelblue",
+                                       fillByLevel = TRUE, linkLength = NULL, fontSize = 10,
+                                       tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
+                                       zoomable = TRUE, width = NULL, height = NULL,
                                        ...) {
 
   # preserve this name before evaluating df
   root <- root
+
+  # acceptable inherent node attributes
+  nodeAttr <- c("leafCount", "count")
 
   # reject bad inputs
   if(!is.data.frame(df)) stop("df must be a data frame")
@@ -18,9 +21,9 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
   if(!is.character(fill)) stop("fill must be a character vector")
   if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
   if(!all(hierarchy %in% colnames(df))) stop("hierarchy column names are incorrect")
-  if(!(attribute %in% c(colnames(df), "leafCount"))) stop("attribute column name is incorrect")
-  if(!is.null(nodeSize)) if(!(nodeSize %in% c(colnames(df), "leafCount"))) stop("nodeSize column name is incorrect")
-  if(attribute != "leafCount") {
+  if(!(attribute %in% c(colnames(df), nodeAttr))) stop("attribute column name is incorrect")
+  if(!is.null(nodeSize)) if(!(nodeSize %in% c(colnames(df), nodeAttr))) stop("nodeSize column name is incorrect")
+  if(!(attribute %in% nodeAttr)) {
     if(any(is.na(df[attribute]))) stop("attribute must not have NAs")
   }
 
@@ -75,7 +78,7 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
 
   # only necessary to perform these calculations if there is a tooltip
   if(tooltip) {
-    # traverse down the tree and compute the size of each node
+    # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
     data.tree::Do(t, function(x) {
       x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)

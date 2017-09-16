@@ -3,8 +3,8 @@
 #' Interactive Reingold-Tilford tree diagram created using D3.js,
 #' where every node can be expanded and collapsed by clicking on it.
 #'
-#' @param df a \code{data.frame} from which to construct a nested list or
-#' a preconstructed \code{data.tree}
+#' @param df a \code{data.frame} from which to construct a nested list
+#' (where every row is a leaf) or a preconstructed \code{data.tree}
 #' @param hierarchy a character vector of column names that define the order
 #' and hierarchy of the tree network. Applicable only for \code{data.frame} input.
 #' @param hierarchy_attribute name of the \code{data.tree} attribute that contains
@@ -13,8 +13,6 @@
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
-#' @param width width in pixels (optional, defaults to automatic sizing)
-#' @param height height in pixels (optional, defaults to automatic sizing)
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' for tooltips, if applicable. Defaults to 'leafCount',
 #' which is the cumulative count of a node's children
@@ -33,9 +31,12 @@
 #' @param tooltip tooltip shows the node's label and attribute value.
 #' @param nodeSize numeric column that will be used to determine relative node size.
 #' Default is to have a constant node size throughout. 'leafCount' can also
-#' be used here (cumulative count of a node's children).
+#' be used here (cumulative count of a node's children), or 'count'
+#' (count of node's immediate children).
 #' @param collapsed the tree's children will start collapsed by default
 #' @param zoomable pan and zoom by dragging and scrolling
+#' @param width width in pixels (optional, defaults to automatic sizing)
+#' @param height height in pixels (optional, defaults to automatic sizing)
 #' @param ... other arguments to pass onto S3 methods that implement
 #' this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}
 #' @examples
@@ -104,6 +105,6 @@
 #' @importFrom stats complete.cases median
 #' @rdname collapsibleTree
 #' @export
-collapsibleTree <- function(df, ...){
+collapsibleTree <- function(df, ...) {
   UseMethod("collapsibleTree")
 }

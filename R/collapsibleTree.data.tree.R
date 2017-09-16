@@ -2,11 +2,11 @@
 #' @method collapsibleTree Node
 #' @export
 collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
-                                 root = df$name, inputId = NULL, width = NULL, height = NULL,
-                                 attribute = "leafCount", aggFun = sum,
-                                 fill = "lightsteelblue", fillByLevel = TRUE,
-                                 linkLength = NULL, fontSize = 10, tooltip = FALSE,
-                                 nodeSize = NULL, collapsed = TRUE, zoomable = TRUE,
+                                 root = df$name, inputId = NULL, attribute = "leafCount",
+                                 aggFun = sum, fill = "lightsteelblue",
+                                 fillByLevel = TRUE, linkLength = NULL, fontSize = 10,
+                                 tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
+                                 zoomable = TRUE, width = NULL, height = NULL,
                                  ...) {
 
   # preserve this name before evaluating df
@@ -66,13 +66,9 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
   # only necessary to perform these calculations if there is a tooltip
   if(tooltip) {
     t <- data.tree::Traverse(df, hierarchy_attribute)
-    if(substitute(identity)=="identity") {
-      # for identity, leave the tooltips as is
-      data.tree::Do(t, function(x) {
-        x$WeightOfNode <- x[[attribute]]
-      })
-    } else {
+    if (is.numeric(df[[attribute]]) & substitute(aggFun)!="identity") {
       # traverse down the tree and compute the weights of each node for the tooltip
+      t <- data.tree::Traverse(df, "pre-order")
       data.tree::Do(t, function(x) {
         x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
         # make the tooltips look nice
@@ -80,6 +76,9 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
           x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
         )
       })
+    } else {
+      # Can't perform an aggregation on non-numeric
+      df$Do(function(x) x$WeightOfNode <- x[[attribute]])
     }
     jsonFields <- c("fill", "WeightOfNode")
   } else jsonFields <- "fill"

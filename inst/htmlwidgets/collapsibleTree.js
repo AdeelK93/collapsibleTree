@@ -14,8 +14,8 @@ HTMLWidgets.widget({
     // Optionally enable zooming, and limit to 1/5x or 5x of the original viewport
     var zoom = d3.zoom()
     .scaleExtent([1/5, 5])
-    .on("zoom", function () {
-      if (options.zoomable) svg.attr("transform", d3.event.transform)
+    .on('zoom', function () {
+      if (options.zoomable) svg.attr('transform', d3.event.transform)
     })
 
     // create our tree object and bind it to the element
@@ -80,7 +80,9 @@ HTMLWidgets.widget({
       nodeEnter.append('text')
       .attr('dy', '.35em')
       .attr('x', function(d) {
-        return d.children || d._children ? -13 : 13;
+        // Scale padding for label to the size of node
+        var padding = (d.data.SizeOfNode || 10) + 3
+        return d.children || d._children ? -1 * padding : padding;
       })
       .attr('text-anchor', function(d) {
         return d.children || d._children ? 'end' : 'start';
@@ -138,7 +140,7 @@ HTMLWidgets.widget({
       var linkEnter = link.enter().insert('path', 'g')
       .attr('class', 'link')
       .attr('d', function(d){
-        var o = {x: source.x0, y: source.y0}
+        var o = { x: source.x0, y: source.y0 }
         return diagonal(o, o)
       });
 
@@ -209,8 +211,9 @@ HTMLWidgets.widget({
         .duration(200)
         .style('opacity', .9);
 
+        // Show either a constructed tooltip, or override with one from the data
         tooltip.html(
-          d.data.name + '<br>' +
+          d.data.tooltip || d.data.name + '<br>' +
           options.attribute + ': ' + d.data.WeightOfNode
         )
         // Make the tooltip font size just a little bit bigger
