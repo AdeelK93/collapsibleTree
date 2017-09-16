@@ -2,9 +2,10 @@
 #'
 #' Interactive Reingold-Tilford tree diagram created using D3.js,
 #' where every node can be expanded and collapsed by clicking on it.
-#' This function serves as a convenience wrapper to add color gradients to nodes
-#' either by counting that node's children (default) or specifying another numeric
-#' column in the input data frame.
+#' This function serves as a convenience wrapper for network style data frames
+#' containing the node's parent in the first column, node parent in the second
+#' column, and additional attributes in the rest of the columns. The root node
+#' is denoted by having an \code{NA} for a parent. There must be exactly 1 root.
 #'
 #' @param df a network data frame (where every row is a node)
 #' from which to construct a nested list
