@@ -4,27 +4,27 @@
 collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
                                  root = df$name, inputId = NULL, attribute = "leafCount",
                                  aggFun = sum, fill = "lightsteelblue",
-                                 fillByLevel = TRUE, linkLength = NULL, fontSize = 10,
-                                 tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
-                                 zoomable = TRUE, width = NULL, height = NULL,
-                                 ...) {
+                                 linkLength = NULL, fontSize = 10, tooltip = FALSE,
+                                 tooltipHtml = NULL,nodeSize = NULL, collapsed = TRUE,
+                                 zoomable = TRUE, width = NULL, height = NULL, ...) {
 
-  # preserve this name before evaluating df
-  root <- root
-
-  # Deriving hierarchy variable from data.tree input
-  hierarchy = unique(ToDataFrameTree(df, hierarchy_attribute)[[hierarchy_attribute]])
+  # acceptable inherent node attributes
+  nodeAttr <- c("leafCount", "count")
 
   # reject bad inputs
   if(!is(df) %in% "Node") stop("df must be a data tree object")
-  if(!is.character(fill)) stop("fill must be a character vector")
-  if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
+  if(!is.character(fill)) stop("fill must be a either a color or column name")
+  if(!is.null(tooltipHtml)) if(!(tooltipHtml %in% df$fields)) stop("tooltipHtml column name is incorrect")
+  if(!is.null(nodeSize)) if(!(nodeSize %in% c(df$fields, nodeAttr))) stop("nodeSize column name is incorrect")
 
   # calculate the right and left margins in pixels
   leftMargin <- nchar(root)
-  allNodes = df$Get("level")
-  rightNodes = allNodes[which(allNodes == max(allNodes))]
-  rightMargin <- max(nchar(names(rightNodes)))
+  rightLabelVector <- df$Get("name", filterFun = function(x) x$level==df$height)
+  rightMargin <- max(sapply(rightLabelVector, nchar))
+
+  # Deriving hierarchy variable from data.tree input
+  hierarchy <- unique(ToDataFrameTree(df, hierarchy_attribute)[[hierarchy_attribute]])
+  if(length(hierarchy) <= 1) stop("hierarchy vector must be greater than length 1")
 
   # create a list that contains the options
   options <- list(
@@ -44,31 +44,28 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
     )
   )
 
-  # not required for data.tree input
-  # the hierarchy that will be used to create the tree
-  # df$pathString <- paste(
-  #   root,
-  #   apply(df[,hierarchy], 1, paste, collapse = "//"),
-  #   sep="//"
-  # )
-  # node <- data.tree::as.Node(df, pathDelimiter = "//")
+  # these are the fields that will ultimately end up in the json
+  jsonFields <- NULL
 
-  # fill in the node colors, traversing down the tree
-  if(length(fill)>1) {
-    if(length(fill) != df$totalCount) {
-      stop(paste("Expected fill vector of length", df$totalCount, "but got", length(fill)))
-    }
-    df$Set(fill = fill, traversal = ifelse(fillByLevel, "level", "pre-order"))
+  if(fill %in% df$fields) {
+    # fill in node colors based on column name
+    df$Do(function(x) x$fill <- x[[fill]])
+    jsonFields <- c(jsonFields, "fill")
   } else {
+    # default to using fill value as literal color name
     options$fill <- fill
   }
 
   # only necessary to perform these calculations if there is a tooltip
-  if(tooltip) {
+  if(tooltip & is.null(tooltipHtml)) {
     t <- data.tree::Traverse(df, hierarchy_attribute)
-    if (is.numeric(df[[attribute]]) & substitute(aggFun)!="identity") {
+    if(substitute(identity)=="identity") {
+      # for identity, leave the tooltips as is
+      data.tree::Do(t, function(x) {
+        x$WeightOfNode <- x[[attribute]]
+      })
+    } else {
       # traverse down the tree and compute the weights of each node for the tooltip
-      t <- data.tree::Traverse(df, "pre-order")
       data.tree::Do(t, function(x) {
         x$WeightOfNode <- data.tree::Aggregate(x, attribute, aggFun)
         # make the tooltips look nice
@@ -76,12 +73,15 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
           x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
         )
       })
-    } else {
-      # Can't perform an aggregation on non-numeric
-      df$Do(function(x) x$WeightOfNode <- x[[attribute]])
     }
-    jsonFields <- c("fill", "WeightOfNode")
-  } else jsonFields <- "fill"
+    jsonFields <- c(jsonFields, "WeightOfNode")
+  }
+
+  # if tooltipHtml is specified, pass it on in the data
+  if(tooltip & !is.null(tooltipHtml)) {
+    df$Do(function(x) x$tooltip <- x[[tooltipHtml]])
+    jsonFields <- c(jsonFields, "tooltip")
+  }
 
   # only necessary to perform these calculations if there is a nodeSize specified
   if(!is.null(nodeSize)) {
@@ -97,7 +97,8 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
     jsonFields <- c(jsonFields, "SizeOfNode")
   }
 
-  # keep only the fill attribute in the final JSON
+  # keep only the JSON fields that are necessary
+  if(is.null(jsonFields)) jsonFields <- NA
   data <- data.tree::ToListExplicit(df, unname = TRUE, keepOnly = jsonFields)
 
   # pass the data and options using 'x'

@@ -9,11 +9,11 @@
 #' @param df a network data frame (where every row is a node)
 #' from which to construct a nested list
 #' \itemize{
-##'  \item First column must be the parent (\code{NA} for root node)
-##'  \item Second column must be the child
-##'  \item Additional columns are passed on as attributes for other parameters
-##'  \item There must be exactly 1 root node
-##' }
+#'  \item First column must be the parent (\code{NA} for root node)
+#'  \item Second column must be the child
+#'  \item Additional columns are passed on as attributes for other parameters
+#'  \item There must be exactly 1 root node
+#' }
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
@@ -23,15 +23,12 @@
 #' which colors nodes by the cumulative count of its children
 #' @param aggFun aggregation function applied to the attribute column to determine
 #' values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.
-#' @param fill either a single color or a vector of colors the same length
-#' as the number of nodes. By default, vector should be ordered by level,
-#' such that the root color is described first, then all the children's colors,
-#' and then all the grandchildren's colors.
+#' @param fill either a single color or a column name with the color for each node
 #' @param linkLength length of the horizontal links that connect nodes in pixels.
 #' (optional, defaults to automatic sizing)
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
-#' @param tooltipHtml column name (optionally containing html) to override
+#' @param tooltipHtml column name (possibly containing html) to override
 #' default tooltip contents, allowing for more advanced customization
 #' @param nodeSize numeric column that will be used to determine relative node size.
 #' Default is to have a constant node size throughout. 'leafCount' can also
@@ -104,9 +101,8 @@
 collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
                                     aggFun = sum, fill = "lightsteelblue",
                                     linkLength = NULL, fontSize = 10, tooltip = TRUE,
-                                    tooltipHtml = NULL, nodeSize = NULL,
-                                    collapsed = TRUE, zoomable = TRUE,
-                                    width = NULL, height = NULL) {
+                                    tooltipHtml = NULL, nodeSize = NULL, collapsed = TRUE,
+                                    zoomable = TRUE, width = NULL, height = NULL) {
 
   # acceptable inherent node attributes
   nodeAttr <- c("leafCount", "count")
@@ -153,9 +149,13 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
     )
   )
 
+  # these are the fields that will ultimately end up in the json
+  jsonFields <- NULL
+
   if(fill %in% colnames(df)) {
     # fill in node colors based on column name
     node$Do(function(x) x$fill <- x[[fill]])
+    jsonFields <- c(jsonFields, "fill")
   } else {
     # default to using fill value as literal color name
     options$fill <- fill
@@ -177,8 +177,8 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
       # Can't perform an aggregation on non-numeric
       node$Do(function(x) x$WeightOfNode <- x[[attribute]])
     }
-    jsonFields <- c("fill", "WeightOfNode")
-  } else jsonFields <- "fill"
+    jsonFields <- c(jsonFields, "WeightOfNode")
+  }
 
   # if tooltipHtml is specified, pass it on in the data
   if(tooltip & !is.null(tooltipHtml)) {
@@ -188,7 +188,7 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
 
   # only necessary to perform these calculations if there is a nodeSize specified
   if(!is.null(nodeSize)) {
-    # Scale factor to keep the median leaf size around 10, unless nodeSize is "leafCount"
+    # Scale factor to keep the median leaf size around 10
     scaleFactor <- 10/data.tree::Aggregate(node, nodeSize, stats::median)
     # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
@@ -201,6 +201,7 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
   }
 
   # keep only the JSON fields that are necessary
+  if(is.null(jsonFields)) jsonFields <- NA
   data <- data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
 
   # pass the data and options using 'x'

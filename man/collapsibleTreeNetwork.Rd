@@ -36,10 +36,7 @@ which colors nodes by the cumulative count of its children}
 \item{aggFun}{aggregation function applied to the attribute column to determine
 values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.}
 
-\item{fill}{either a single color or a vector of colors the same length
-as the number of nodes. By default, vector should be ordered by level,
-such that the root color is described first, then all the children's colors,
-and then all the grandchildren's colors.}
+\item{fill}{either a single color or a column name with the color for each node}
 
 \item{linkLength}{length of the horizontal links that connect nodes in pixels.
 (optional, defaults to automatic sizing)}
@@ -48,7 +45,7 @@ and then all the grandchildren's colors.}
 
 \item{tooltip}{tooltip shows the node's label and attribute value.}
 
-\item{tooltipHtml}{column name (optionally containing html) to override
+\item{tooltipHtml}{column name (possibly containing html) to override
 default tooltip contents, allowing for more advanced customization}
 
 \item{nodeSize}{numeric column that will be used to determine relative node size.

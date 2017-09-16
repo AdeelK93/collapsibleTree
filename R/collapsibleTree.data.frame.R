@@ -56,6 +56,9 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
     )
   )
 
+  # these are the fields that will ultimately end up in the json
+  jsonFields <- NULL
+
   # the hierarchy that will be used to create the tree
   df$pathString <- paste(
     root,
@@ -72,6 +75,7 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
       stop(paste("Expected fill vector of length", node$totalCount, "but got", length(fill)))
     }
     node$Set(fill = fill, traversal = ifelse(fillByLevel, "level", "pre-order"))
+    jsonFields <- c(jsonFields, "fill")
   } else {
     options$fill <- fill
   }
@@ -87,14 +91,13 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
         x$WeightOfNode, big.mark = ",", digits = 3, scientific = FALSE
       )
     })
-    jsonFields <- c("fill", "WeightOfNode")
-  } else jsonFields <- "fill"
+    jsonFields <- c(jsonFields, "WeightOfNode")
+  }
 
   # only necessary to perform these calculations if there is a nodeSize specified
   if(!is.null(nodeSize)) {
-    # Scale factor to keep the median leaf size around 10, unless nodeSize is "leafCount"
-    if(nodeSize=="leafCount") scaleFactor <- 1
-    else scaleFactor <- 10/stats::median(df[[nodeSize]], na.rm = TRUE)
+    # Scale factor to keep the median leaf size around 10
+    scaleFactor <- 10/data.tree::Aggregate(node, nodeSize, stats::median)
     # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
     data.tree::Do(t, function(x) {
@@ -105,7 +108,8 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
     jsonFields <- c(jsonFields, "SizeOfNode")
   }
 
-  # keep only the fill attribute in the final JSON
+  # keep only the JSON fields that are necessary
+  if(is.null(jsonFields)) jsonFields <- NA
   data <- data.tree::ToListExplicit(node, unname = TRUE, keepOnly = jsonFields)
 
   # pass the data and options using 'x'

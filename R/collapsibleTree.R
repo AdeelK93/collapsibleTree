@@ -18,17 +18,23 @@
 #' which is the cumulative count of a node's children
 #' @param aggFun aggregation function applied to the attribute column to determine
 #' values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense.
-#' @param fill either a single color or a vector of colors the same length
-#' as the number of nodes. By default, vector should be ordered by level,
-#' such that the root color is described first, then all the children's colors,
-#' and then all the grandchildren's colors.
+#' @param fill either a single color or a mapping of colors:
+#' \itemize{
+#'  \item For \code{data.frame} input, a vector of colors the same length as the number
+#'  of nodes. By default, vector should be ordered by level, such that the root color is
+#'  described first, then all the children's colors, and then all the grandchildren's colors
+#'  \item For \code{data.tree} input, a tree attribute containing the color for each node
+#' }
 #' @param fillByLevel which order to assign fill values to nodes.
 #' \code{TRUE}: Filling by level; will assign fill values to nodes vertically.
 #' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
 #' @param linkLength length of the horizontal links that connect nodes in pixels.
 #' (optional, defaults to automatic sizing)
+#' Applicable only for \code{data.frame} input.
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
+#' @param tooltipHtml column name (possibly containing html) to override default tooltip
+#' contents, allowing for more advanced customization. Applicable only for \code{data.tree} input.
 #' @param nodeSize numeric column that will be used to determine relative node size.
 #' Default is to have a constant node size throughout. 'leafCount' can also
 #' be used here (cumulative count of a node's children), or 'count'
