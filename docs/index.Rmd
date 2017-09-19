@@ -52,79 +52,28 @@ collapsibleTree(
 )
 ```
 
-## Adding Colors
-
-You can add colors to each node in the diagram manually by declaring a `fill` value. Fill is declared as a hierarchy, applied down the tree. In order to get your vectors to the right length for complex trees (this one has 385 nodes), you could use a pattern like this:
-
-```{r plotcolored}
-collapsibleTree(
-  Geography,
-  hierarchy = c("continent", "type", "country"),
-  width = 800,
-  fill = c(
-    # The root
-    "white",
-    # Unique continents
-    rep("firebrick", length(unique(Geography$continent))),
-    # Unique types per continent
-    rep("steelblue", length(unique(paste(Geography$continent, Geography$type)))),
-    # Unique countries
-    rep("green", length(unique(Geography$country)))
-  )
-)
-```
-
-## Using Gradients
-
-Throw in some gradients if you'd like! Each node can have its own distinct color. Let's use some `dplyr` to help us with the data aggregation and use `RColorBrewer` and `colorspace` to make some nice looking palettes.
-
-The fill order is depends on the order of the data frame. This time we'll sort alphabetically rather than using the order the dataset originally came in.
-
-```{r plotgradient, warning=FALSE}
-library(dplyr, warn.conflicts = FALSE)
-
-# Continents are a simple gradient
-continentColors <- RColorBrewer::brewer.pal(length(unique(Geography$continent)), "Reds")
-# Types will be a gradient that resets between continents
-typeColors <- Geography %>%
-  arrange(continent, type) %>% 
-  group_by(continent) %>%
-  distinct(type) %>%
-  mutate(colors = colorspace::sequential_hcl(length(type))[seq_along(type)])
-# Countries will also be a gradient that resets between continents, but not types
-countryColors <- Geography %>%
-  arrange(continent, type) %>% 
-  group_by(continent) %>%
-  distinct(country) %>%
-  mutate(colors = colorspace::rainbow_hcl(length(country))[seq_along(country)])
-
-Geography %>%
-  arrange(continent, type, country) %>%
-  collapsibleTree(
-    hierarchy = c("continent", "type", "country"),
-    root = "Geography",
-    width = 800,
-    fill = c("white", continentColors, typeColors$colors, countryColors$colors)
-  )
-```
-
 ## Basing Gradients on a Numeric Column
 
-Using `dplyr` and `colorspace` again, we can create a new column in the source data frame for the total number of countries on each continent, and map that column to the fill gradient of the nodes. `collapsibleTreeSummary` serves as a convenience function around `collapsibleTree`. 
+Throw in some gradients if you'd like! Each node can have its own distinct color. Let's use some `dplyr` to help us with the data aggregation and use `colorspace` to make some nice looking palettes.
+
+We can create a new column in the source data frame for the total number of countries on each continent, and map that column to the fill gradient of the nodes. `collapsibleTreeSummary` serves as a convenience function around `collapsibleTree`. 
 
 Looking at this chart, you can tell that Africa has roughly the same number of countries as Europe, and that most countries are... countries. Hovering over the node can confirm this fact.
 
 Also note that the nodes are a little bit further apart on this example, due to individual countries not being represented. Link length and chart margins are automatically calculated based on the number of nodes and the length of the labels.
 
-```{r plotsummary, warning=FALSE}
+```{r plotsummary, warning=FALSE, message=FALSE}
+library(dplyr)
+
 Geography %>%
   group_by(continent, type) %>%
-  summarise(`Number of Countries` = n()) %>%
+  summarize(`Number of Countries` = n()) %>%
   collapsibleTreeSummary(
     hierarchy = c("continent", "type"),
     root = "Geography",
     width = 800,
-    attribute = "Number of Countries"
+    attribute = "Number of Countries",
+    zoomable = FALSE
   )
 ```
 
@@ -137,5 +86,75 @@ collapsibleTree(
   Geography,
   hierarchy = c("continent", "sub_region"),
   width = 800
+)
+```
+
+## Converting a data frame to a tree
+
+A large amount of rectangular data that people want to convert into a tree follows the following model: Every column is a hierarchy level and every row is a leaf. In the previous examples, this model holds up nicely. Let's try an example where it doesn't: an org chart.
+
+```{r org}
+org <- data.frame(
+    Manager = c(
+        NA, "Ana", "Ana", "Bill", "Bill", "Bill", "Claudette", "Claudette", "Danny",
+        "Fred", "Fred", "Grace", "Larry", "Larry", "Nicholas", "Nicholas"
+    ),
+    Employee = c(
+        "Ana", "Bill", "Larry", "Claudette", "Danny", "Erika", "Fred", "Grace",
+        "Henri", "Ida", "Joaquin", "Kate", "Mindy", "Nicholas", "Odette", "Peter"
+    ),
+    Title = c(
+        "President", "VP Operations", "VP Finance", "Director", "Director", "Scientist",
+        "Manager", "Manager", "Jr Scientist", "Operator", "Operator", "Associate",
+        "Analyst", "Director", "Accountant", "Accountant"
+    )
+)
+```
+
+If we use the regular `collapsibleTree` function here and consider every row as a leaf, what we end up is a series of manager-employee relationships. The first level contains all people who manage others, and the second contains all the people who are managed. We also do not have a way of mapping titles to any employee in particular since the rows map to manager-employee relationships rather than the employees themselves.
+
+```{r collapsibleTree}
+collapsibleTree(org, c("Manager", "Employee"), collapsed = FALSE)
+```
+
+This isn't necessarily worthless, but what we want is an org chart. Let's try a different model: The first column is the parent, the second is the node itself, and all other columns are attributes describing that node. We can now map titles to employees in tooltips.
+
+```{r basic}
+collapsibleTreeNetwork(org, attribute = "Title", collapsed = FALSE)
+```
+
+Note that in the original data frame, we denoted Ana as the root by giving her an `NA` as a manager. Every tree must have exactly one root.
+
+In addition to title, we can also easily map colors and sizes to our org chart. It's not always easy to get our data in this structure, but if we can, it allows us a much greater degree of customizability over our chart.
+
+```{r color}
+org$Color <- org$Title
+levels(org$Color) <- colorspace::rainbow_hcl(11)
+collapsibleTreeNetwork(
+  org,
+  attribute = "Title",
+  fill = "Color",
+  nodeSize = "leafCount",
+  collapsed = FALSE
+)
+```
+
+It's also possible to assign custom html tooltips to each node since we now have so much more control over the nodes. Images used in the tooltips are from the Unsplash API.
+
+```{r unsplash}
+org$tooltip <- paste0(
+  org$Employee,
+  "<br>Title: ",
+  org$Title,
+  "<br><img src='https://source.unsplash.com/collection/385548/150x100'>"
+)
+
+collapsibleTreeNetwork(
+  org,
+  attribute = "Title",
+  fill = "Color",
+  nodeSize = "leafCount",
+  tooltipHtml = "tooltip",
+  collapsed = FALSE
 )
 ```

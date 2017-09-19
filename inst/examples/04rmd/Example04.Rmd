@@ -1,0 +1,81 @@
+---
+title: 'Collapsible Tree Example 4: Org Chart'
+author: "Adeel Khan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(collapsibleTree)
+```
+
+## Converting a data frame to a tree
+
+A large amount of rectangular data that people want to convert into a tree follows the following model: Every column is a hierarchy level and every row is a leaf. In the other examples, this model holds up nicely. Let's try an example where it doesn't: an org chart.
+
+```{r org}
+org <- data.frame(
+    Manager = c(
+        NA, "Ana", "Ana", "Bill", "Bill", "Bill", "Claudette", "Claudette", "Danny",
+        "Fred", "Fred", "Grace", "Larry", "Larry", "Nicholas", "Nicholas"
+    ),
+    Employee = c(
+        "Ana", "Bill", "Larry", "Claudette", "Danny", "Erika", "Fred", "Grace",
+        "Henri", "Ida", "Joaquin", "Kate", "Mindy", "Nicholas", "Odette", "Peter"
+    ),
+    Title = c(
+        "President", "VP Operations", "VP Finance", "Director", "Director", "Scientist",
+        "Manager", "Manager", "Jr Scientist", "Operator", "Operator", "Associate",
+        "Analyst", "Director", "Accountant", "Accountant"
+    )
+)
+```
+
+If we use the regular `collapsibleTree` function here and consider every row as a leaf, what we end up is a series of manager-employee relationships. The first level contains all people who manage others, and the second contains all the people who are managed. We also do not have a way of mapping titles to any employee in particular since the rows map to manager-employee relationships rather than the employees themselves.
+
+```{r collapsibleTree}
+collapsibleTree(org, c("Manager", "Employee"), collapsed = FALSE)
+```
+
+This isn't necessarily worthless, but what we want is an org chart. Let's try a different model: The first column is the parent, the second is the node itself, and all other columns are attributes describing that node. We can now map titles to employees in tooltips.
+
+```{r basic}
+collapsibleTreeNetwork(org, attribute = "Title", collapsed = FALSE)
+```
+
+Note that in the original data frame, we denoted Ana as the root by giving her an `NA` as a manager. Every tree must have exactly one root.
+
+In addition to title, we can also easily map colors and sizes to our org chart. It's not always easy to get our data in this structure, but if we can, it allows us a much greater degree of customizability over our chart.
+
+```{r color}
+org$Color <- org$Title
+levels(org$Color) <- colorspace::rainbow_hcl(11)
+collapsibleTreeNetwork(
+  org,
+  attribute = "Title",
+  fill = "Color",
+  nodeSize = "leafCount",
+  collapsed = FALSE
+)
+```
+
+It's also possible to assign custom html tooltips to each node since we now have so much more control over the nodes. Images used in the tooltips are from the Unsplash API.
+
+```{r unsplash}
+org$tooltip <- paste0(
+  org$Employee,
+  "<br>Title: ",
+  org$Title,
+  "<br><img src='https://source.unsplash.com/collection/385548/150x100'>"
+)
+
+collapsibleTreeNetwork(
+  org,
+  attribute = "Title",
+  fill = "Color",
+  nodeSize = "leafCount",
+  tooltipHtml = "tooltip",
+  collapsed = FALSE
+)
+```
+
