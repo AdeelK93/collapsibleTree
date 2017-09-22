@@ -104,6 +104,11 @@
 #' @importFrom stats complete.cases median
 #' @rdname collapsibleTree
 #' @export
-collapsibleTree <- function(df, ...) {
+collapsibleTree <- function(df, ..., inputId = NULL, attribute = "leafCount",
+                            aggFun = sum, fill = "lightsteelblue",
+                            linkLength = NULL, fontSize = 10, tooltip = FALSE,
+                            tooltipHtml = NULL,nodeSize = NULL, collapsed = TRUE,
+                            zoomable = TRUE, width = NULL, height = NULL
+                            ) {
   UseMethod("collapsibleTree")
 }

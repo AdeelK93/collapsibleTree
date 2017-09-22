@@ -93,11 +93,8 @@
 #' that constructs trees from the network data frame
 #'
 #' @import htmlwidgets
-#' @importFrom data.tree ToListExplicit
-#' @importFrom data.tree FromDataFrameNetwork
-#' @importFrom data.tree Traverse
-#' @importFrom data.tree Do
-#' @importFrom data.tree Aggregate
+#' @importFrom data.tree ToListExplicit FromDataFrameNetwork
+#' @importFrom data.tree Traverse Do Aggregate
 #' @export
 collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
                                     aggFun = sum, fill = "lightsteelblue",
@@ -198,6 +195,8 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
       # scale node growth to area rather than radius and round
       x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
     })
+    # update left margin based on new root size
+    options$margin$left <- options$margin$left + node$SizeOfNode - 10
     jsonFields <- c(jsonFields, "SizeOfNode")
   }
 

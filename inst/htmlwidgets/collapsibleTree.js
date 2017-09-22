@@ -139,6 +139,8 @@ HTMLWidgets.widget({
       // Enter any new links at the parent's previous position.
       var linkEnter = link.enter().insert('path', 'g')
       .attr('class', 'link')
+      // Potentially, this may one day be mappable
+      // .style('stroke-width', function(d) { return d.data.linkWidth || 1 })
       .attr('d', function(d){
         var o = { x: source.x0, y: source.y0 }
         return diagonal(o, o)

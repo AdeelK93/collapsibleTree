@@ -105,6 +105,8 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
       # scale node growth to area rather than radius and round
       x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
     })
+    # update left margin based on new root size
+    options$margin$left <- options$margin$left + node$SizeOfNode - 10
     jsonFields <- c(jsonFields, "SizeOfNode")
   }
 

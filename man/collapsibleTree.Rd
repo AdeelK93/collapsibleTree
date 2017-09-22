@@ -12,7 +12,10 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTree(df, ...)
+collapsibleTree(df, ..., inputId = NULL, attribute = "leafCount",
+  aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
+  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL, nodeSize = NULL,
+  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL)
 
 \method{collapsibleTree}{data.frame}(df, hierarchy,
   root = deparse(substitute(df)), inputId = NULL, attribute = "leafCount",
@@ -33,11 +36,6 @@ collapsibleTree(df, ...)
 \item{...}{other arguments to pass onto S3 methods that implement
 this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree.Node}}
 
-\item{hierarchy}{a character vector of column names that define the order
-and hierarchy of the tree network. Applicable only for \code{data.frame} input.}
-
-\item{root}{label for the root node}
-
 \item{inputId}{the input slot that will be used to access the selected node (for Shiny).
 Will return a named list of the most recently clicked node,
 along with all of its parents.}
@@ -57,10 +55,6 @@ values of parent nodes. Defaults to \code{sum}, but \code{mean} also makes sense
  \item For \code{data.tree} input, a tree attribute containing the color for each node
 }}
 
-\item{fillByLevel}{which order to assign fill values to nodes.
-\code{TRUE}: Filling by level; will assign fill values to nodes vertically.
-\code{FALSE}: Filling by order; will assign fill values to nodes horizontally.}
-
 \item{linkLength}{length of the horizontal links that connect nodes in pixels.
 (optional, defaults to automatic sizing)
 Applicable only for \code{data.frame} input.}
@@ -68,6 +62,9 @@ Applicable only for \code{data.frame} input.}
 \item{fontSize}{font size of the label text in pixels}
 
 \item{tooltip}{tooltip shows the node's label and attribute value.}
+
+\item{tooltipHtml}{column name (possibly containing html) to override default tooltip
+contents, allowing for more advanced customization. Applicable only for \code{data.tree} input.}
 
 \item{nodeSize}{numeric column that will be used to determine relative node size.
 Default is to have a constant node size throughout. 'leafCount' can also
@@ -82,11 +79,17 @@ be used here (cumulative count of a node's children), or 'count'
 
 \item{height}{height in pixels (optional, defaults to automatic sizing)}
 
+\item{hierarchy}{a character vector of column names that define the order
+and hierarchy of the tree network. Applicable only for \code{data.frame} input.}
+
+\item{root}{label for the root node}
+
+\item{fillByLevel}{which order to assign fill values to nodes.
+\code{TRUE}: Filling by level; will assign fill values to nodes vertically.
+\code{FALSE}: Filling by order; will assign fill values to nodes horizontally.}
+
 \item{hierarchy_attribute}{name of the \code{data.tree} attribute that contains
 hierarchy information of the tree network. Applicable only for \code{data.tree} input.}
-
-\item{tooltipHtml}{column name (possibly containing html) to override default tooltip
-contents, allowing for more advanced customization. Applicable only for \code{data.tree} input.}
 }
 \description{
 Interactive Reingold-Tilford tree diagram created using D3.js,

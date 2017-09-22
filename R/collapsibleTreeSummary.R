@@ -56,12 +56,8 @@
 #' @source d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 #'
 #' @import htmlwidgets
-#' @importFrom data.tree ToListExplicit
-#' @importFrom data.tree as.Node
-#' @importFrom data.tree Traverse
-#' @importFrom data.tree Do
-#' @importFrom data.tree Aggregate
-#' @importFrom data.tree Sort
+#' @importFrom data.tree ToListExplicit as.Node
+#' @importFrom data.tree Traverse Do Aggregate Sort
 #' @importFrom stats complete.cases
 #' @export
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
@@ -188,6 +184,8 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
       # scale node growth to area rather than radius and round
       x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
     })
+    # update left margin based on new root size
+    options$margin$left <- options$margin$left + node$SizeOfNode - 10
     jsonFields <- c(jsonFields, "SizeOfNode")
   }
 
