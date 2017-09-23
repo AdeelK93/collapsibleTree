@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-collapsibleTree 0.1.5
+collapsibleTree 0.1.6
 =====================
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
@@ -158,7 +158,7 @@ Test Results
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sat Sep 16 17:08:01 2017"
+#> [1] "Sat Sep 23 13:02:26 2017"
 
 testthat::test_dir("tests/testthat")
 #> Error handling: .........
