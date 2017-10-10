@@ -1,23 +1,23 @@
-.node {
+.collapsibleTree .node {
   cursor: pointer;
 }
 
-.node circle {
+.collapsibleTree .node circle {
   fill: #fff;
   stroke: #000;
 }
 
-.node text {
+.collapsibleTree .node text {
   font: 10px sans-serif;
 }
 
-.link {
+.collapsibleTree .link {
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
 }
 
-div.tooltip {
+.collapsibleTree div.tooltip {
     position: absolute;
     text-align: center;
     padding: 3px;

@@ -1,10 +1,12 @@
 name: collapsibletree
 title: collapsibleTree
+username:
 account: adeelk93
 server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
 appId: 164943
-bundleId: 754829
+bundleId: 994001
 url: https://adeelk93.shinyapps.io/collapsibletree/
-when: 1490024874.29247
+when: 1506186854.57586
 asMultiple: FALSE
 asStatic: FALSE
