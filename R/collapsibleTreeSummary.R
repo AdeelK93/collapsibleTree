@@ -147,6 +147,11 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   node$Do(function(self) {
     # color in the root
     if(!length(self$WeightOfParentRnd)) self$fill <- fill[maxPercent]
+    # handle parent and child both being 0 (NaN)
+    else if(is.nan(self$WeightOfParentRnd)) {
+      warning("NaNs generated in node aggregation, node will be colored white")
+      self$fill <- "#FFFFFF"
+    }
     # color in high values
     else if(self$WeightOfParentRnd >= maxPercent) self$fill <- fill[maxPercent]
     # negative percents are just going to be treated like 0 for now
