@@ -118,7 +118,16 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
   tree <- df[!is.na(df[,1]),]
 
   # convert the data frame network into a data.tree node
-  node <- data.tree::FromDataFrameNetwork(tree)
+  if (nrow(df)==1) {
+    # Special case of single node tree
+    root[1,1] <- "Fake"
+    node <- data.tree::FromDataFrameNetwork(root)
+    node <- node$children[[1]]
+    collapsed <- FALSE
+  } else {
+    # Normal tree
+    node <- data.tree::FromDataFrameNetwork(tree)
+  }
 
   # apply root attributes from df to the node (data.tree doesn't automatically do this)
   rootAttr <- root[-(1:2)]
@@ -127,6 +136,8 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
   # calculate the right and left margins in pixels
   leftMargin <- nchar(node$name)
   rightLabelVector <- node$Get("name", filterFun = function(x) x$level==node$height)
+  # required for single node trees
+  if (is.null(rightLabelVector)) rightLabelVector <- ""
   rightMargin <- max(sapply(rightLabelVector, nchar))
 
   # create a list that contains the options

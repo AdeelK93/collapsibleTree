@@ -14,7 +14,8 @@ org <- data.frame(
     "President", "VP Operations", "VP Finance", "Director", "Director", "Scientist",
     "Manager", "Manager", "Jr Scientist", "Operator", "Operator", "Associate",
     "Analyst", "Director", "Accountant", "Accountant"
-  )
+  ),
+  stringsAsFactors = FALSE
 )
 
 test_that("root validation", {
@@ -28,6 +29,13 @@ test_that("network is resolvable", {
 
 test_that("org chart can be built", {
   o <- collapsibleTreeNetwork(org)
+  expect_is(o, "htmlwidget")
+  expect_is(o$x$data, "list")
+  expect_is(o$x$options$hierarchy, "integer")
+})
+
+test_that("single node tree", {
+  o <- collapsibleTreeNetwork(org[1,])
   expect_is(o, "htmlwidget")
   expect_is(o$x$data, "list")
   expect_is(o$x$options$hierarchy, "integer")
