@@ -48,7 +48,8 @@ With your data frame in hand, and a vector of columns to graph, creating an inte
 collapsibleTree(
   Geography,
   hierarchy = c("continent", "type", "country"),
-  width = 800
+  width = 800,
+  zoomable = FALSE
 )
 ```
 

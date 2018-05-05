@@ -15,7 +15,7 @@ HTMLWidgets.widget({
     var zoom = d3.zoom()
     .scaleExtent([1/5, 5])
     .on('zoom', function () {
-      if (options.zoomable) svg.attr('transform', d3.event.transform)
+      svg.attr('transform', d3.event.transform)
     })
 
     // create our tree object and bind it to the element
@@ -24,7 +24,6 @@ HTMLWidgets.widget({
     var svg = d3.select(el).append('svg')
     .attr('width', width)
     .attr('height', height)
-    .call(zoom)
     .append('g');
 
     // Define the div for the tooltip
@@ -64,6 +63,9 @@ HTMLWidgets.widget({
         .on('mouseover', mouseover)
         .on('mouseout', mouseout);
       }
+
+      // Enable zooming, if specified
+      if (options.zoomable) d3.select(el).select('svg').call(zoom)
 
       // Add Circle for the nodes
       nodeEnter.append('circle')
@@ -307,6 +309,7 @@ HTMLWidgets.widget({
 
 function separationFun(a, b) {
   var height = a.data.SizeOfNode + b.data.SizeOfNode,
-  distance = (height || 20)/10; // Scale distance to SizeOfNode
+  // Scale distance to SizeOfNode, if defined
+  distance = (height || 20) / 10;
   return (a.parent === b.parent ? 1 : distance);
 };
