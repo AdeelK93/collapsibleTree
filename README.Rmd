@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -169,5 +169,5 @@ Feel free to submit an issue if you run into any bugs or have any feature sugges
 library(collapsibleTree)
 date()
 
-testthat::test_dir("tests/testthat")
+testthat::test_dir("tests/testthat", reporter = testthat::SummaryReporter)
 ```

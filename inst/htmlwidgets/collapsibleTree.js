@@ -249,7 +249,8 @@ HTMLWidgets.widget({
         var heightMargin = height - options.margin.top - options.margin.bottom,
         widthMargin = width - options.margin.left - options.margin.right;
         // declares a tree layout and assigns the size
-        treemap = d3.tree().size([heightMargin, widthMargin]);
+        treemap = d3.tree().size([heightMargin, widthMargin])
+        .separation(separationFun);
 
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
@@ -292,7 +293,8 @@ HTMLWidgets.widget({
           }
         }
         // Update the treemap to fit the new canvas size
-        treemap = d3.tree().size([heightMargin, widthMargin]);
+        treemap = d3.tree().size([heightMargin, widthMargin])
+        .separation(separationFun);
         update(root)
       },
       // Make the instance properties available as a property of the widget
@@ -302,3 +304,9 @@ HTMLWidgets.widget({
     };
   }
 });
+
+function separationFun(a, b) {
+  var height = a.data.SizeOfNode + b.data.SizeOfNode,
+  distance = (height || 20)/10; // Scale distance to SizeOfNode
+  return (a.parent === b.parent ? 1 : distance);
+};

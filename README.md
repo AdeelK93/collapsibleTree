@@ -1,15 +1,26 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-collapsibleTree 0.1.6
-=====================
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
+# collapsibleTree 0.1.6
 
-collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that allows you to create interactive collapsible Reingold-Tilford tree diagrams using D3.js, adapted from Mike Bostock's [example](https://bl.ocks.org/mbostock/4339083). Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
+[![CRAN
+downloads](http://cranlogs.r-pkg.org/badges/collapsibleTree)](https://cran.r-project.org/package=collapsibleTree)
 
-If you're using [Shiny](https://shiny.rstudio.com/), you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the [Shiny example](https://adeelk93.shinyapps.io/collapsibletree/) for more info.
+collapsibleTree is an R [htmlwidget](http://www.htmlwidgets.org/) that
+allows you to create interactive collapsible Reingold-Tilford tree
+diagrams using D3.js, adapted from Mike Bostock’s
+[example](https://bl.ocks.org/mbostock/4339083). Turn your data frame
+into a hierarchical visualization without worrying about nested lists or
+JSON objects\!
 
-Installation
-------------
+If you’re using [Shiny](https://shiny.rstudio.com/), you can bind the
+most recently clicked node to a Shiny input, allowing for easier
+interaction with complex nested objects. The input will return a named
+list containing the most recently selected node, as well as all of its
+parents. See the [Shiny
+example](https://adeelk93.shinyapps.io/collapsibletree/) for more info.
+
+## Installation
 
 ``` r
 # Install package from CRAN:
@@ -20,16 +31,24 @@ install.packages("collapsibleTree")
 devtools::install_github("AdeelK93/collapsibleTree")
 ```
 
-[Changelog can be found here](https://github.com/AdeelK93/collapsibleTree/releases).
+[Changelog can be found
+here](https://github.com/AdeelK93/collapsibleTree/releases).
 
-Usage
------
+## Usage
 
-When working with data in R, it makes sense (at least to me) to represent everything as a data frame. I'm a big fan of [tidy data](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html), but this structure does not lend itself to easily designing hierarchical networks.
+When working with data in R, it makes sense (at least to me) to
+represent everything as a data frame. I’m a big fan of [tidy
+data](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html),
+but this structure does not lend itself to easily designing hierarchical
+networks.
 
-collapsibleTree uses [data.tree](https://cran.r-project.org/package=data.tree/vignettes/data.tree.html) to handle all of that, freeing you from a lot of recursive list construction.
+collapsibleTree uses
+[data.tree](https://cran.r-project.org/package=data.tree/vignettes/data.tree.html)
+to handle all of that, freeing you from a lot of recursive list
+construction.
 
-[Click here](https://adeelk93.github.io/collapsibleTree/) to see some interactive charts.
+[Click here](https://adeelk93.github.io/collapsibleTree/) to see some
+interactive charts.
 
 ``` r
 library(collapsibleTree)
@@ -37,9 +56,12 @@ library(collapsibleTree)
 collapsibleTree(warpbreaks, c("wool", "tension", "breaks"))
 ```
 
-[![Collapsible Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible
+Tree](README-example-1.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-The color of each node can be customized to draw attention to the levels of hierarchy. Thanks to Ryan Derickson for the implementation idea! Colors can be constants or generated from a gradient function.
+The color of each node can be customized to draw attention to the levels
+of hierarchy. Thanks to Ryan Derickson for the implementation idea\!
+Colors can be constants or generated from a gradient function.
 
 ``` r
 # Data from US Forest Service DataMart
@@ -61,9 +83,12 @@ collapsibleTree(
 )
 ```
 
-[![Collapsible Tree Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree
+Colored](README-example-2.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-Gradients can be mapped to a column in the data frame to help visualize relative weightings of nodes. Node weighting can also be mapped to a tooltip.
+Gradients can be mapped to a column in the data frame to help visualize
+relative weightings of nodes. Node weighting can also be mapped to a
+tooltip.
 
 ``` r
 collapsibleTreeSummary(
@@ -74,9 +99,11 @@ collapsibleTreeSummary(
 )
 ```
 
-[![Collapsible Tree Gradient](README-example-3.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree
+Gradient](README-example-3.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-Likewise, node size can also be mapped to a column in the data frame to help visualize relative weightings of nodes.
+Likewise, node size can also be mapped to a column in the data frame to
+help visualize relative weightings of nodes.
 
 ``` r
 collapsibleTreeSummary(
@@ -89,9 +116,12 @@ collapsibleTreeSummary(
 )
 ```
 
-[![Collapsible Tree Gradient](README-example-4.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree
+Gradient](README-example-4.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-Parent-child relationships can be mapped to the tree to give more customizability for each node, such as passing custom html elements to each node.
+Parent-child relationships can be mapped to the tree to give more
+customizability for each node, such as passing custom html elements to
+each node.
 
 ``` r
 # Create a simple org chart
@@ -132,12 +162,17 @@ collapsibleTreeNetwork(
 )
 ```
 
-[![Collapsible Tree Network](README-example-5.PNG)](https://adeelk93.github.io/collapsibleTree/)
+[![Collapsible Tree
+Network](README-example-5.PNG)](https://adeelk93.github.io/collapsibleTree/)
 
-Shiny Interaction
------------------
+## Shiny Interaction
 
-An interactive Shiny demo is also included. For example, you could use the collapsibleTree htmlwidget to select a portion of a larger categorical dataset, with your filter being as deep or shallow as you'd prefer. You can find a live demo [here](https://adeelk93.shinyapps.io/collapsibletree/), or run the included examples locally.
+An interactive Shiny demo is also included. For example, you could use
+the collapsibleTree htmlwidget to select a portion of a larger
+categorical dataset, with your filter being as deep or shallow as you’d
+prefer. You can find a live demo
+[here](https://adeelk93.shinyapps.io/collapsibletree/), or run the
+included examples locally.
 
 ``` r
 # Basic Shiny Interaction
@@ -147,25 +182,24 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 shiny::runApp(system.file("examples/03shiny", package = "collapsibleTree"))
 ```
 
-Issues and Suggestions
-----------------------
+## Issues and Suggestions
 
-Feel free to submit an issue if you run into any bugs or have any feature suggestions! Would love to hear your comments.
+Feel free to submit an issue if you run into any bugs or have any
+feature suggestions\! Would love to hear your comments.
 
-Test Results
-------------
+## Test Results
 
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Sat Sep 23 13:02:26 2017"
+#> [1] "Sat May  5 12:35:21 2018"
 
-testthat::test_dir("tests/testthat")
+testthat::test_dir("tests/testthat", reporter = testthat::SummaryReporter)
 #> Error handling: .........
 #> Margin sizing: ................
 #> Missing values: ....
-#> Network: ......
+#> Network: .........
 #> Root labelling: ..........
 #> 
-#> DONE ======================================================================
+#> ══ DONE ═══════════════════════════════════════════════════════════════════════════════
 ```
