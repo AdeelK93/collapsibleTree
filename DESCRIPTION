@@ -30,4 +30,5 @@ Suggests:
     colorspace,
     RColorBrewer,
     dplyr,
-    testthat
+    testthat,
+    tibble
