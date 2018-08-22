@@ -10,9 +10,10 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, attribute = "leafCount", fillFun = colorspace::heat_hcl,
-  maxPercent = 25, percentOfParent = FALSE, linkLength = NULL,
-  fontSize = 10, tooltip = TRUE, nodeSize = NULL, collapsed = TRUE,
+  inputId = NULL, attribute = "leafCount",
+  fillFun = colorspace::heat_hcl, maxPercent = 25,
+  percentOfParent = FALSE, linkLength = NULL, fontSize = 10,
+  tooltip = TRUE, nodeSize = NULL, collapsed = TRUE,
   zoomable = TRUE, width = NULL, height = NULL, ...)
 }
 \arguments{

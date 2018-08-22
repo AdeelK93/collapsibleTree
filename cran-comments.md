@@ -1,6 +1,5 @@
 ## Test environments
-* OS X 10.12.3, R 3.4.1
-* Ubuntu 16.04.2, R 3.3.3
+* OS X 10.13.6, R 3.5.0
 
 ## R CMD check results
 

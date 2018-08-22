@@ -14,20 +14,23 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 \usage{
 collapsibleTree(df, ..., inputId = NULL, attribute = "leafCount",
   aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL, nodeSize = NULL,
-  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL)
+  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL,
+  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, width = NULL,
+  height = NULL)
 
 \method{collapsibleTree}{data.frame}(df, hierarchy,
-  root = deparse(substitute(df)), inputId = NULL, attribute = "leafCount",
-  aggFun = sum, fill = "lightsteelblue", fillByLevel = TRUE,
-  linkLength = NULL, fontSize = 10, tooltip = FALSE, nodeSize = NULL,
-  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL, ...)
+  root = deparse(substitute(df)), inputId = NULL,
+  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
+  fillByLevel = TRUE, linkLength = NULL, fontSize = 10,
+  tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL, ...)
 
 \method{collapsibleTree}{Node}(df, hierarchy_attribute = "level",
-  root = df$name, inputId = NULL, attribute = "leafCount", aggFun = sum,
-  fill = "lightsteelblue", linkLength = NULL, fontSize = 10,
-  tooltip = FALSE, tooltipHtml = NULL, nodeSize = NULL,
-  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL, ...)
+  root = df$name, inputId = NULL, attribute = "leafCount",
+  aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
+  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL,
+  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, width = NULL,
+  height = NULL, ...)
 }
 \arguments{
 \item{df}{a \code{data.frame} from which to construct a nested list
