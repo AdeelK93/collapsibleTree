@@ -5,8 +5,8 @@ account: adeelk93
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 164943
-bundleId: 1359491
+bundleId: 1550010
 url: https://adeelk93.shinyapps.io/collapsibletree/
-when: 1525669121.51449
+when: 1534996883.64757
 asMultiple: FALSE
 asStatic: FALSE

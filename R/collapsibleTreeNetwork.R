@@ -202,7 +202,8 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
     # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
     data.tree::Do(t, function(x) {
-      x$SizeOfNode <- data.tree::Aggregate(x, nodeSize, sum)
+      if (substitute(aggFun)=="identity") x$SizeOfNode <- data.tree::Aggregate(x, nodeSize, sum)
+      else x$SizeOfNode <- x[[attribute]]
       # scale node growth to area rather than radius and round
       x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
     })
