@@ -201,9 +201,11 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
     scaleFactor <- 10/data.tree::Aggregate(node, nodeSize, stats::median)
     # traverse down the tree and compute the weights of each node for the tooltip
     t <- data.tree::Traverse(node, "pre-order")
+    # can't use substitute inside a subfunction
+    aggFunIsIdentity <- substitute(aggFun)=="identity"
     data.tree::Do(t, function(x) {
-      if (substitute(aggFun)=="identity") x$SizeOfNode <- data.tree::Aggregate(x, nodeSize, sum)
-      else x$SizeOfNode <- x[[attribute]]
+      if (aggFunIsIdentity) x$SizeOfNode <- x[[nodeSize]]
+      else x$SizeOfNode <- data.tree::Aggregate(x, nodeSize, sum)
       # scale node growth to area rather than radius and round
       x$SizeOfNode <- round(sqrt(x$SizeOfNode*scaleFactor)*pi, 2)
     })
