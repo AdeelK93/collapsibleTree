@@ -56,7 +56,9 @@ Default is to have a constant node size throughout. 'leafCount' can also
 be used here (cumulative count of a node's children), or 'count'
 (count of node's immediate children).}
 
-\item{collapsed}{the tree's children will start collapsed by default}
+\item{collapsed}{the tree's children will start collapsed by default
+(There is no conditional collapsing in this function yet, but it could be implemented
+if there's sufficient demand)}
 
 \item{zoomable}{pan and zoom by dragging and scrolling}
 

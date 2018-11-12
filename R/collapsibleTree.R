@@ -30,7 +30,6 @@
 #' \code{FALSE}: Filling by order; will assign fill values to nodes horizontally.
 #' @param linkLength length of the horizontal links that connect nodes in pixels.
 #' (optional, defaults to automatic sizing)
-#' Applicable only for \code{data.frame} input.
 #' @param fontSize font size of the label text in pixels
 #' @param tooltip tooltip shows the node's label and attribute value.
 #' @param tooltipHtml column name (possibly containing html) to override default tooltip
@@ -40,6 +39,11 @@
 #' be used here (cumulative count of a node's children), or 'count'
 #' (count of node's immediate children).
 #' @param collapsed the tree's children will start collapsed by default
+#' \itemize{
+#'  \item For \code{data.frame} input, can also be a vector of logical values the same length
+#'  as the number of nodes. Follows the same logic as the fill vector.
+#'  \item For \code{data.tree} input, can also be a tree attribute for conditionally collapsing nodes
+#' }
 #' @param zoomable pan and zoom by dragging and scrolling
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
@@ -81,7 +85,14 @@
 #' # collapsibleTree.Node example
 #' data(acme, package="data.tree")
 #' acme$Do(function(node) node$cost <- data.tree::Aggregate(node, attribute = "cost", aggFun = sum))
-#' collapsibleTree(acme, nodeSize  = "cost", attribute = "cost", tooltip = TRUE)
+#' acme$Do(function(node) node$lessThanMillion <- node$cost < 10^6)
+#' collapsibleTree(
+#'   acme,
+#'   nodeSize  = "cost",
+#'   attribute = "cost",
+#'   tooltip = TRUE,
+#'   collapsed = "lessThanMillion"
+#' )
 #'
 #' # Emulating collapsibleTree.data.frame using collapsibleTree.Node
 #' species <- read.csv(system.file("extdata/species.csv", package = "collapsibleTree"))

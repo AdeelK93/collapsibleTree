@@ -269,7 +269,10 @@ HTMLWidgets.widget({
 
         // Collapse the node and all it's children
         function collapse(d) {
-          if(d.children) {
+          // A collapsed data value was specified and is true
+          if(d.children && options.collapsed in d.data && !d.data[options.collapsed]) {
+            d.children.forEach(collapse)
+          } else if(d.children) {
             d._children = d.children
             d._children.forEach(collapse)
             d.children = null

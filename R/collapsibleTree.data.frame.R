@@ -94,6 +94,16 @@ collapsibleTree.data.frame <- function(df, hierarchy, root = deparse(substitute(
     jsonFields <- c(jsonFields, "WeightOfNode")
   }
 
+  # collapse the nodes, traversing down the tree
+  if(length(collapsed)>1) {
+    if(length(collapsed) != node$totalCount) {
+      stop(paste("Expected collapsed vector of length", node$totalCount, "but got", length(collapsed)))
+    }
+    node$Set(collapsed = collapsed, traversal = ifelse(fillByLevel, "level", "pre-order"))
+    jsonFields <- c(jsonFields, "collapsed")
+    options$collapsed <- "collapsed"
+  }
+
   # only necessary to perform these calculations if there is a nodeSize specified
   if(!is.null(nodeSize)) {
     # Scale factor to keep the median leaf size around 10

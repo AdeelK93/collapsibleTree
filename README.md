@@ -192,7 +192,7 @@ feature suggestions\! Would love to hear your comments.
 ``` r
 library(collapsibleTree)
 date()
-#> [1] "Tue Aug 21 22:07:51 2018"
+#> [1] "Mon Nov 12 10:26:36 2018"
 
 testthat::test_dir("tests/testthat", reporter = testthat::SummaryReporter)
 #> Error handling: .........
@@ -202,4 +202,5 @@ testthat::test_dir("tests/testthat", reporter = testthat::SummaryReporter)
 #> Root labelling: ..........
 #> 
 #> ══ DONE ═══════════════════════════════════════════════════════════════════════════════
+#> You are a coding rockstar!
 ```

@@ -34,6 +34,8 @@
 #' be used here (cumulative count of a node's children), or 'count'
 #' (count of node's immediate children).
 #' @param collapsed the tree's children will start collapsed by default
+#' (There is no conditional collapsing in this function yet, but it could be implemented
+#' if there's sufficient demand)
 #' @param zoomable pan and zoom by dragging and scrolling
 #' @param width width in pixels (optional, defaults to automatic sizing)
 #' @param height height in pixels (optional, defaults to automatic sizing)
