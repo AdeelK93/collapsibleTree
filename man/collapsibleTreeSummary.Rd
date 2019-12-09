@@ -10,7 +10,7 @@ d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
 collapsibleTreeSummary(df, hierarchy, root = deparse(substitute(df)),
-  inputId = NULL, attribute = "leafCount",
+  inputId = NULL, inputClickedId = NULL, attribute = "leafCount",
   fillFun = colorspace::heat_hcl, maxPercent = 25,
   percentOfParent = FALSE, linkLength = NULL, fontSize = 10,
   tooltip = TRUE, nodeSize = NULL, collapsed = TRUE,
@@ -27,6 +27,9 @@ and hierarchy of the tree network}
 \item{inputId}{the input slot that will be used to access the selected node (for Shiny).
 Will return a named list of the most recently clicked node,
 along with all of its parents.}
+
+\item{inputClickedId}{the input slot that will be used to access node click event (for Shiny).
+Will return the number of clicked nodes.}
 
 \item{attribute}{numeric column not listed in hierarchy that will be used
 as weighting to define the color gradient across nodes. Defaults to 'leafCount',

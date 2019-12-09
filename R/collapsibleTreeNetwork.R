@@ -19,6 +19,8 @@
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
 #' (For \code{collapsibleTreeNetwork} the names of the list are tree depth)
+#' @param inputClickedId the input slot that will be used to access node click event (for Shiny).
+#' Will return the number of clicked nodes.
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' as weighting to define the color gradient across nodes. Defaults to 'leafCount',
 #' which colors nodes by the cumulative count of its children
@@ -97,7 +99,8 @@
 #' @importFrom data.tree ToListExplicit FromDataFrameNetwork
 #' @importFrom data.tree Traverse Do Aggregate
 #' @export
-collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
+collapsibleTreeNetwork <- function(df, inputId = NULL,  inputClickedId = NULL,
+                                    attribute = "leafCount",
                                     aggFun = sum, fill = "lightsteelblue",
                                     linkLength = NULL, fontSize = 10, tooltip = TRUE,
                                     tooltipHtml = NULL, nodeSize = NULL, collapsed = TRUE,
@@ -146,6 +149,7 @@ collapsibleTreeNetwork <- function(df, inputId = NULL, attribute = "leafCount",
   options <- list(
     hierarchy = 1:node$height,
     input = inputId,
+    inputClicked = inputClickedId,
     attribute = attribute,
     linkLength = linkLength,
     fontSize = fontSize,

@@ -2,7 +2,8 @@
 #' @method collapsibleTree Node
 #' @export
 collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
-                                 root = df$name, inputId = NULL, attribute = "leafCount",
+                                 root = df$name, inputId = NULL,
+                                 inputClickedId = NULL, attribute = "leafCount",
                                  aggFun = sum, fill = "lightsteelblue",
                                  linkLength = NULL, fontSize = 10, tooltip = FALSE,
                                  tooltipHtml = NULL,nodeSize = NULL, collapsed = TRUE,
@@ -31,6 +32,7 @@ collapsibleTree.Node <- function(df, hierarchy_attribute = "level",
   options <- list(
     hierarchy = hierarchy,
     input = inputId,
+    inputClicked = inputClickedId,
     attribute = attribute,
     linkLength = linkLength,
     fontSize = fontSize,
