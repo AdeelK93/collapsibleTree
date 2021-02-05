@@ -13,6 +13,8 @@
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
+#' @param inputClickedId the input slot that will be used to access node click event (for Shiny).
+#' Will return the number of clicked nodes.
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' for tooltips, if applicable. Defaults to 'leafCount',
 #' which is the cumulative count of a node's children
@@ -115,7 +117,8 @@
 #' @importFrom stats complete.cases median
 #' @rdname collapsibleTree
 #' @export
-collapsibleTree <- function(df, ..., inputId = NULL, attribute = "leafCount",
+collapsibleTree <- function(df, ..., inputId = NULL, inputClickedId = NULL,
+                            attribute = "leafCount",
                             aggFun = sum, fill = "lightsteelblue",
                             linkLength = NULL, fontSize = 10, tooltip = FALSE,
                             tooltipHtml = NULL,nodeSize = NULL, collapsed = TRUE,

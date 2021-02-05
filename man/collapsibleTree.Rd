@@ -12,25 +12,26 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTree(df, ..., inputId = NULL, attribute = "leafCount",
-  aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL,
-  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, width = NULL,
-  height = NULL)
+collapsibleTree(df, ..., inputId = NULL, inputClickedId = NULL,
+  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
+  linkLength = NULL, fontSize = 10, tooltip = FALSE,
+  tooltipHtml = NULL, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL)
 
 \method{collapsibleTree}{data.frame}(df, hierarchy,
   root = deparse(substitute(df)), inputId = NULL,
-  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
-  fillByLevel = TRUE, linkLength = NULL, fontSize = 10,
-  tooltip = FALSE, nodeSize = NULL, collapsed = TRUE,
-  zoomable = TRUE, width = NULL, height = NULL, ...)
+  inputClickedId = NULL, attribute = "leafCount", aggFun = sum,
+  fill = "lightsteelblue", fillByLevel = TRUE, linkLength = NULL,
+  fontSize = 10, tooltip = FALSE, nodeSize = NULL,
+  collapsed = TRUE, zoomable = TRUE, width = NULL, height = NULL,
+  ...)
 
 \method{collapsibleTree}{Node}(df, hierarchy_attribute = "level",
-  root = df$name, inputId = NULL, attribute = "leafCount",
-  aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
-  fontSize = 10, tooltip = FALSE, tooltipHtml = NULL,
-  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, width = NULL,
-  height = NULL, ...)
+  root = df$name, inputId = NULL, inputClickedId = NULL,
+  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
+  linkLength = NULL, fontSize = 10, tooltip = FALSE,
+  tooltipHtml = NULL, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL, ...)
 }
 \arguments{
 \item{df}{a \code{data.frame} from which to construct a nested list
@@ -42,6 +43,9 @@ this generic function - \code{collapsibleTree.data.frame}, \code{collapsibleTree
 \item{inputId}{the input slot that will be used to access the selected node (for Shiny).
 Will return a named list of the most recently clicked node,
 along with all of its parents.}
+
+\item{inputClickedId}{the input slot that will be used to access node click event (for Shiny).
+Will return the number of clicked nodes.}
 
 \item{attribute}{numeric column not listed in hierarchy that will be used
 for tooltips, if applicable. Defaults to 'leafCount',

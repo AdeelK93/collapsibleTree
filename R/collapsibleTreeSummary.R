@@ -13,6 +13,8 @@
 #' @param inputId the input slot that will be used to access the selected node (for Shiny).
 #' Will return a named list of the most recently clicked node,
 #' along with all of its parents.
+#' @param inputClickedId the input slot that will be used to access node click event (for Shiny).
+#' Will return the number of clicked nodes.
 #' @param attribute numeric column not listed in hierarchy that will be used
 #' as weighting to define the color gradient across nodes. Defaults to 'leafCount',
 #' which colors nodes by the cumulative count of its children
@@ -63,7 +65,8 @@
 #' @importFrom stats complete.cases
 #' @export
 collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df)),
-                                    inputId = NULL, attribute = "leafCount",
+                                    inputId = NULL,  inputClickedId = NULL,
+                                    attribute = "leafCount",
                                     fillFun = colorspace::heat_hcl, maxPercent = 25,
                                     percentOfParent = FALSE, linkLength = NULL,
                                     fontSize = 10, tooltip = TRUE, nodeSize = NULL,
@@ -103,6 +106,7 @@ collapsibleTreeSummary <- function(df, hierarchy, root = deparse(substitute(df))
   options <- list(
     hierarchy = hierarchy,
     input = inputId,
+    inputClicked = inputClickedId,
     attribute = attribute,
     linkLength = linkLength,
     fontSize = fontSize,

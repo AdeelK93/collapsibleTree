@@ -9,11 +9,11 @@ Christopher Gandrud: \url{http://christophergandrud.github.io/networkD3/}.
 d3noob: \url{https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd}.
 }
 \usage{
-collapsibleTreeNetwork(df, inputId = NULL, attribute = "leafCount",
-  aggFun = sum, fill = "lightsteelblue", linkLength = NULL,
-  fontSize = 10, tooltip = TRUE, tooltipHtml = NULL,
-  nodeSize = NULL, collapsed = TRUE, zoomable = TRUE, width = NULL,
-  height = NULL)
+collapsibleTreeNetwork(df, inputId = NULL, inputClickedId = NULL,
+  attribute = "leafCount", aggFun = sum, fill = "lightsteelblue",
+  linkLength = NULL, fontSize = 10, tooltip = TRUE,
+  tooltipHtml = NULL, nodeSize = NULL, collapsed = TRUE,
+  zoomable = TRUE, width = NULL, height = NULL)
 }
 \arguments{
 \item{df}{a network data frame (where every row is a node)
@@ -29,6 +29,9 @@ from which to construct a nested list
 Will return a named list of the most recently clicked node,
 along with all of its parents.
 (For \code{collapsibleTreeNetwork} the names of the list are tree depth)}
+
+\item{inputClickedId}{the input slot that will be used to access node click event (for Shiny).
+Will return the number of clicked nodes.}
 
 \item{attribute}{numeric column not listed in hierarchy that will be used
 as weighting to define the color gradient across nodes. Defaults to 'leafCount',

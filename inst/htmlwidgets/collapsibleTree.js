@@ -9,6 +9,7 @@ HTMLWidgets.widget({
     duration = 750,
     root = {},
     options = {},
+    nodesClicked = 0,
     treemap;
 
     // Optionally enable zooming, and limit to 1/5x or 5x of the original viewport
@@ -184,6 +185,9 @@ HTMLWidgets.widget({
 
       // Toggle children on click.
       function click(d) {
+        if (options.inputClicked) {
+          Shiny.setInputValue(options.inputClicked, ++nodesClicked);
+        }
         if (d.children) {
           d._children = d.children;
           d.children = null;
