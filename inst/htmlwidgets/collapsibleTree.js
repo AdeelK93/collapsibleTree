@@ -205,7 +205,8 @@ HTMLWidgets.widget({
             nest[options.hierarchy[n-1]] = obj.data.name
             obj = obj.parent
           }
-          Shiny.onInputChange(options.input, nest)
+
+          Shiny.setInputValue(options.input, nest, { priority: "event" });
         }
       }
 
