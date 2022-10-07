@@ -49,7 +49,7 @@ HTMLWidgets.widget({
       var node = svg.selectAll('g.node')
       .data(nodes, function(d) {return d.id || (d.id = ++i); });
 
-      // Enter any new modes at the parent's previous position.
+      // Enter any new nodes at the parent's previous position.
       var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr('transform', function(d) {
@@ -71,23 +71,21 @@ HTMLWidgets.widget({
       nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
-      .style('fill', function(d) {
-        return d.data.fill || (d._children ? options.fill : '#fff');
-      })
+      //.style('fill', function(d) {
+        //return d.data.fill //|| (d._children ? '#FFF' : options.fill);
+      ///})
       .style('stroke-width', function(d) {
-        return d._children ? 3 : 1;
+        return d._children ? 1 : 1;
       });
 
       // Add labels for the nodes
       nodeEnter.append('text')
+      .attr('class', 'node-text')
       .attr('dy', '.35em')
       .attr('x', function(d) {
         // Scale padding for label to the size of node
-        var padding = (d.data.SizeOfNode || 10) + 3
-        return d.children || d._children ? -1 * padding : padding;
-      })
-      .attr('text-anchor', function(d) {
-        return d.children || d._children ? 'end' : 'start';
+        var padding = (d.data.SizeOfNode || 5) + 3
+        return d.children || d._children ? padding : padding;
       })
       .style('font-size', options.fontSize + 'px')
       .text(function(d) { return d.data.name; });
@@ -105,16 +103,47 @@ HTMLWidgets.widget({
       // Update the node attributes and style
       nodeUpdate.select('circle.node')
       .attr('r', function(d) {
-        return d.data.SizeOfNode || 10; // default radius is 10
+        return d.data.SizeOfNode || 5; // default radius was 10, reduced to 5
       })
       .style('fill', function(d) {
-        return d.data.fill || (d._children ? options.fill : '#fff');
+        return d.data.fill || (d._children ? '#FFF' : options.fill);
       })
       .style('stroke-width', function(d) {
-        return d._children ? 3 : 1;
+        return d._children ? 1 : 1;
       })
       .attr('cursor', 'pointer');
 
+      // Update the node-text attributes and style
+      nodeUpdate.select('text.node-text')
+      .attr('text-anchor', function(d) {
+        if(d._children){
+            return 'start';
+        } else {
+            return 'end';
+        }
+      })
+      .attr('x', function(d) {
+        var padding = (d.data.SizeOfNode || 5) + 3
+        if(d._children){
+            return padding;
+        } else {
+            return -1 * padding;
+        }
+      })
+      .style('font-size', function(d) {
+        if(d._children){
+            return options.fontSize + 'px';
+        } else {
+            return (options.fontSize + 1) + 'px';
+        }
+      })
+      .style('font-weight', function(d) {
+        if(d._children){
+            return 'lighter';
+        } else {
+            return 'bolder';
+        }
+      })
 
       // Remove any exiting nodes
       var nodeExit = node.exit().transition()
@@ -224,7 +253,7 @@ HTMLWidgets.widget({
         // Make the tooltip font size just a little bit bigger
         .style('font-size', (options.fontSize + 1) + 'px')
         .style('left', (d3.event.layerX) + 'px')
-        .style('top', (d3.event.layerY - 30) + 'px');
+        .style('top', (d3.event.layerY - 10) + 'px');
       }
       // Hide tooltip on mouseout
       function mouseout(d) {
@@ -258,7 +287,7 @@ HTMLWidgets.widget({
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
           options.linkResponsive = true
-          options.linkLength = widthMargin / options.hierarchy.length
+          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
           if (options.linkLength < 10) {
             options.linkLength = 10 // Offscreen or too short
           }
@@ -293,7 +322,7 @@ HTMLWidgets.widget({
 
         // Calculate a reasonable link length, if not originally specified
         if (options.linkResponsive) {
-          options.linkLength = widthMargin / options.hierarchy.length
+          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
           if (options.linkLength < 10) {
             options.linkLength = 10 // Offscreen or too short
           }
@@ -314,6 +343,6 @@ HTMLWidgets.widget({
 function separationFun(a, b) {
   var height = a.data.SizeOfNode + b.data.SizeOfNode,
   // Scale distance to SizeOfNode, if defined
-  distance = (height || 20) / 10;
+  distance = (height || 20) / 20; // increase denominator for better spacing in DEAP app
   return (a.parent === b.parent ? 1 : distance);
 };
