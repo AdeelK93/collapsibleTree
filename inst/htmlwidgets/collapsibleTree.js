@@ -116,32 +116,32 @@ HTMLWidgets.widget({
       // Update the node-text attributes and style
       nodeUpdate.select('text.node-text')
       .attr('text-anchor', function(d) {
-        if(d._children){
-            return 'start';
-        } else {
+        if(d.children){
             return 'end';
+        } else {
+            return 'start';
         }
       })
       .attr('x', function(d) {
         var padding = (d.data.SizeOfNode || 5) + 3
-        if(d._children){
-            return padding;
-        } else {
+        if(d.children){
             return -1 * padding;
+        } else {
+            return padding;
         }
       })
       .style('font-size', function(d) {
-        if(d._children){
-            return options.fontSize + 'px';
-        } else {
+        if(d.children){
             return (options.fontSize + 1) + 'px';
+        } else {
+            return (options.fontSize) + 'px';
         }
       })
       .style('font-weight', function(d) {
-        if(d._children){
-            return 'lighter';
-        } else {
+        if(d.children){
             return 'bolder';
+        } else {
+            return 'lighter';
         }
       })
 
@@ -161,7 +161,7 @@ HTMLWidgets.widget({
       nodeExit.select('text')
       .style('fill-opacity', 1e-6);
 
-      // ****************** links section ***************************
+  // ****************** links section ***************************
 
       // Update the links...
       var link = svg.selectAll('path.link')
