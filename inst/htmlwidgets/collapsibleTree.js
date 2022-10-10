@@ -71,9 +71,9 @@ HTMLWidgets.widget({
       nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
-      //.style('fill', function(d) {
-        //return d.data.fill //|| (d._children ? '#FFF' : options.fill);
-      ///})
+      .attr('r', function(d) {
+        return d.data.SizeOfNode || 5; // default radius was 10, reduced to 5
+      })
       .style('stroke-width', function(d) {
         return d._children ? 1 : 1;
       });
@@ -102,14 +102,12 @@ HTMLWidgets.widget({
 
       // Update the node attributes and style
       nodeUpdate.select('circle.node')
-      .attr('r', function(d) {
-        return d.data.SizeOfNode || 5; // default radius was 10, reduced to 5
-      })
       .style('fill', function(d) {
-        return d.data.fill || (d._children ? '#FFF' : options.fill);
-      })
-      .style('stroke-width', function(d) {
-        return d._children ? 1 : 1;
+        if(d._isSelected == true){
+          return options.fill;
+        } else {
+          return '#FFF'
+        }
       })
       .attr('cursor', 'pointer');
 
@@ -131,14 +129,14 @@ HTMLWidgets.widget({
         }
       })
       .style('font-size', function(d) {
-        if(d.children){
+        if(d._isSelected == true){
             return (options.fontSize + 1) + 'px';
         } else {
             return (options.fontSize) + 'px';
         }
       })
       .style('font-weight', function(d) {
-        if(d.children){
+        if(d._isSelected == true){
             return 'bolder';
         } else {
             return 'lighter';
@@ -220,11 +218,33 @@ HTMLWidgets.widget({
           d.children = d._children;
           d._children = null;
         }
+
+        //console.log(d._isSelected);
+        if (d._isSelected == false || d._isSelected == null){
+          d._isSelected = true;
+          //console.log(d._isSelected);
+        } else {
+          d._isSelected = false;
+          //console.log(d._isSelected);
+        }
+
+        //var x = d.x;
+        //var y = d.y;
+
+        //var new_x = (-x + (width / 2));
+        //var new_y = (-y + (height / 2));
+
+        //console.log(new_x);
+
+        //svg.attr("transform", "translate(" + new_x + "," + new_y + ")");
+
         update(d);
+
         // Hide the tooltip after clicking
         tooltip.transition()
         .duration(100)
         .style('opacity', 0)
+
         // Update Shiny inputs, if applicable
         if (options.input) {
           var nest = {},
@@ -269,6 +289,7 @@ HTMLWidgets.widget({
         root = d3.hierarchy(x.data, function(d) { return d.children; });
         root.x0 = height / 2;
         root.y0 = 0;
+        root._isSelected= true;
 
         // Attach options as a property of the instance
         options = x.options;
