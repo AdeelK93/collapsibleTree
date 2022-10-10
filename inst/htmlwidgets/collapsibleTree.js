@@ -228,17 +228,16 @@ HTMLWidgets.widget({
           //console.log(d._isSelected);
         }
 
-        //var x = d.x;
-        //var y = d.y;
+        var t = d3.zoomTransform(svg.node());
+        var x = -source.y0;
+        var y = -source.x0;
+        var new_x = x * t.k + width / 4;
+        var new_y = y * t.k + height / 2;
 
-        //var new_x = (-x + (width / 2));
-        //var new_y = (-y + (height / 2));
-
-        //console.log(new_x);
-
-        //svg.attr("transform", "translate(" + new_x + "," + new_y + ")");
+        svg.transition().duration(750).attr("transform", "translate(" + new_x + "," + new_y + ")");
 
         update(d);
+        centerNode(d);
 
         // Hide the tooltip after clicking
         tooltip.transition()
@@ -279,6 +278,7 @@ HTMLWidgets.widget({
         .style('left', (d3.event.layerX) + 'px')
         .style('top', (d3.event.layerY - 10) + 'px');
       }
+
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
