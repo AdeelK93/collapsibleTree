@@ -237,7 +237,6 @@ HTMLWidgets.widget({
         svg.transition().duration(750).attr("transform", "translate(" + new_x + "," + new_y + ")");
 
         update(d);
-        centerNode(d);
 
         // Hide the tooltip after clicking
         tooltip.transition()
