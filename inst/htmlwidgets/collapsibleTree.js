@@ -255,6 +255,10 @@ HTMLWidgets.widget({
             obj = obj.parent
           }
 
+          // WeightOfNode == 0 for `n` nodes
+          // if (d.data.WeightOfNode > 0) {
+          //  Shiny.setInputValue(options.input, nest, { priority: "event" });
+          // }
           Shiny.setInputValue(options.input, nest, { priority: "event" });
         }
       }
