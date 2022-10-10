@@ -249,7 +249,11 @@ HTMLWidgets.widget({
           obj = d;
           // Navigate up the list and recursively find parental nodes
           for (var n = d.depth; n > 0; n--) {
-            nest[options.hierarchy[n-1]] = obj.data.name
+
+            // ONLY add to `nest` IFF selected (i.e. `._isSelected == true`)
+            if (obj._isSelected == true) {
+              nest[options.hierarchy[n-1]] = obj.data.name;
+            }
             obj = obj.parent
           }
 
