@@ -9,14 +9,15 @@ HTMLWidgets.widget({
     duration = 750,
     root = {},
     options = {},
+    newnest = {},
     treemap;
 
     // Optionally enable zooming, and limit to 1/5x or 5x of the original viewport
     var zoom = d3.zoom()
     .scaleExtent([1/5, 5])
     .on('zoom', function () {
-      svg.attr('transform', d3.event.transform)
-    })
+      svg.attr('transform', d3.event.transform);
+    });
 
     // create our tree object and bind it to the element
     // appends a 'group' element to 'svg'
@@ -47,9 +48,18 @@ HTMLWidgets.widget({
 
       // Update the nodes...
       var node = svg.selectAll('g.node')
-      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+      .data(nodes, function(d) {
 
-      // Enter any new modes at the parent's previous position.
+        if (d.depth > 1) {
+          d.root_id = d.parent.root_id;
+        } else {
+          d.root_id = d.id;
+        }
+
+        return d.id || (d.id = ++i);
+      });
+
+      // Enter any new nodes at the parent's previous position.
       var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr('transform', function(d) {
@@ -65,29 +75,27 @@ HTMLWidgets.widget({
       }
 
       // Enable zooming, if specified
-      if (options.zoomable) d3.select(el).select('svg').call(zoom)
+      if (options.zoomable) d3.select(el).select('svg').call(zoom);
 
       // Add Circle for the nodes
       nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
-      .style('fill', function(d) {
-        return d.data.fill || (d._children ? options.fill : '#fff');
+      .attr('r', function(d) {
+        return d.data.SizeOfNode || 5; // default radius was 10, reduced to 5
       })
       .style('stroke-width', function(d) {
-        return d._children ? 3 : 1;
+        return d._children ? 1 : 1;
       });
 
       // Add labels for the nodes
       nodeEnter.append('text')
+      .attr('class', 'node-text')
       .attr('dy', '.35em')
       .attr('x', function(d) {
         // Scale padding for label to the size of node
-        var padding = (d.data.SizeOfNode || 10) + 3
-        return d.children || d._children ? -1 * padding : padding;
-      })
-      .attr('text-anchor', function(d) {
-        return d.children || d._children ? 'end' : 'start';
+        var padding = (d.data.SizeOfNode || 5) + 3;
+        return d.children || d._children ? padding : padding;
       })
       .style('font-size', options.fontSize + 'px')
       .text(function(d) { return d.data.name; });
@@ -104,17 +112,46 @@ HTMLWidgets.widget({
 
       // Update the node attributes and style
       nodeUpdate.select('circle.node')
-      .attr('r', function(d) {
-        return d.data.SizeOfNode || 10; // default radius is 10
-      })
       .style('fill', function(d) {
-        return d.data.fill || (d._children ? options.fill : '#fff');
-      })
-      .style('stroke-width', function(d) {
-        return d._children ? 3 : 1;
+        if (d._isSelected === true){
+          return options.fill;
+        } else {
+          return '#FFF';
+        }
       })
       .attr('cursor', 'pointer');
 
+      // Update the node-text attributes and style
+      nodeUpdate.select('text.node-text')
+      .attr('text-anchor', function(d) {
+        if(d.children){
+            return 'end';
+        } else {
+            return 'start';
+        }
+      })
+      .attr('x', function(d) {
+        var padding = (d.data.SizeOfNode || 5) + 3;
+        if(d.children){
+            return -1 * padding;
+        } else {
+            return padding;
+        }
+      })
+      .style('font-size', function(d) {
+        if (d._isSelected === true) {
+            return (options.fontSize + 1) + 'px';
+        } else {
+            return (options.fontSize) + 'px';
+        }
+      })
+      .style('font-weight', function(d) {
+        if (d._isSelected === true) {
+            return 'bolder';
+        } else {
+            return 'lighter';
+        }
+      });
 
       // Remove any exiting nodes
       var nodeExit = node.exit().transition()
@@ -132,7 +169,7 @@ HTMLWidgets.widget({
       nodeExit.select('text')
       .style('fill-opacity', 1e-6);
 
-      // ****************** links section ***************************
+  // ****************** links section ***************************
 
       // Update the links...
       var link = svg.selectAll('path.link')
@@ -144,8 +181,8 @@ HTMLWidgets.widget({
       // Potentially, this may one day be mappable
       // .style('stroke-width', function(d) { return d.data.linkWidth || 1 })
       .attr('d', function(d){
-        var o = { x: source.x0, y: source.y0 }
-        return diagonal(o, o)
+        var o = { x: source.x0, y: source.y0 };
+        return diagonal(o, o);
       });
 
       // UPDATE
@@ -160,8 +197,8 @@ HTMLWidgets.widget({
       var linkExit = link.exit().transition()
       .duration(duration)
       .attr('d', function(d) {
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
+        var o = {x: source.x, y: source.y};
+        return diagonal(o, o);
       })
       .remove();
 
@@ -179,8 +216,17 @@ HTMLWidgets.widget({
         (s.y + d.y) / 2 + ' ' + d.x + ', ' +
         d.y + ' ' + d.x;
 
-        return path
+        return path;
       }
+
+      newnest = nodes.filter(nodes => nodes.depth > 0 && nodes._isSelected === true).map(function(nd) {
+        return {
+            id: nd.root_id,
+            parent: nd.parent.data.name,
+            level: options.hierarchy[nd.depth - 1],
+            value: nd.data.name
+        };
+      });
 
       // Toggle children on click.
       function click(d) {
@@ -191,22 +237,53 @@ HTMLWidgets.widget({
           d.children = d._children;
           d._children = null;
         }
+
+        if (d._isSelected == false || d._isSelected == null){
+          d._isSelected = true;
+        } else {
+          d._isSelected = false;
+        }
+
+        var t = d3.zoomTransform(svg.node());
+        var x = -source.y0;
+        var y = -source.x0;
+        var new_x = x * t.k + width / 4;
+        var new_y = y * t.k + height / 2;
+
+        svg.transition().duration(750).attr("transform", "translate(" + new_x + "," + new_y + ")");
+
         update(d);
+
         // Hide the tooltip after clicking
         tooltip.transition()
         .duration(100)
-        .style('opacity', 0)
+        .style('opacity', 0);
+
         // Update Shiny inputs, if applicable
         if (options.input) {
           var nest = {},
           obj = d;
           // Navigate up the list and recursively find parental nodes
           for (var n = d.depth; n > 0; n--) {
-            nest[options.hierarchy[n-1]] = obj.data.name
-            obj = obj.parent
+
+            // ONLY add to `nest` IFF selected (i.e. `._isSelected == true`)
+            if (obj._isSelected == true) {
+              if (nest[options.hierarchy[n-1]] === undefined) {
+                nest[options.hierarchy[n-1]] = obj.data.name;
+              } else {
+                nest[options.hierarchy[n-1]].push(obj.data.name);
+              }
+            }
+            obj = obj.parent;
           }
 
-          Shiny.setInputValue(options.input, nest, { priority: "event" });
+          // WeightOfNode == 0 for `n` nodes
+          // if (d.data.WeightOfNode > 0) {
+          //  Shiny.setInputValue(options.input, nest, { priority: "event" });
+          // }
+          // Shiny.setInputValue(options.input, nest, { priority: "event" });
+
+          Shiny.setInputValue(options.input, JSON.stringify(newnest), { priority: "event" });
         }
       }
 
@@ -224,8 +301,9 @@ HTMLWidgets.widget({
         // Make the tooltip font size just a little bit bigger
         .style('font-size', (options.fontSize + 1) + 'px')
         .style('left', (d3.event.layerX) + 'px')
-        .style('top', (d3.event.layerY - 30) + 'px');
+        .style('top', (d3.event.layerY - 10) + 'px');
       }
+
       // Hide tooltip on mouseout
       function mouseout(d) {
         tooltip.transition()
@@ -240,6 +318,7 @@ HTMLWidgets.widget({
         root = d3.hierarchy(x.data, function(d) { return d.children; });
         root.x0 = height / 2;
         root.y0 = 0;
+        root._isSelected= true;
 
         // Attach options as a property of the instance
         options = x.options;
@@ -258,7 +337,7 @@ HTMLWidgets.widget({
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
           options.linkResponsive = true
-          options.linkLength = widthMargin / options.hierarchy.length
+          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
           if (options.linkLength < 10) {
             options.linkLength = 10 // Offscreen or too short
           }
@@ -293,7 +372,7 @@ HTMLWidgets.widget({
 
         // Calculate a reasonable link length, if not originally specified
         if (options.linkResponsive) {
-          options.linkLength = widthMargin / options.hierarchy.length
+          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
           if (options.linkLength < 10) {
             options.linkLength = 10 // Offscreen or too short
           }
@@ -314,6 +393,6 @@ HTMLWidgets.widget({
 function separationFun(a, b) {
   var height = a.data.SizeOfNode + b.data.SizeOfNode,
   // Scale distance to SizeOfNode, if defined
-  distance = (height || 20) / 10;
+  distance = (height || 20) / 20; // increase denominator for better spacing in DEAP app
   return (a.parent === b.parent ? 1 : distance);
 };
