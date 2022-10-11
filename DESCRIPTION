@@ -1,34 +1,39 @@
-Package: collapsibleTree
 Type: Package
+Package: collapsibleTree
 Title: Interactive Collapsible Tree Diagrams using 'D3.js'
 Version: 0.1.7
 Authors@R: c(
-    person("Adeel", "Khan", email = "AdeelK@gwu.edu", role = c("aut", "cre")),
+    person("Adeel", "Khan", , "AdeelK@gwu.edu", role = c("aut", "cre")),
     person("Dhrumin", "Shah", role = "ctb"),
-    person("Mike", "Bostock", role = c("ctb", "cph"), comment = "D3.js library, http://d3js.org")
+    person("Mike", "Bostock", role = c("ctb", "cph"),
+           comment = "D3.js library, http://d3js.org")
   )
 Maintainer: Adeel Khan <AdeelK@gwu.edu>
-Description:
-    Interactive Reingold-Tilford tree diagrams created using 'D3.js', where every node can be expanded and collapsed by clicking on it.
-    Tooltips and color gradients can be mapped to nodes using a numeric column in the source data frame.
-    See 'collapsibleTree' website for more information and examples.
+Description:Interactive Reingold-Tilford tree diagrams created using
+    'D3.js', where every node can be expanded and collapsed by clicking on
+    it.  Tooltips and color gradients can be mapped to nodes using a
+    numeric column in the source data frame.  See 'collapsibleTree'
+    website for more information and examples.
 License: GPL (>= 3)
-URL: https://github.com/AdeelK93/collapsibleTree, https://AdeelK93.github.io/collapsibleTree/
+URL: https://github.com/AdeelK93/collapsibleTree,
+    https://AdeelK93.github.io/collapsibleTree/
 BugReports: https://github.com/AdeelK93/collapsibleTree/issues
-Encoding: UTF-8
 Depends:
     R (>= 3.0.0)
 Imports:
-    htmlwidgets,
     data.tree,
-    stats,
-    methods
-Enhances: knitr, shiny
-LazyData: true
-RoxygenNote: 6.1.1
+    htmlwidgets,
+    methods,
+    stats
 Suggests:
     colorspace,
-    RColorBrewer,
     dplyr,
+    RColorBrewer,
     testthat,
     tibble
+Enhances: 
+    knitr,
+    shiny
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
