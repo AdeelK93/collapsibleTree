@@ -65,7 +65,7 @@ HTMLWidgets.widget({
       }
 
       // Enable zooming, if specified
-      if (options.zoomable) d3.select(el).select('svg').call(zoom)
+      if (options.zoomable) d3.select(el).select('svg').call(zoom);
 
       // Add Circle for the nodes
       nodeEnter.append('circle')
@@ -84,7 +84,7 @@ HTMLWidgets.widget({
       .attr('dy', '.35em')
       .attr('x', function(d) {
         // Scale padding for label to the size of node
-        var padding = (d.data.SizeOfNode || 5) + 3
+        var padding = (d.data.SizeOfNode || 5) + 3;
         return d.children || d._children ? padding : padding;
       })
       .style('font-size', options.fontSize + 'px')
@@ -103,10 +103,10 @@ HTMLWidgets.widget({
       // Update the node attributes and style
       nodeUpdate.select('circle.node')
       .style('fill', function(d) {
-        if(d._isSelected == true){
+        if (d._isSelected === true){
           return options.fill;
         } else {
-          return '#FFF'
+          return '#FFF';
         }
       })
       .attr('cursor', 'pointer');
@@ -121,7 +121,7 @@ HTMLWidgets.widget({
         }
       })
       .attr('x', function(d) {
-        var padding = (d.data.SizeOfNode || 5) + 3
+        var padding = (d.data.SizeOfNode || 5) + 3;
         if(d.children){
             return -1 * padding;
         } else {
@@ -129,19 +129,19 @@ HTMLWidgets.widget({
         }
       })
       .style('font-size', function(d) {
-        if(d._isSelected == true){
+        if (d._isSelected === true) {
             return (options.fontSize + 1) + 'px';
         } else {
             return (options.fontSize) + 'px';
         }
       })
       .style('font-weight', function(d) {
-        if(d._isSelected == true){
+        if (d._isSelected === true) {
             return 'bolder';
         } else {
             return 'lighter';
         }
-      })
+      });
 
       // Remove any exiting nodes
       var nodeExit = node.exit().transition()
@@ -171,8 +171,8 @@ HTMLWidgets.widget({
       // Potentially, this may one day be mappable
       // .style('stroke-width', function(d) { return d.data.linkWidth || 1 })
       .attr('d', function(d){
-        var o = { x: source.x0, y: source.y0 }
-        return diagonal(o, o)
+        var o = { x: source.x0, y: source.y0 };
+        return diagonal(o, o);
       });
 
       // UPDATE
