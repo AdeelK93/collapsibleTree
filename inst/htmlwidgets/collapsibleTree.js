@@ -9,6 +9,7 @@ HTMLWidgets.widget({
     duration = 750,
     root = {},
     options = {},
+    newnest = {},
     treemap;
 
     // Optionally enable zooming, and limit to 1/5x or 5x of the original viewport
@@ -218,6 +219,15 @@ HTMLWidgets.widget({
         return path
       }
 
+      newnest = nodes.filter(nodes => nodes.depth > 0 && nodes._isSelected === true).map(function(nd) {
+        return {
+            id: nd.root_id,
+            parent: nd.parent.data.name,
+            level: options.hierarchy[nd.depth - 1],
+            value: nd.data.name
+        };
+      });
+
       // Toggle children on click.
       function click(d) {
         if (d.children) {
@@ -228,13 +238,10 @@ HTMLWidgets.widget({
           d._children = null;
         }
 
-        //console.log(d._isSelected);
         if (d._isSelected == false || d._isSelected == null){
           d._isSelected = true;
-          //console.log(d._isSelected);
         } else {
           d._isSelected = false;
-          //console.log(d._isSelected);
         }
 
         var t = d3.zoomTransform(svg.node());
@@ -261,7 +268,11 @@ HTMLWidgets.widget({
 
             // ONLY add to `nest` IFF selected (i.e. `._isSelected == true`)
             if (obj._isSelected == true) {
-              nest[options.hierarchy[n-1]] = obj.data.name;
+              if (nest[options.hierarchy[n-1]] === undefined) {
+                nest[options.hierarchy[n-1]] = obj.data.name;
+              } else {
+                nest[options.hierarchy[n-1]].push(obj.data.name);
+              }
             }
             obj = obj.parent
           }
@@ -270,7 +281,9 @@ HTMLWidgets.widget({
           // if (d.data.WeightOfNode > 0) {
           //  Shiny.setInputValue(options.input, nest, { priority: "event" });
           // }
-          Shiny.setInputValue(options.input, nest, { priority: "event" });
+          // Shiny.setInputValue(options.input, nest, { priority: "event" });
+
+          Shiny.setInputValue(options.input, JSON.stringify(newnest), { priority: "event" });
         }
       }
 
