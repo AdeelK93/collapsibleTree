@@ -47,7 +47,16 @@ HTMLWidgets.widget({
 
       // Update the nodes...
       var node = svg.selectAll('g.node')
-      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+      .data(nodes, function(d) {
+
+        if (d.depth > 1) {
+          d.root_id = d.parent.root_id;
+        } else {
+          d.root_id = d.id;
+        }
+
+        return d.id || (d.id = ++i);
+      });
 
       // Enter any new nodes at the parent's previous position.
       var nodeEnter = node.enter().append('g')
