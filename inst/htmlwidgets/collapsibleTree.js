@@ -16,8 +16,8 @@ HTMLWidgets.widget({
     var zoom = d3.zoom()
     .scaleExtent([1/5, 5])
     .on('zoom', function () {
-      svg.attr('transform', d3.event.transform)
-    })
+      svg.attr('transform', d3.event.transform);
+    });
 
     // create our tree object and bind it to the element
     // appends a 'group' element to 'svg'
@@ -197,8 +197,8 @@ HTMLWidgets.widget({
       var linkExit = link.exit().transition()
       .duration(duration)
       .attr('d', function(d) {
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
+        var o = {x: source.x, y: source.y};
+        return diagonal(o, o);
       })
       .remove();
 
@@ -216,7 +216,7 @@ HTMLWidgets.widget({
         (s.y + d.y) / 2 + ' ' + d.x + ', ' +
         d.y + ' ' + d.x;
 
-        return path
+        return path;
       }
 
       newnest = nodes.filter(nodes => nodes.depth > 0 && nodes._isSelected === true).map(function(nd) {
@@ -257,7 +257,7 @@ HTMLWidgets.widget({
         // Hide the tooltip after clicking
         tooltip.transition()
         .duration(100)
-        .style('opacity', 0)
+        .style('opacity', 0);
 
         // Update Shiny inputs, if applicable
         if (options.input) {
@@ -274,7 +274,7 @@ HTMLWidgets.widget({
                 nest[options.hierarchy[n-1]].push(obj.data.name);
               }
             }
-            obj = obj.parent
+            obj = obj.parent;
           }
 
           // WeightOfNode == 0 for `n` nodes
