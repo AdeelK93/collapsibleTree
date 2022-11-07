@@ -247,7 +247,7 @@ HTMLWidgets.widget({
         var t = d3.zoomTransform(svg.node());
         var x = -source.y0;
         var y = -source.x0;
-        var new_x = x * t.k + width / 4;
+        var new_x = x * t.k + width / 6;
         var new_y = y * t.k + height / 2;
 
         svg.transition().duration(750).attr("transform", "translate(" + new_x + "," + new_y + ")");
@@ -337,9 +337,9 @@ HTMLWidgets.widget({
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
           options.linkResponsive = true
-          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
-          if (options.linkLength < 10) {
-            options.linkLength = 10 // Offscreen or too short
+          options.linkLength = 2 * (widthMargin / options.hierarchy.length)
+          if (options.linkLength < 150) {
+            options.linkLength = 150 // Offscreen or too short
           }
         }
 
@@ -372,9 +372,9 @@ HTMLWidgets.widget({
 
         // Calculate a reasonable link length, if not originally specified
         if (options.linkResponsive) {
-          options.linkLength = 1.25 * (widthMargin / options.hierarchy.length)
-          if (options.linkLength < 10) {
-            options.linkLength = 10 // Offscreen or too short
+          options.linkLength = 2 * (widthMargin / options.hierarchy.length)
+          if (options.linkLength < 150) {
+            options.linkLength = 150 // Offscreen or too short
           }
         }
         // Update the treemap to fit the new canvas size
