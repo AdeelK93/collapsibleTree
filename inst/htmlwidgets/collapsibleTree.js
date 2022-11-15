@@ -82,7 +82,8 @@ HTMLWidgets.widget({
       .attr('class', 'node')
       .attr('r', 1e-6)
       .attr('r', function(d) {
-        return d.data.SizeOfNode || 5; // default radius was 10, reduced to 5
+        //return Math.log(d.data.SizeOfNode) || 5; // default radius was 10, reduced to 5
+        return Math.sqrt(d.data.SizeOfNode) || 5; // default radius was 10, reduced to 5
       })
       .style('stroke-width', function(d) {
         return d._children ? 1 : 1;
@@ -94,7 +95,8 @@ HTMLWidgets.widget({
       .attr('dy', '.35em')
       .attr('x', function(d) {
         // Scale padding for label to the size of node
-        var padding = (d.data.SizeOfNode || 5) + 3;
+        //var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
+        var padding = (Math.sqrt(d.data.SizeOfNode) || 5) + 3;
         return d.children || d._children ? padding : padding;
       })
       .style('font-size', options.fontSize + 'px')
@@ -131,7 +133,8 @@ HTMLWidgets.widget({
         }
       })
       .attr('x', function(d) {
-        var padding = (d.data.SizeOfNode || 5) + 3;
+        //var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
+        var padding = (Math.sqrt(d.data.SizeOfNode) || 5) + 3;
         if(d.children){
             return -1 * padding;
         } else {
@@ -338,8 +341,8 @@ HTMLWidgets.widget({
         if (!options.linkLength) {
           options.linkResponsive = true
           options.linkLength = 2 * (widthMargin / options.hierarchy.length)
-          if (options.linkLength < 150) {
-            options.linkLength = 150 // Offscreen or too short
+          if (options.linkLength < 175) {
+            options.linkLength = 175 // Offscreen or too short
           }
         }
 
@@ -373,8 +376,8 @@ HTMLWidgets.widget({
         // Calculate a reasonable link length, if not originally specified
         if (options.linkResponsive) {
           options.linkLength = 2 * (widthMargin / options.hierarchy.length)
-          if (options.linkLength < 150) {
-            options.linkLength = 150 // Offscreen or too short
+          if (options.linkLength < 175) {
+            options.linkLength = 175 // Offscreen or too short
           }
         }
         // Update the treemap to fit the new canvas size
