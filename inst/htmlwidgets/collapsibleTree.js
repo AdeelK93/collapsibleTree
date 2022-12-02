@@ -26,6 +26,7 @@ HTMLWidgets.widget({
     .attr('width', width)
     .attr('height', height)
     .append('g');
+    //.attr("viewBox", "0 "+(-1*(height-margin.top-margin.bottom)/2)+" "+width+" "+height);
 
     // Define the div for the tooltip
     var tooltip = d3.select(el).append('div')
@@ -82,8 +83,8 @@ HTMLWidgets.widget({
       .attr('class', 'node')
       .attr('r', 1e-6)
       .attr('r', function(d) {
-        return Math.log(d.data.SizeOfNode) || 5; // default radius was 10, reduced to 5
-        //return Math.sqrt(d.data.SizeOfNode) || 5; // default radius was 10, reduced to 5
+        //return Math.log(d.data.SizeOfNode) || 5; // default radius was 10, reduced to 5
+        return Math.sqrt(d.data.SizeOfNode); // default radius was 10, reduced to 5
       })
       .style('stroke-width', function(d) {
         return d._children ? 1 : 1;
@@ -95,8 +96,8 @@ HTMLWidgets.widget({
       .attr('dy', '.35em')
       .attr('x', function(d) {
         // Scale padding for label to the size of node
-        var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
-        //var padding = (Math.sqrt(d.data.SizeOfNode) || 5) + 3;
+        //var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
+        var padding = (Math.sqrt(d.data.SizeOfNode)) + 3;
         return d.children || d._children ? padding : padding;
       })
       .style('font-size', options.fontSize + 'px')
@@ -133,8 +134,8 @@ HTMLWidgets.widget({
         }
       })
       .attr('x', function(d) {
-        var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
-        //var padding = (Math.sqrt(d.data.SizeOfNode) || 5) + 3;
+        //var padding = (Math.log(d.data.SizeOfNode) || 5) + 3;
+        var padding = (Math.sqrt(d.data.SizeOfNode)) + 3;
         if(d.children){
             return -1 * padding;
         } else {
@@ -166,7 +167,8 @@ HTMLWidgets.widget({
 
       // On exit reduce the node circles size to 0
       nodeExit.select('circle')
-      .attr('r', 1e-6);
+      .attr('r', 1e-6)
+      .attr('class', 'hidden');
 
       // On exit reduce the opacity of text labels
       nodeExit.select('text')
@@ -233,6 +235,8 @@ HTMLWidgets.widget({
 
       // Toggle children on click.
       function click(d) {
+
+        // toggle children
         if (d.children) {
           d._children = d.children;
           d.children = null;
@@ -241,11 +245,19 @@ HTMLWidgets.widget({
           d._children = null;
         }
 
+        // toggle _isselected
         if (d._isSelected == false || d._isSelected == null){
           d._isSelected = true;
         } else {
           d._isSelected = false;
         }
+
+        // toggle node state
+        //if (d.state === undefined || d.state == "closed") {
+        //  d.state = "open";
+        //} else {
+        //  d.state = "closed";
+        //}
 
         var t = d3.zoomTransform(svg.node());
         var x = -source.y0;
@@ -321,7 +333,7 @@ HTMLWidgets.widget({
         root = d3.hierarchy(x.data, function(d) { return d.children; });
         root.x0 = height / 2;
         root.y0 = 0;
-        root._isSelected= true;
+        root._isSelected = true;
 
         // Attach options as a property of the instance
         options = x.options;
@@ -333,9 +345,11 @@ HTMLWidgets.widget({
         // width and height, corrected for margins
         var heightMargin = height - options.margin.top - options.margin.bottom,
         widthMargin = width - options.margin.left - options.margin.right;
+
         // declares a tree layout and assigns the size
         treemap = d3.tree().size([heightMargin, widthMargin])
         .separation(separationFun);
+        update(root);
 
         // Calculate a reasonable link length, if not otherwise specified
         if (!options.linkLength) {
@@ -380,10 +394,12 @@ HTMLWidgets.widget({
             options.linkLength = 175 // Offscreen or too short
           }
         }
+
         // Update the treemap to fit the new canvas size
         treemap = d3.tree().size([heightMargin, widthMargin])
         .separation(separationFun);
         update(root)
+
       },
       // Make the instance properties available as a property of the widget
       svg: svg,
@@ -394,8 +410,12 @@ HTMLWidgets.widget({
 });
 
 function separationFun(a, b) {
-  var height = a.data.SizeOfNode + b.data.SizeOfNode,
+  var height = Math.sqrt(a.data.SizeOfNode) + Math.sqrt(b.data.SizeOfNode),
   // Scale distance to SizeOfNode, if defined
-  distance = (height || 20) / 20; // increase denominator for better spacing in DEAP app
-  return (a.parent === b.parent ? 1 : distance);
+  distance = (height) / 25; // increase denominator for better spacing in DEAP app
+  //if (distance < .4) {
+  //  distance = .4
+  //}
+  //console.log(distance);
+  return (a.parent === b.parent ? distance : 1);
 };
