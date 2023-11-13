@@ -1,7 +1,7 @@
 Package: collapsibleTree
 Type: Package
 Title: Interactive Collapsible Tree Diagrams using 'D3.js'
-Version: 0.1.7
+Version: 0.1.8
 Authors@R: c(
     person("Adeel", "Khan", email = "AdeelK@gwu.edu", role = c("aut", "cre")),
     person("Dhrumin", "Shah", role = "ctb"),
@@ -25,7 +25,7 @@ Imports:
     methods
 Enhances: knitr, shiny
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
 Suggests:
     colorspace,
     RColorBrewer,
