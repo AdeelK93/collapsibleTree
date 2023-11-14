@@ -13,7 +13,7 @@ diagrams using D3.js, adapted from Mike Bostock’s
 into a hierarchical visualization without worrying about nested lists or
 JSON objects\!
 
-If you’re using [Shiny](https://shiny.rstudio.com/), you can bind the
+If you’re using [Shiny](https://shiny.posit.co/), you can bind the
 most recently clicked node to a Shiny input, allowing for easier
 interaction with complex nested objects. The input will return a named
 list containing the most recently selected node, as well as all of its
@@ -69,7 +69,7 @@ species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP
 
 collapsibleTree(
   species,
-  hierarchy = c("REGION", "CLASS", "NAME"), 
+  hierarchy = c("REGION", "CLASS", "NAME"),
   fill = c(
     # The root
     "seashell",
@@ -200,7 +200,7 @@ testthat::test_dir("tests/testthat", reporter = testthat::SummaryReporter)
 #> Missing values: ....
 #> Network: .........
 #> Root labelling: ..........
-#> 
+#>
 #> ══ DONE ═══════════════════════════════════════════════════════════════════════════════
 #> You are a coding rockstar!
 ```

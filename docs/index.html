@@ -1498,7 +1498,7 @@ $(document).ready(function () {
 <div id="overview" class="section level2">
 <h2>Overview</h2>
 <p>collapsibleTree is an R <a href="http://www.htmlwidgets.org/">htmlwidget</a> that allows you to create interactive collapsible Reingold-Tilford tree diagrams using D3.js, adapted from Mike Bostock’s <a href="https://bl.ocks.org/mbostock/4339083">example</a>. Turn your data frame into a hierarchical visualization without worrying about nested lists or JSON objects!</p>
-<p>If you’re using <a href="https://shiny.rstudio.com/">Shiny</a>, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the <a href="https://adeelk93.shinyapps.io/collapsibletree/">Shiny example</a> for more info.</p>
+<p>If you’re using <a href="https://shiny.posit.co/">Shiny</a>, you can bind the most recently clicked node to a Shiny input, allowing for easier interaction with complex nested objects. The input will return a named list containing the most recently selected node, as well as all of its parents. See the <a href="https://adeelk93.shinyapps.io/collapsibletree/">Shiny example</a> for more info.</p>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
@@ -1515,29 +1515,29 @@ devtools::install_github(&quot;AdeelK93/collapsibleTree&quot;)</code></pre>
 <p>collapsibleTree uses <a href="https://cran.r-project.org/web/packages/data.tree/vignettes/data.tree.html">data.tree</a> to handle all of that, freeing you from a lot of recursive list construction.</p>
 <p>Here is an example geography dataset from <a href="https://data.world/glx/geography-table">data.world</a>:</p>
 <pre class="r"><code>summary(Geography)</code></pre>
-<pre><code>##                   country          region             sub_region 
-##  Abkhazia             :  1   Africa   :70   Caribbean      : 26  
-##  Afghanistan          :  1   Americas :60   Eastern Africa : 17  
-##  Ajaria               :  1   Antarctic: 4   Southern Europe: 17  
-##  Akrotiri and Dhekelia:  1   Asia     :58   Western Africa : 17  
-##  Aland Islands        :  1   Europe   :67   Western Asia   : 17  
-##  Albania              :  1   Oceania  :38   (Other)        :132  
-##  (Other)              :291                  NA's           : 71  
-##                continent                         type    
-##  Africa             :70   Country                  :147  
-##  Antarctica         : 4   Country - Archipelago    : 20  
-##  Asia               :58   One Main Island          : 18  
-##  Australia / Oceania:38   Archipelago              : 17  
-##  Europe             :67   Territory                : 17  
-##  North America      :44   Country - One Main Island: 10  
-##  South America      :16   (Other)                  : 68  
+<pre><code>##                   country          region             sub_region
+##  Abkhazia             :  1   Africa   :70   Caribbean      : 26
+##  Afghanistan          :  1   Americas :60   Eastern Africa : 17
+##  Ajaria               :  1   Antarctic: 4   Southern Europe: 17
+##  Akrotiri and Dhekelia:  1   Asia     :58   Western Africa : 17
+##  Aland Islands        :  1   Europe   :67   Western Asia   : 17
+##  Albania              :  1   Oceania  :38   (Other)        :132
+##  (Other)              :291                  NA's           : 71
+##                continent                         type
+##  Africa             :70   Country                  :147
+##  Antarctica         : 4   Country - Archipelago    : 20
+##  Asia               :58   One Main Island          : 18
+##  Australia / Oceania:38   Archipelago              : 17
+##  Europe             :67   Territory                : 17
+##  North America      :44   Country - One Main Island: 10
+##  South America      :16   (Other)                  : 68
 ##                                  jurisdiction
-##  Independent                           :193  
-##  British Overseas Territory            : 16  
-##  United States Minor Outlying Island   :  8  
-##  In Contention                         :  6  
-##  Part of the Kingdom of the Netherlands:  6  
-##  Territory of Australia                :  6  
+##  Independent                           :193
+##  British Overseas Territory            : 16
+##  United States Minor Outlying Island   :  8
+##  In Contention                         :  6
+##  Part of the Kingdom of the Netherlands:  6
+##  Territory of Australia                :  6
 ##  (Other)                               : 62</code></pre>
 </div>
 <div id="rendering-the-plot" class="section level2">
